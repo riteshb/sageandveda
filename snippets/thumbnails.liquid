@@ -92,37 +92,7 @@
   </div>
   <div class="swiper-pagination-{{section.id}}"></div>
 </div>
-{% unless section.settings.gallery_type == 'thumbnails_hide' %} 
-{% if product.media.size > 0 %}
-{% if section.settings.gallery_type == 'thumbnails_vertical' %}
-<div class="swiper-vert-thumbnails-main-container swiper-thumbnails-main-container">
-  <div class="swiper-container swiper-thumbnails-vert" id="swiper-gallery-thumbs-vert-{{ section.id }}">
-    {% elsif section.settings.gallery_type == 'thumbnails_horizontal'%}
-    <div class="swiper-horiz-thumbnails-main-container swiper-thumbnails-main-container">
-      <div class="swiper-container swiper-thumbnails-inline" id="swiper-gallery-thumbs-{{ section.id }}">
-        {% endif %}
-        <div class="swiper-wrapper">
-          {% for media in product.media %}
-          <div class="swiper-slide" tabindex="0">
-            <img class="swiper-thumb-item lazyload"   src="{{ 'loading.gif' | asset_url }}"    data-src="{{ media | img_url: 'medium' }}" alt="{{ media.alt | escape }}" title="{{ product.title | escape }}" />
-            {% if media.media_type == "video" or media.media_type == "external_video"%}
-            <span class="icon-wrapper">
-              <svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                   viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
-                <g transform="translate(0,-952.36218)">
-                  <path class="st0" d="M19.8,968.6c-9,0-16.3,7.3-16.3,16.3v34.9c0,9,7.3,16.3,16.3,16.3h60.4c9,0,16.3-7.3,16.3-16.3v-34.9
-                                       c0-9-7.3-16.3-16.3-16.3H19.8z M40.7,987.2l25.6,15.1l-25.6,15.1V987.2z"/>
-                </g>
-              </svg>
-            </span>           
-            {% endif %}
-          </div>
-          {% endfor %}   
-        </div>        
-      </div>
-    </div>
-    {% endif %}
-    {% endunless %}  
+  
     
     
     

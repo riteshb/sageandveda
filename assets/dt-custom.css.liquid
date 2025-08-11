@@ -1,4 +1,9 @@
 
+/* TEST CSS - This should make the page background blue */
+html {
+  background-color: #0000ff !important;
+}
+
 {% if settings.custom_font_script_1 != blank %}
 {{ settings.custom_font_script_1 }}
 {% endif %}
@@ -430,3 +435,397 @@ a.jdgm-paginate__page {
 
 .home-slideshow-section .dt-sc-swiper-slider .swiper-wrapper .slider-content [class*="slide_"] > img {
     max-height: 400px !important;}
+
+/* Product Image Accordion Layout */
+.product-accordion {
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 30px;
+  background: white;
+  width: 100% !important;
+  flex: none !important;
+  order: 2 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Ensure accordion stays within left column */
+#product-gallery .product-accordion {
+  width: 100% !important;
+  order: 2 !important;
+}
+
+/* Force scrolling to work */
+#product-gallery {
+  height: auto !important;
+  min-height: 400px !important;
+  max-height: 80vh !important;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+}
+
+/* Ensure accordion content is scrollable */
+.product-accordion .accordion-content.active {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.product-accordion .accordion-content.active .image-grid {
+  max-height: 500px !important;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+}
+
+/* Alternative scrolling approach - force scroll on body */
+body {
+  overflow-x: hidden !important;
+}
+
+/* Make sure the left column can scroll */
+.product-page-row {
+  align-items: flex-start !important;
+}
+
+/* Force the left column to be scrollable */
+#product-gallery {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+#product-gallery .product-accordion {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+/* Force accordion content to be scrollable */
+.product-accordion .accordion-content.active {
+  max-height: 500px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Ensure images don't overflow */
+.product-accordion .image-item {
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+.product-accordion .image-item img {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+}
+
+/* Make left column scrollable independently */
+#product-gallery {
+  max-height: 100vh !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f1;
+}
+
+/* Ensure the page layout works properly */
+.product-page-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+}
+
+/* Force the layout to use our custom widths */
+.product-page-row > * {
+  box-sizing: border-box !important;
+}
+
+/* Ultimate override for column widths - using Flexbox instead of float */
+body .product-page-row .product_image_width,
+body .product-page-row #product-gallery {
+  width: calc(65% - 15px) !important;
+  flex: 0 0 calc(65% - 15px) !important;
+  max-width: calc(65% - 15px) !important;
+  float: none !important;
+}
+
+body .product-page-row .product-description-product-template {
+  width: calc(35% - 15px) !important;
+  flex: 0 0 calc(35% - 15px) !important;
+  max-width: calc(35% - 15px) !important;
+  float: none !important;
+}
+
+/* Override the theme framework's flexbox behavior */
+body .product-page-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: space-between !important;
+  gap: 30px !important;
+}
+
+/* Override theme framework's mobile layout changes */
+@media (max-width: 991px) {
+  body .product-page-row .product_image_width,
+  body .product-page-row #product-gallery {
+    width: calc(65% - 15px) !important;
+    flex: 0 0 calc(65% - 15px) !important;
+    max-width: calc(65% - 15px) !important;
+    min-width: calc(65% - 15px) !important;
+  }
+  
+  body .product-page-row .product-description-product-template {
+    width: calc(35% - 15px) !important;
+    flex: 0 0 calc(35% - 15px) !important;
+    max-width: calc(35% - 15px) !important;
+    min-width: calc(35% - 15px) !important;
+  }
+}
+
+/* Ultimate override - force column widths at all screen sizes */
+html body .product-page-row .product_image_width,
+html body .product-page-row #product-gallery {
+  width: calc(65% - 15px) !important;
+  flex: 0 0 calc(65% - 15px) !important;
+  max-width: calc(65% - 15px) !important;
+  min-width: calc(65% - 15px) !important;
+}
+
+html body .product-page-row .product-description-product-template {
+  width: calc(35% - 15px) !important;
+  flex: 0 0 calc(35% - 15px) !important;
+  max-width: calc(35% - 15px) !important;
+  min-width: calc(35% - 15px) !important;
+}
+
+/* Force both columns to be exactly the same height */
+html body .product-page-row {
+  align-items: stretch !important;
+}
+
+html body .product-page-row .product_image_width,
+html body .product-page-row #product-gallery {
+  height: 100% !important;
+  align-self: stretch !important;
+}
+
+html body .product-page-row .product-description-product-template {
+  height: 100% !important;
+  align-self: stretch !important;
+}
+
+/* Debug: Make sure we can see the accordion boundaries */
+.product-accordion {
+  border: 2px solid #007cba !important;
+  background: #f9f9f9 !important;
+}
+
+/* Debug: Show product gallery boundaries */
+#product-gallery {
+  border: 3px solid #ff0000 !important;
+  background: rgba(255, 0, 0, 0.1) !important;
+}
+
+/* Debug: Show product description boundaries */
+.product-description-product-template {
+  border: 3px solid #00ff00 !important;
+  background: rgba(0, 255, 0, 0.1) !important;
+}
+
+/* Test basic CSS */
+body {
+  background-color: #f0f0f0 !important;
+}
+
+.product-page-row {
+  background-color: #e0e0e0 !important;
+}
+
+.product-accordion .accordion-content.active {
+  border: 2px solid #28a745 !important;
+  background: white !important;
+}
+
+/* Force left column to take proper width */
+#product-gallery {
+  width: calc(65% - 15px) !important;
+  flex: 0 0 calc(65% - 15px) !important;
+  max-width: calc(65% - 15px) !important;
+  height: auto !important;
+  min-height: 400px !important;
+}
+
+/* Force right column to take proper width */
+.product-description-product-template {
+  width: calc(35% - 15px) !important;
+  flex: 0 0 calc(35% - 15px) !important;
+  max-width: calc(35% - 15px) !important;
+  height: auto !important;
+  min-height: 400px !important;
+}
+
+#product-gallery::-webkit-scrollbar {
+  width: 8px;
+}
+
+#product-gallery::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+#product-gallery::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+#product-gallery::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.accordion-header {
+  background: #f8f9fa;
+  padding: 15px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.accordion-header:hover {
+  background: #e9ecef;
+}
+
+.accordion-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.accordion-header .accordion-icon {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.accordion-header.active .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: white;
+}
+
+.accordion-content.active {
+  max-height: none;
+  overflow: visible;
+}
+
+.accordion-content .image-grid {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100% !important;
+  /* Smart scrolling - will be overridden by JavaScript when needed */
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Create rows with different image counts */
+.accordion-content .image-grid .image-item:nth-child(4n+1) {
+  /* Row 1: Single image (full width) */
+  width: 100% !important;
+  clear: both;
+}
+
+.accordion-content .image-grid .image-item:nth-child(4n+2) {
+  /* Row 2: Left image (50% width) */
+  width: calc(50% - 10px) !important;
+  float: left;
+  margin-right: 10px;
+}
+
+.accordion-content .image-grid .image-item:nth-child(4n+3) {
+  /* Row 2: Right image (50% width) */
+  width: calc(50% - 10px) !important;
+  float: left;
+  margin-left: 10px;
+}
+
+.accordion-content .image-grid .image-item:nth-child(4n+4) {
+  /* Row 3: Single image (full width) */
+  width: 100% !important;
+  clear: both;
+}
+
+/* Flexbox layout creates natural rows */
+
+/* Custom scrollbar for webkit browsers */
+.accordion-content .image-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.accordion-content .image-grid::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.accordion-content .image-grid::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.accordion-content .image-grid::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.accordion-content .image-item {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.accordion-content .image-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.accordion-content .image-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Ensure right column stays fixed */
+.product-description-product-template {
+  position: sticky !important;
+  top: 20px !important;
+  max-height: calc(100vh - 40px) !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f1;
+}
+
+/* Ensure the alternating pattern works with the new layout */
+
+.product-description-product-template::-webkit-scrollbar {
+  width: 8px;
+}
+
+.product-description-product-template::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.product-description-product-template::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.product-description-product-template::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
