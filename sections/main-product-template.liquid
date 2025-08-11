@@ -552,6 +552,80 @@ document.addEventListener('DOMContentLoaded', function() {
     
   // Accordion is always open, no click functionality needed
   console.log('Accordion setup complete');
+  
+  // Function to update Add to Cart button text with price
+  function updateButtonWithPrice() {
+    const addToCartText = document.querySelector('.dT_AddToCartText-{{ section.id }}');
+    const priceElement = document.querySelector('#ProductPrice-{{ section.id }} .money');
+    const quantityInput = document.querySelector('#Quantity-{{ section.id }}');
+    
+    if (addToCartText && priceElement) {
+      const basePrice = priceElement.textContent;
+      const baseText = '{{ 'products.product.add_to_cart' | t }}';
+      
+      // Get quantity (default to 1 if not found)
+      let quantity = 1;
+      if (quantityInput && quantityInput.value) {
+        quantity = parseInt(quantityInput.value) || 1;
+      }
+      
+      // Calculate total price
+      let totalPrice;
+      if (quantity > 1) {
+        // Extract numeric value from price (remove currency symbol and formatting)
+        const priceMatch = basePrice.match(/[\d,]+\.?\d*/);
+        if (priceMatch) {
+          const numericPrice = parseFloat(priceMatch[0].replace(/,/g, ''));
+          const total = numericPrice * quantity;
+          
+          // Format the total price (simple formatting - you might want to use a proper currency formatter)
+          if (total % 1 === 0) {
+            totalPrice = basePrice.replace(/[\d,]+\.?\d*/, total.toString());
+          } else {
+            totalPrice = basePrice.replace(/[\d,]+\.?\d*/, total.toFixed(2));
+          }
+        } else {
+          totalPrice = basePrice;
+        }
+      } else {
+        totalPrice = basePrice;
+      }
+      
+      // Update button text with quantity and total price
+      if (quantity > 1) {
+        addToCartText.textContent = baseText + ' - ' + quantity + ' × ' + basePrice + ' = ' + totalPrice;
+      } else {
+        addToCartText.textContent = baseText + ' - ' + totalPrice;
+      }
+    }
+  }
+  
+  // Update button text on page load
+  updateButtonWithPrice();
+  
+  // Continuously monitor for changes and update the button text
+  setInterval(updateButtonWithPrice, 500);
+  
+  // Also listen for any clicks or interactions that might trigger variant changes
+  document.addEventListener('click', function(event) {
+    if (event.target.matches('.swatch-element input, .single-option-selector, .dt-sc-btn')) {
+      setTimeout(updateButtonWithPrice, 100);
+    }
+  });
+  
+  // Listen for quantity changes
+  const quantityInput = document.querySelector('#Quantity-{{ section.id }}');
+  if (quantityInput) {
+    quantityInput.addEventListener('input', updateButtonWithPrice);
+    quantityInput.addEventListener('change', updateButtonWithPrice);
+  }
+  
+  // Listen for quantity button clicks
+  document.addEventListener('click', function(event) {
+    if (event.target.matches('.btn-number-{{ section.id }}')) {
+      setTimeout(updateButtonWithPrice, 100);
+    }
+  });
 });
 </script>
 
