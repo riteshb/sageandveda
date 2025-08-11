@@ -1,0 +1,27 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-article-template",
+      "settings": {
+        "show_blog_author": false,
+        "show_blog_date": false,
+        "show_blog_tag": false,
+        "social_sharing_blog": true,
+        "blog_meta_color": "#1a1a1a",
+        "blog_meta_icon_color": "#206469"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

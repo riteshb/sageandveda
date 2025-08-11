@@ -1,0 +1,125 @@
+<div class="sortby">
+  <label for="SortBy" class="dropdown-label">{{ 'collections.sorting.title' | t }}</label>
+  <div class="custom-dropdown">
+    <button id="SortByButton" class="dropdown-button">
+      SORT BY <i class="fa-solid fa-chevron-down"></i>
+    </button>
+    <ul class="dropdown-menu">
+      {% for option in collection.sort_options %}
+      <li class="dropdown-item">
+        <a href="?sort_by={{ option.value }}" class="{% if option.value == collection.sort_by %}active{% endif %}">
+          {{ option.name }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<style>
+.sortby {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-label {
+  display: none; /* Optional if you don't want the label visible */
+}
+
+.custom-dropdown {
+  position: relative;
+}
+
+.dropdown-button {
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    text-transform: uppercase;
+    color: #1A1A1A;
+    margin:0px;
+  font-weight:600;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0; /* Align to the right */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 200px;
+  font-size:14px;
+  padding: 5px 10px 10px 10px;
+}
+
+.dropdown-item {
+  padding: 5px;
+}
+
+.dropdown-item a {
+  text-decoration: none;
+  color: #1a1a1a;
+  display: block;
+  width: 100%;
+}
+
+.dropdown-item a.active {
+  font-weight: bold;
+  color: #85321A; 
+
+}
+
+.dropdown-item a:hover {
+  color: #85321A;
+}
+  button#SortByButton:hover {
+    background-color: transparent;
+    color: #85321A;
+}
+
+.custom-dropdown:hover .dropdown-menu {
+  display: block; /* Show dropdown on hover */
+}
+
+
+</style>
+
+<script>
+  // Save existing sort parameters
+//   Shopify.queryParams = {};
+//   if(location.search.length) {
+//     for(var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+//       aKeyValue = aCouples[i].split('=');
+//       if (aKeyValue.length > 1) {
+//         Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+//       }
+//     }
+//   }
+
+  // Add existing sort parameters to current URL
+//   document.querySelector('#SortBy').addEventListener('change', function(e) {
+//     var value = e.currentTarget.value;
+//     Shopify.queryParams.sort_by = value;
+//     location.search = new URLSearchParams(Shopify.queryParams).toString();
+//   });
+ document.getElementById('SortByButton').addEventListener('click', function (e) {
+  const menu = document.querySelector('.dropdown-menu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  e.stopPropagation();
+});
+
+document.addEventListener('click', function () {
+  const menu = document.querySelector('.dropdown-menu');
+  menu.style.display = 'none';
+});
+
+</script>

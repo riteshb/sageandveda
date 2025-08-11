@@ -1,0 +1,124 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product-template",
+      "blocks": {
+        "bd5fe641-75f6-4c13-999c-d0be32e3bc87": {
+          "type": "title",
+          "settings": {}
+        },
+        "7c9c1efb-83bb-46b0-abe9-7c4951265cf4": {
+          "type": "price",
+          "settings": {}
+        },
+        "db797c60-1d3c-4034-b55d-151ec5cae2d7": {
+          "type": "deal",
+          "disabled": true,
+          "settings": {}
+        },
+        "959fd2b2-81db-41a1-b8a0-21c2e6d9819f": {
+          "type": "share",
+          "disabled": true,
+          "settings": {}
+        },
+        "1f512db9-2367-421b-a215-378e4df4b069": {
+          "type": "size_chart",
+          "disabled": true,
+          "settings": {}
+        },
+        "cb874c94-c1ed-44c9-a5d6-a12bc6093239": {
+          "type": "vendor",
+          "settings": {}
+        },
+        "c0548d06-402e-4234-9a58-03c52a7d6c74": {
+          "type": "type",
+          "settings": {}
+        },
+        "judge_me_reviews_preview_badge_bmczYT": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "bd5fe641-75f6-4c13-999c-d0be32e3bc87",
+        "7c9c1efb-83bb-46b0-abe9-7c4951265cf4",
+        "db797c60-1d3c-4034-b55d-151ec5cae2d7",
+        "959fd2b2-81db-41a1-b8a0-21c2e6d9819f",
+        "1f512db9-2367-421b-a215-378e4df4b069",
+        "cb874c94-c1ed-44c9-a5d6-a12bc6093239",
+        "c0548d06-402e-4234-9a58-03c52a7d6c74",
+        "judge_me_reviews_preview_badge_bmczYT"
+      ],
+      "settings": {
+        "gallery_type": "thumbnails_vertical",
+        "vertical_style": "dt-sc-product-vertical-thumb-left",
+        "enable_zoom": true,
+        "enable_video_looping": false,
+        "reviews": true,
+        "show_variants_swatches": true,
+        "show_size_chart": true,
+        "show_product_quantity": true,
+        "display_back_in_stock": true,
+        "show_quantity_selector": true,
+        "show_checkout": true,
+        "hide_addtocart": false,
+        "show_wishlist": false,
+        "show_share_buttons": true,
+        "tab_position": "right",
+        "product_tab1": true,
+        "product_tab1_heading": "Product Description",
+        "product_tab2": true,
+        "product_tab2_heading": "Additional information",
+        "page_content": "amrit",
+        "product_tab3": true,
+        "product_tab3_heading": "Reviews",
+        "enable_enquiry": true
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "show_product_recommendations": true,
+        "heading": "Recommended products",
+        "heading_position": "text-center"
+      }
+    },
+    "recently-viewed-products": {
+      "type": "recently-viewed-products",
+      "settings": {
+        "show_product_recently": true,
+        "title": "Recently viewed products",
+        "heading_position": "text-center",
+        "items_to_show": "4"
+      }
+    },
+    "17373965599ec0373f": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_VwbMTz": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_VwbMTz"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "product-recommendations",
+    "recently-viewed-products",
+    "17373965599ec0373f"
+  ]
+}
