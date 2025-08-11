@@ -1,4 +1,12 @@
-
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "slideshow": {
@@ -60,8 +68,8 @@
             "desc_size": "",
             "button": "Shop Face Oil",
             "link": "shopify://products/amrit",
-            "btn_bg_color": "#5454c3",
-            "btn_txt_color": "#004203",
+            "btn_bg_color": "#004023",
+            "btn_txt_color": "#f3eee7",
             "btn_hoverbg_color": "#e5e5f3",
             "btn_hovertxt_color": "#004023",
             "button_2": "",
@@ -129,8 +137,8 @@
             "desc_size": "",
             "button": "Shop Face Oil",
             "link": "shopify://products/amrit",
-            "btn_bg_color": "#e5e5f3",
-            "btn_txt_color": "#004203",
+            "btn_bg_color": "#004023",
+            "btn_txt_color": "#f3eee7",
             "btn_hoverbg_color": "#e5e5f3",
             "btn_hovertxt_color": "#004023",
             "button_2": "",
