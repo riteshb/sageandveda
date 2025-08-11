@@ -1,12 +1,4 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
+
 {
   "sections": {
     "slideshow": {
@@ -241,7 +233,7 @@
             "desc_color": "#3c3b41",
             "desc_size": "",
             "button": "",
-            "link": "https://sageandveda.com/apps/pagefly/preview?id=9e501bad-4a96-45ba-aa07-a0b694be1a8c",
+            "link": "",
             "btn_bg_color": "#85321a",
             "btn_txt_color": "#ffffff",
             "btn_hoverbg_color": "#8b9e8a",
@@ -596,7 +588,7 @@
         "section_button_hover_bg_color": "",
         "section_button_hover_text_color": "",
         "heading_position": "text-center",
-        "html": "<h4 style=\"font-weight:bold;color:#efe5d7; font-size:24px;text-align:center;\">Sustainable, Heritage-Inspired Luxury\n</h4>",
+        "html": "",
         "custom_class_name": ""
       }
     },

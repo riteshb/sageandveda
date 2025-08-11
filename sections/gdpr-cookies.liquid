@@ -7,13 +7,21 @@
     </div>
   </div>
   <style>
-    .cookie-disclaimer .cookie-content{ position: fixed; max-width: 500px; bottom: 15px; padding: 15px; z-index: 9; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; text-align: center; border-radius:var(--DTRadius); color: {{section.settings.text_color}}; background-color: {{section.settings.bg_color}}; {% if section.settings.enable_box_shadow %}  box-shadow: var(--DTboxShadow); {% endif %}  }
+    .cookie-disclaimer .cookie-content{ position: fixed; max-width: 500px; bottom: 15px; padding: 15px; z-index: 9; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; text-align: center; border-radius: 5px; color: {{section.settings.text_color}}; background-color: {{section.settings.bg_color}}; {% if section.settings.enable_box_shadow %}  box-shadow: 0 2px 10px rgba(0,0,0,0.1); {% endif %} transition: opacity 0.3s ease, visibility 0.3s ease; }
     .cookie-disclaimer .cookie-content > * { margin: 5px; }
     .cookie-disclaimer.bottom .cookie-content{ font-size:12px; bottom: 0; left: 0; right: 0; padding:10px 20px; max-width: 100%; border-radius:0; }
     .cookie-disclaimer.left .cookie-content{ left: 15px; right: auto; }
     .cookie-disclaimer.right .cookie-content{ left: auto; right: 15px; }
     .cookie-disclaimer .cookie-content button{ font-size:12px; padding:{{section.settings.button_padding}}; color: {{section.settings.button_text_color}}; background-color:{{section.settings.button_bg_color}}; }
     .cookie-disclaimer .cookie-content button:hover{ color: {{section.settings.button_text_hover_color}}; background-color:{{section.settings.button_bg_hover_color}}; }
+
+    /* Ensure hidden state works properly */
+    .cookie-disclaimer.hidden .cookie-content { 
+      opacity: 0 !important; 
+      visibility: hidden !important; 
+      pointer-events: none !important;
+      display: none !important;
+    }
 
     @media screen and (max-width: 1200px){
 
@@ -30,57 +38,247 @@
   </style>
 
   <script type="text/javascript">
-    jQuery(document).ready(function() {
-      var cookie = false;
-      var cookieContent = $('.cookie-disclaimer');
-
-      checkCookie();
-
-      if (cookie === true) {
-        cookieContent.hide();
+    (function() {
+      // Prevent duplicate initialization
+      if (window.gdprInitialized) {
+        return;
       }
-
-      function setCookie(dt_gdpr_name, cookie_value, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        var expires = "expires=" + d.toGMTString();
-        document.cookie = dt_gdpr_name + "=" + cookie_value + "; " + expires;
-      }
-
-      function getCookie(dt_gdpr_name) {
-        var name = dt_gdpr_name + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-          var c = ca[i].trim();
-          if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
-        }
-        return "";
-      }
-
-      function checkCookie() {
-        var user = getCookie("dt_gdpr_name");
-        if (user !== "") {
-          cookie = true;
-        } else {
-          if (user !== "" && user !== null) {
-            setCookie("cookie_value", "cookie_value", 365);
+      window.gdprInitialized = true;
+      
+      // Function to initialize GDPR when jQuery is available
+      function initializeGDPR(retryCount) {
+        retryCount = retryCount || 0;
+        const maxRetries = 50; // Maximum 5 seconds of retrying
+        
+        try {
+          // Check if jQuery is available
+          if (typeof jQuery === 'undefined' && typeof $ === 'undefined') {
+            if (retryCount < maxRetries) {
+              setTimeout(function() {
+                initializeGDPR(retryCount + 1);
+              }, 100);
+              return;
+            } else {
+              console.log('jQuery not available, using vanilla JS fallback');
+              initializeGDPRVanilla();
+              return;
+            }
           }
+          
+          // Ensure jQuery is available (some themes might only have $)
+          if (typeof jQuery === 'undefined' && typeof $ !== 'undefined') {
+            window.jQuery = $;
+          }
+          
+          // Small delay to ensure DOM is fully ready
+          setTimeout(function() {
+            setupGDPR();
+          }, 100);
+          
+          function setupGDPR() {
+            try {
+              var cookie = false;
+              var cookieContent = jQuery('.cookie-disclaimer');
+              
+              if (!cookieContent.length) {
+                console.log('GDPR banner not found');
+                return;
+              }
+
+              // Check if cookie exists first
+              checkCookie();
+
+              // Hide banner if cookie exists
+              if (cookie === true) {
+                cookieContent.addClass('hidden');
+                cookieContent.hide();
+                cookieContent.css('display', 'none');
+              }
+
+              function setCookie(dt_gdpr_name, cookie_value, exdays) {
+                try {
+                  var d = new Date();
+                  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                  var expires = "expires=" + d.toGMTString();
+                  var path = "path=/";
+                  document.cookie = dt_gdpr_name + "=" + cookie_value + "; " + expires + "; " + path;
+                } catch (e) {
+                  console.error('Error setting cookie:', e);
+                }
+              }
+
+              function getCookie(dt_gdpr_name) {
+                try {
+                  var name = dt_gdpr_name + "=";
+                  var ca = document.cookie.split(';');
+                  for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i].trim();
+                    if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
+                  }
+                  return "";
+                } catch (e) {
+                  console.error('Error getting cookie:', e);
+                  return "";
+                }
+              }
+
+              function checkCookie() {
+                var user = getCookie("dt_gdpr_name");
+                if (user !== "") {
+                  cookie = true;
+                }
+              }
+
+              function deleteCookie() {
+                try {
+                  var d = new Date();
+                  d.setTime(d.getTime() - 1);
+                  var expires = "expires=" + d.toGMTString();
+                  var path = "path=/";
+                  document.cookie = 'dt_gdpr_name=; ' + expires + "; " + path;
+                } catch (e) {
+                  console.error('Error deleting cookie:', e);
+                }
+              }
+
+              // Bind click events
+              jQuery('.accept-cookie').click(function () {
+                setCookie("dt_gdpr_name", "accepted", 365);
+                cookie = true;
+                
+                // Multiple methods to hide the banner
+                cookieContent.addClass('hidden');
+                cookieContent.hide();
+                cookieContent.css('display', 'none');
+              });
+
+              jQuery('.decline-cookie').click(function () {
+                deleteCookie();
+                cookie = false;
+                
+                // Multiple methods to hide the banner
+                cookieContent.addClass('hidden');
+                cookieContent.hide();
+                cookieContent.css('display', 'none');
+              });
+            } catch (e) {
+              console.error('Error in setupGDPR:', e);
+            }
+          }
+        } catch (e) {
+          console.error('Error in initializeGDPR:', e);
         }
       }
 
-      function deleteCookie() {
-        setCookie('dt_gdpr_name', '', -1);
-      }
-      $('.accept-cookie').click(function () {
-        setCookie("dt_gdpr_name", "cookie_value", 365);
-        cookieContent.hide();
-      });
+      // Fallback function using vanilla JavaScript
+      function initializeGDPRVanilla() {
+        try {
+          var cookie = false;
+          var cookieContent = document.querySelector('.cookie-disclaimer');
+          
+          if (!cookieContent) {
+            return;
+          }
 
-      $('.decline-cookie').click(function () {
-        deleteCookie();
-        cookieContent.hide();
+          // Check if cookie exists first
+          checkCookie();
+
+          // Hide banner if cookie exists
+          if (cookie === true) {
+            cookieContent.classList.add('hidden');
+            cookieContent.style.display = 'none';
+          }
+
+          function setCookie(dt_gdpr_name, cookie_value, exdays) {
+            try {
+              var d = new Date();
+              d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+              var expires = "expires=" + d.toGMTString();
+              var path = "path=/";
+              document.cookie = dt_gdpr_name + "=" + cookie_value + "; " + expires + "; " + path;
+            } catch (e) {
+              console.error('Error setting cookie:', e);
+            }
+          }
+
+          function getCookie(dt_gdpr_name) {
+            try {
+              var name = dt_gdpr_name + "=";
+              var ca = document.cookie.split(';');
+              for (var i = 0; i < ca.length; i++) {
+                var c = ca[i].trim();
+                if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
+              }
+              return "";
+            } catch (e) {
+              console.error('Error getting cookie:', e);
+              return "";
+            }
+          }
+
+          function checkCookie() {
+            var user = getCookie("dt_gdpr_name");
+            if (user !== "") {
+              cookie = true;
+            }
+          }
+
+          function deleteCookie() {
+            try {
+              var d = new Date();
+              d.setTime(d.getTime() - 1);
+              var expires = "expires=" + d.toGMTString();
+              var path = "path=/";
+              document.cookie = 'dt_gdpr_name=; ' + expires + "; " + path;
+            } catch (e) {
+              console.error('Error deleting cookie:', e);
+            }
+          }
+
+          // Bind click events with vanilla JS
+          var acceptButton = document.querySelector('.accept-cookie');
+          var declineButton = document.querySelector('.decline-cookie');
+
+          if (acceptButton) {
+            acceptButton.addEventListener('click', function() {
+              setCookie("dt_gdpr_name", "accepted", 365);
+              cookie = true;
+              cookieContent.classList.add('hidden');
+              cookieContent.style.display = 'none';
+            });
+          }
+
+          if (declineButton) {
+            declineButton.addEventListener('click', function() {
+              deleteCookie();
+              cookie = false;
+              cookieContent.classList.add('hidden');
+              cookieContent.style.display = 'none';
+            });
+          }
+        } catch (e) {
+          console.error('Error in initializeGDPRVanilla:', e);
+        }
+      }
+
+      // Start the process when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+          initializeGDPR();
+        });
+      } else {
+        // DOM is already ready
+        initializeGDPR();
+      }
+
+      // Also try when window is fully loaded (including all resources like jQuery)
+      window.addEventListener('load', function() {
+        if (typeof jQuery !== 'undefined' && !window.gdprSetupComplete) {
+          window.gdprSetupComplete = true;
+          initializeGDPR();
+        }
       });
-    });
+    })();
   </script>
 {% endif %}
 {% schema %}

@@ -1585,21 +1585,24 @@ theme.ProductPage = function () {
                   });
                   
                   // announcement bar start
-                  if ($.cookie('announcementCookie') == 'closed') {
-                    $('.announcement-bar').hide();
+                  // Ensure jQuery and cookie plugin are available before using $.cookie
+                  if (typeof $ !== 'undefined' && typeof $.cookie === 'function') {
+                    if ($.cookie('announcementCookie') == 'closed') {
+                      $('.announcement-bar').hide();
+                    }
+                    $('.announcement-bar a.close').bind('click', function () {
+                      $('.announcement-bar').css({
+                        "height": "0",
+                        "padding": "0",
+                        "opacity": "0",
+                        "z-index": "-1"
+                      });
+                      $.cookie('announcementCookie', 'closed', {
+                        expires: 1,
+                        path: '/'
+                      });
+                    });
                   }
-                  $('.announcement-bar a.close').bind('click', function () {
-                    $('.announcement-bar').css({
-                      "height": "0",
-                      "padding": "0",
-                      "opacity": "0",
-                      "z-index": "-1"
-                    });
-                    $.cookie('announcementCookie', 'closed', {
-                      expires: 1,
-                      path: '/'
-                    });
-                  });
 
                   $(document).ready(function ($) {
                     $('.announcement-bar').each(function () {

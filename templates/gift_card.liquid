@@ -16,7 +16,10 @@
     {%- endif -%}
 
     {%- unless settings.type_header_font.system? -%}
-    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {% comment %} Only preconnect to Shopify fonts in production to avoid CORS issues in development {% endcomment %}
+{% unless request.host contains '127.0.0.1' or request.host contains 'localhost' or request.host contains '.local' %}
+  <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+{% endunless %}
     {%- endunless -%}
 
     {%- assign formatted_initial_value = gift_card.initial_value | money_without_trailing_zeros: gift_card.currency | strip_html -%}

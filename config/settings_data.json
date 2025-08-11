@@ -11,12 +11,12 @@
   "current": {
     "favicon": "shopify://shop_images/Sage_Veda_Lexicon_larger_font.png",
     "preloader_enable": false,
-    "header_font": "ebgaramond_n4",
+    "header_font": "work_sans_n6",
     "h1_size": 60,
     "h4_size": 22,
     "h5_size": 20,
     "h6_size": 16,
-    "base_font": "poppins_n4",
+    "base_font": "work_sans_n4",
     "type_base_size": 16,
     "heading_line_height": 1.5,
     "body_line_height": 1.5,
@@ -329,7 +329,7 @@
             "settings": {
               "title": "Contact Information",
               "footer_logo_height": 50,
-              "footer_address": "Los Altos, CA",
+              "footer_address": "Los Altos, CA",
               "footer_contact_no": "",
               "office_hours": "",
               "footer_contact_id": "hello@sageandveda.com",
@@ -1308,7 +1308,7 @@
               "image": "shopify://shop_images/founders.jpg",
               "font_icon": "",
               "title": "FOUNDER STORY",
-              "text": "Our story begins with the gentle wisdom and unwavering spirit of Shaku, our beloved grandmother, the Sage in our life. Her deep connection to nature and the ancient practices of Ayurveda instilled in us the importance of mindful rituals and holistic well-being. Through her, we learned to cherish life's subtle luxuries - those quiet moments of beauty we often overlook, yet hold the power to transform our daily existence.\n<br><br>\nToday, we are the living bridge that honors Shaku's legacy while forging new paths of modern luxury. Drawing inspiration from the luscious herbs and botanicals thriving on our family farm nestled in the Koyna river hills, we craft formulations that blend timeless wisdom with contemporary innovation.\n<br><br>\nOur vision was clear from the beginning - to create premium experiences that never compromise between luxury and consciousness. Each product is thoughtfully designed to engage the senses and transform daily routines into moments of pure indulgence, from dawn till dusk. For us, conscious luxury. isn't merely an ideal—it's the foundation of everything we create, a principle that guides every decision, every ingredient, and every ritual we share with you.<br><br>\nWith love and gratitude,<br>\nDr Arundhati, Dhana, and Amarja<br>\nCo-founders, Sage & Veda",
+              "text": "Our story begins with the gentle wisdom and unwavering spirit of Shaku, our beloved grandmother, the Sage in our life. Her deep connection to nature and the ancient practices of Ayurveda instilled in us the importance of mindful rituals and holistic well-being. Through her, we learned to cherish life's subtle luxuries - those quiet moments of beauty we often overlook, yet hold the power to transform our daily existence.\n<br><br>\nToday, we are the living bridge that honors Shaku's legacy while forging new paths of modern luxury. Drawing inspiration from the luscious herbs and botanicals thriving on our family farm nestled in the Koyna river hills, we craft formulations that blend timeless wisdom with contemporary innovation.\n<br><br>\nOur vision was clear from the beginning - to create premium experiences that never compromise between luxury and consciousness. Each product is thoughtfully designed to engage the senses and transform daily routines into moments of pure indulgence, from dawn till dusk. For us, conscious luxury. isn't merely an ideal—it's the foundation of everything we create, a principle that guides every decision, every ingredient, and every ritual we share with you.<br><br>\nWith love and gratitude,<br>\nDr Arundhati, Dhana, and Amarja<br>\nCo-founders, Sage & Veda",
               "reverse_column": true
             }
           },

@@ -2,6 +2,34 @@
 {% if settings.custom_font_script_1 != blank %}
 {{ settings.custom_font_script_1 }}
 {% endif %}
+
+/* Custom Button Styling for Homepage */
+/* Convert outline-style homepage buttons to filled buttons */
+.button,
+.button--secondary,
+.shopify-section .button,
+.slideshow__cta,
+.banner__buttons .button,
+.hero .button,
+.slideshow .button {
+  background-color: #B2937E !important;
+  color: #FAF7F3 !important;
+  border: none !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-shadow: none !important;
+}
+
+/* Hover style for all homepage buttons */
+.button:hover,
+.button--secondary:hover,
+.shopify-section .button:hover,
+.slideshow__cta:hover,
+.banner__buttons .button:hover,
+.hero .button:hover,
+.slideshow .button:hover {
+  background-color: #946F5E !important;
+  color: #FAF7F3 !important;
+}
 {% if settings.custom_font_script_2 != blank %}
 {{ settings.custom_font_script_2 }}
 {% endif %}
@@ -22,7 +50,8 @@
 {%- assign dt_sc_base_font_italic = dt_sc_base_font | font_modify: 'style', 'italic' -%}
 {%- assign dt_sc_base_font_bold_italic = dt_sc_base_font_bold | font_modify: 'style', 'italic' -%}
 
-
+/* Temporarily disable dynamic font loading for local development to prevent CORS errors */
+/*
 {{ dt_sc_header_font | font_face: font_display: 'swap' }}
 {{ dt_sc_base_font | font_face: font_display: 'swap' }}
 {{ dt_sc_additional_font | font_face: font_display: 'swap' }}
@@ -31,6 +60,32 @@
 {{ dt_sc_base_font_bolder | font_face: font_display: 'swap' }}
 {{ dt_sc_base_font_italic | font_face: font_display: 'swap' }}
 {{ dt_sc_base_font_bold_italic | font_face: font_display: 'swap' }}
+*/
+
+/* Use system fonts for local development */
+@font-face {
+  font-family: 'SystemHeader';
+  src: local('Arial'), local('Helvetica'), local('sans-serif');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SystemBody';
+  src: local('Arial'), local('Helvetica'), local('sans-serif');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SystemBody';
+  src: local('Arial'), local('Helvetica'), local('sans-serif');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   /* Heading font*/
@@ -38,10 +93,10 @@
   {%- if settings.custom_font_family_1 != blank  -%}
   --DTFontTypo_Heading: {{- settings.custom_font_family_1 -}}
     {%- else -%}
-    --DTFontTypo_Heading: {{ dt_sc_header_font.family }}, {{ dt_sc_header_font.fallback_families }};       
+    --DTFontTypo_Heading: 'SystemHeader', Arial, Helvetica, sans-serif;       
   {%- endif -%}
-  --font-style-header: {{ dt_sc_header_font.style }};
-  --font-weight-header: {{ dt_sc_header_font.weight }};
+  --font-style-header: normal;
+  --font-weight-header: 600;
   --font-size-header: {{ settings.type_header_base_size }};
   --font-size-header-tablet: {{ settings.type_header_base_size_tablet }};
   --font-size-header-mobile: {{ settings.type_header_base_size_mobile }};
@@ -50,12 +105,12 @@
   {%- if settings.custom_font_family_2 != blank  -%}
   --DTFontTypo_Body: {{- settings.custom_font_family_2 -}};
   {%- else -%}
-  --DTFontTypo_Body: {{ dt_sc_base_font.family }}, {{ dt_sc_base_font.fallback_families }};
+  --DTFontTypo_Body: 'SystemBody', Arial, Helvetica, sans-serif;
   {%- endif -%}
-  --font-style-body: {{ dt_sc_base_font.style }};
-  --font-weight-body: {{ dt_sc_base_font.weight }};          
-  --font-weight-body--bold: {{ dt_sc_base_font_bold.weight | default: 700 }};
-  --font-weight-body--bolder: {{ dt_sc_base_font_bolder.weight | default: 700 }};
+  --font-style-body: normal;
+  --font-weight-body: 400;          
+  --font-weight-body--bold: 700;
+  --font-weight-body--bolder: 700;
   --font-size-body: {{ settings.type_base_size }}px;   
   --font-size-body-tablet: {{ settings.type_base_size_tablet }};   
   --font-size-body-mobile: {{ settings.type_base_size_mobile }};   
@@ -65,11 +120,11 @@
   {%- if settings.custom_font_family_3 != blank -%}
   --DTFontTypo_Custom: {{ settings.custom_font_family_3 }}
     {%- else -%}
-    --DTFontTypo_Custom: {{ dt_sc_additional_font.family }}, {{ dt_sc_additional_font.fallback_families }};
+    --DTFontTypo_Custom: 'SystemBody', Arial, Helvetica, sans-serif;
   {%- endif -%}
 
-  --font-style-additional: {{ dt_sc_additional_font.style }};
-  --font-weight-additional: {{ dt_sc_additional_font.weight }};    
+  --font-style-additional: normal;
+  --font-weight-additional: 400;    
   --font-size-additional: {{ settings.type_additional_size }}; 
   --font-size-additional-tablet: {{ settings.type_additional_size_tablet }};   
   --font-size-additional-mobile: {{ settings.type_additional_size_mobile }}; 
@@ -77,11 +132,11 @@
    {%- if settings.custom_font_family_4 != blank -%}
   --DTFontTypo_Custom_2: {{ settings.custom_font_family_4 }}
     {%- else -%}
-    --DTFontTypo_Custom_2: {{ dt_sc_additional_font_2.family }}, {{ dt_sc_additional_font_2.fallback_families }};
+    --DTFontTypo_Custom_2: 'SystemBody', Arial, Helvetica, sans-serif;
   {%- endif -%}
 
-  --font-style-additional: {{ dt_sc_additional_font.style }};
-  --font-weight-additional: {{ dt_sc_additional_font.weight }};    
+  --font-style-additional: normal;
+  --font-weight-additional: 400;    
   --font-size-additional: {{ settings.type_additional_size }}; 
   --font-size-additional-tablet: {{ settings.type_additional_size_tablet }};   
   --font-size-additional-mobile: {{ settings.type_additional_size_mobile }}; 

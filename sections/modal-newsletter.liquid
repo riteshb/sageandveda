@@ -231,7 +231,7 @@
         }       
      
        $('.newsletter-success button').on('click', function(){
-        window.location.replace('{{shop.url}}');
+        window.location.replace(window.location.protocol + '//' + window.location.host);
       });
          
       $('.contact-form').on('submit', function(){
