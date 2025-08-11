@@ -17,16 +17,10 @@
     <meta name="theme-color" content="{{ settings.color_primary }}">
     <meta name="p:domain_verify" content="43260539ac78a776a280f62bc0aa2b97">
     
-    {% comment %} Block external fonts in development with strict CSP {% endcomment %}
-    {% if request.host contains '127.0.0.1' or request.host contains 'localhost' or request.host contains '.local' %}
-      <meta http-equiv="Content-Security-Policy" content="font-src 'self' data: blob:; style-src 'self' 'unsafe-inline' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.shopify.com https://cdn.shopify.com/extensions; connect-src 'self' https://cdn.shopify.com https://cdn.shopify.com/extensions;">
-    {% endif %}
+
     
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
-    {% comment %} Only preconnect to Shopify fonts in production to avoid CORS issues in development {% endcomment %}
-    {% unless request.host contains '127.0.0.1' or request.host contains 'localhost' or request.host contains '.local' %}
-      <link rel="preconnect" href="https://fonts.shopify.com" crossorigin>
-    {% endunless %}
+    <link rel="preconnect" href="https://fonts.shopify.com" crossorigin>
     <link rel="preconnect" href="https://monorail-edge.shopifysvc.com">
 
     {%- if canonical_url != blank -%}
@@ -42,127 +36,7 @@
     <!-- Social meta ================================================== -->
     {% include 'social-meta-tags' %}
 
-      {% comment %} Ultra-early font blocking - runs before any other scripts {% endcomment %}
-  <script>
-    // This script runs immediately and blocks fonts at the earliest possible moment
-    (function() {
-      'use strict';
-      
-      // Block preloads.js immediately
-      if (window.Shopify && window.Shopify.preloads) {
-        window.Shopify.preloads = function() {
-          console.log('Ultra-early: Blocked Shopify preloads function');
-          return;
-        };
-      }
-      
-      // Block any existing font links
-      if (document.head) {
-        const fontLinks = document.head.querySelectorAll('link[href*="fonts.shopifycdn.com"]');
-        fontLinks.forEach(link => {
-          console.log('Ultra-early: Removed existing font link:', link.href);
-          link.remove();
-        });
-      }
-      
-      // Override document.write to catch inline font loading
-      const originalWrite = document.write;
-      document.write = function(...args) {
-        const content = args.join('');
-        if (content.includes('fonts.shopifycdn.com')) {
-          console.log('Ultra-early: Blocked document.write with font content');
-          return;
-        }
-        return originalWrite.apply(this, args);
-      };
-      
-      // Block preloads.js script loading
-      const originalCreateElement = document.createElement;
-      document.createElement = function(tagName) {
-        const element = originalCreateElement.call(document, tagName);
-        if (tagName.toLowerCase() === 'script') {
-          const originalSetAttribute = element.setAttribute;
-          element.setAttribute = function(name, value) {
-            if (name === 'src' && value.includes('preloads.js')) {
-              console.log('Ultra-early: Blocked preloads.js script loading:', value);
-              // Don't set the src, effectively blocking the script
-              return;
-            }
-            return originalSetAttribute.call(this, name, value);
-          };
-        }
-        return element;
-      };
-      
-      // Block any script that tries to load fonts
-      const originalAppendChild = Node.prototype.appendChild;
-      Node.prototype.appendChild = function(child) {
-        if (child.tagName === 'LINK' && child.href && child.href.includes('fonts.shopifycdn.com')) {
-          console.log('Ultra-early: Blocked Shopify font link append:', child.href);
-          return child; // Return without appending
-        }
-        return originalAppendChild.call(this, child);
-      };
-      
-      // Also block insertBefore
-      const originalInsertBefore = Node.prototype.insertBefore;
-      Node.prototype.insertBefore = function(newNode, referenceNode) {
-        if (newNode.tagName === 'LINK' && newNode.href && newNode.href.includes('fonts.shopifycdn.com')) {
-          console.log('Ultra-early: Blocked Shopify font link insertBefore:', newNode.href);
-          return newNode; // Return without inserting
-        }
-        return originalInsertBefore.call(this, newNode, referenceNode);
-      };
-      
-      // Block network requests to Shopify fonts
-      if (window.fetch) {
-        const originalFetch = window.fetch;
-        window.fetch = function(url, options) {
-          if (typeof url === 'string' && url.includes('fonts.shopifycdn.com')) {
-            console.log('Ultra-early: Blocked Shopify font fetch request:', url);
-            return Promise.reject(new Error('Font request blocked in development'));
-          }
-          return originalFetch.call(this, url, options);
-        };
-      }
-      
-      // Block XMLHttpRequest to Shopify fonts
-      if (window.XMLHttpRequest) {
-        const originalOpen = XMLHttpRequest.prototype.open;
-        XMLHttpRequest.prototype.open = function(method, url, ...args) {
-          if (typeof url === 'string' && url.includes('fonts.shopifycdn.com')) {
-            console.log('Ultra-early: Blocked Shopify font XHR request:', url);
-            this.abort();
-            return;
-          }
-          return originalOpen.call(this, method, url, ...args);
-        };
-      }
-      
-      // Add MutationObserver for continuous monitoring
-      if (document.head) {
-        const observer = new MutationObserver(function(mutations) {
-          mutations.forEach(function(mutation) {
-            if (mutation.type === 'childList') {
-              mutation.addedNodes.forEach(function(node) {
-                if (node.tagName === 'LINK' && node.href && node.href.includes('fonts.shopifycdn.com')) {
-                  console.log('Ultra-early: MutationObserver caught and removed font link:', node.href);
-                  node.remove();
-                }
-              });
-            }
-          });
-        });
-        
-        observer.observe(document.head, {
-          childList: true,
-          subtree: true
-        });
-      }
-      
-      console.log('Ultra-early font blocking activated with MutationObserver');
-    })();
-  </script>
+
   
   {% comment %} Smart Font Loader - Must be loaded early to prevent CORS issues {% endcomment %}
   {% render 'smart-font-loader' %}
