@@ -13,51 +13,192 @@
         {%- assign enable_zoom = section.settings.enable_zoom -%}
         {%- assign product_image_width = 'product_image_width' -%}  
         {%- assign product_images_length = product.media | size -%}
-        <div class="product-page-row">
+                  <style>
+            /* Product page layout styles */
+            .product-page-row {
+              display: flex !important;
+              flex-direction: row !important;
+              gap: 0 !important;
+              align-items: stretch !important;
+              min-height: 100vh !important;
+              width: 100% !important;
+              max-width: 100% !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              box-sizing: border-box !important;
+            }
+            
+            .product-page-row .product_image_width,
+            .product-page-row #product-gallery {
+              width: 65% !important;
+              flex: 0 0 65% !important;
+              max-width: 65% !important;
+              min-width: 65% !important;
+              padding: 3px !important;
+              box-sizing: border-box !important;
+              display: flex !important;
+              flex-direction: column !important;
+              height: auto !important;
+              min-height: 100vh !important;
+              align-self: stretch !important;
+            }
+            
+            .product-description-product-template {
+              width: 35% !important;
+              flex: 0 0 35% !important;
+              max-width: 35% !important;
+              min-width: 35% !important;
+              padding: 3px !important;
+              box-sizing: border-box !important;
+              display: flex !important;
+              flex-direction: column !important;
+              height: auto !important;
+              min-height: 100vh !important;
+              align-self: stretch !important;
+            }
+            
+            /* Product accordion styles */
+            .product-accordion {
+              width: 100% !important;
+              height: 100% !important;
+              min-height: 100vh !important;
+              display: flex !important;
+              flex-direction: column !important;
+              flex: 1 !important;
+              align-self: stretch !important;
+            }
+            
+            .accordion-content {
+              width: 100% !important;
+              flex: 1 !important;
+              display: flex !important;
+              flex-direction: column !important;
+              justify-content: flex-start !important;
+              align-items: stretch !important;
+              height: 100% !important;
+              min-height: 100vh !important;
+              background: white !important;
+              border: 1px solid #ccc !important;
+              align-self: stretch !important;
+            }
+            
+            .accordion-content .image-grid {
+              display: grid !important;
+              grid-template-columns: 1fr 1fr !important;
+              gap: 0 !important;
+              row-gap: 0 !important;
+              width: 100% !important;
+              height: 100% !important;
+              min-height: 100% !important;
+              flex: 1 !important;
+              max-height: 80vh !important;
+              overflow-y: auto !important;
+              overflow-x: hidden !important;
+            }
+            
+            /* Alternating image pattern */
+            .accordion-content .image-grid .image-item:nth-child(1),
+            .accordion-content .image-grid .image-item:nth-child(4),
+            .accordion-content .image-grid .image-item:nth-child(7),
+            .accordion-content .image-grid .image-item:nth-child(10),
+            .accordion-content .image-grid .image-item:nth-child(13) {
+              grid-column: 1 / 3 !important;
+              width: 100% !important;
+              max-width: 100% !important;
+              margin-bottom: 0 !important;
+              padding: 2px !important;
+            }
+            
+            .accordion-content .image-grid .image-item:nth-child(2),
+            .accordion-content .image-grid .image-item:nth-child(5),
+            .accordion-content .image-grid .image-item:nth-child(8),
+            .accordion-content .image-grid .image-item:nth-child(11),
+            .accordion-content .image-grid .image-item:nth-child(14) {
+              grid-column: 1 / 2 !important;
+              width: 100% !important;
+              margin: 0 !important;
+              padding: 2px !important;
+            }
+            
+            .accordion-content .image-grid .image-item:nth-child(3),
+            .accordion-content .image-grid .image-item:nth-child(6),
+            .accordion-content .image-grid .image-item:nth-child(9),
+            .accordion-content .image-grid .image-item:nth-child(12),
+            .accordion-content .image-grid .image-item:nth-child(15) {
+              grid-column: 2 / 3 !important;
+              width: 100% !important;
+              margin: 0 !important;
+              padding: 2px !important;
+            }
+            
+            .accordion-content .image-grid .image-item {
+              box-sizing: border-box !important;
+              margin: 0 !important;
+              padding: 2px !important;
+            }
+            
+            .accordion-content .image-grid .image-item img,
+            .accordion-content .image-grid .image-item video,
+            .accordion-content .image-grid .image-item .video-container {
+              width: 100% !important;
+              height: auto !important;
+              display: block !important;
+            }
+            
+            /* Responsive adjustments */
+            @media only screen and (max-width: 991px) {
+              .product-page-row {
+                flex-direction: column !important;
+              }
+              
+              .product-page-row .product_image_width,
+              .product-page-row #product-gallery {
+                width: 100% !important;
+                flex: 1 1 100% !important;
+              }
+              
+              .product-description-product-template {
+                width: 100% !important;
+                flex: 1 1 100% !important;
+              }
+            }
+          </style>
+          
+          <div class="product-page-row">
           <div class="product_images_length-{{product_images_length}}  {{ product_image_width }} product-gallery-{{ section.id }}" id="product-gallery">
-            <div class="product-slider-container">
-                <!-- Slider Wrapper -->
-                <div class="product-item-wrap slider-{{ section.id }} 
-                  {% if section.settings.gallery_type == 'thumbnails_vertical' %} swiper-gallery-vertical {{ section.settings.vertical_style }}{% endif %} 
-                  {% if section.settings.gallery_type == 'thumbnails_horizontal' %} swiper-gallery-inline{% endif %}" 
-                  id="slider" data-dT_media_group>
-                  {% render 'thumbnails' %}
-                </div>
-              
-{% comment %}
-              
-              <div class="product-item-wrap slider-1-{{ section.id }} 
-                  {% if section.settings.gallery_type == 'thumbnails_vertical' %} swiper-gallery-vertical {{ section.settings.vertical_style }}{% endif %} 
-                  {% if section.settings.gallery_type == 'thumbnails_horizontal' %} swiper-gallery-inline{% endif %}" 
-                  id="slider-1" data-dT_media_group>
-                  {% render 'thumbnails' %}
-                </div>
 
-              <div class="product-item-wrap slider-{{ section.id }} swiper-arrows">
-                <div id="swiper-blockCarousel-next-{{ section.id }}" class="swiper-button-next dt-sc-btn swiper-slide swiper-slide-next"></div>
-                <div id="swiper-blockCarousel-prev-{{ section.id }}" class="swiper-button-prev dt-sc-btn swiper-slide swiper-slide-prev"></div>
+          <!-- Product Images Accordion -->
+          {% if product.media.size > 0 %}
+          <div class="product-accordion">
+           
+            <div class="accordion-content active">
+              <div class="image-grid">
+                {% for media in product.media %}
+                  <div class="image-item">
+                    {% case media.media_type %}
+                      {% when 'external_video' %}
+                        <div class="video-container">
+                          {{ media | external_video_tag }}
+                        </div>
+                      {% when 'video' %}
+                        <div class="video-container">
+                          {{ media | video_tag: class: 'media-video', image_size: 'medium' }}
+                        </div>
+                      {% else %}
+                        <img src="{{ media | img_url: 'large' }}" 
+                             alt="{{ media.alt | escape }}" 
+                             title="{{ product.title | escape }}"
+                             loading="lazy" />
+                    {% endcase %}
+                  </div>
+                {% endfor %}
               </div>
-
-              <div class="swiper-blockCarousel-arrows swiper-arrows">
-                <div id="swiper-blockCarousel-next" class="swiper-button-next dt-sc-btn"></div>
-                <div id="swiper-blockCarousel-prev" class="swiper-button-prev dt-sc-btn"></div>
-              </div>
-
-{% endcomment %}
-              
-</div>
+            </div>
           </div>
+          {% endif %}
+        </div>
 
- <script>
-  var swiper = new Swiper('.slider-{{ section.id }}', {
-  navigation: {
-    nextEl: '#swiper-blockCarousel-next-{{ section.id }}',
-    prevEl: '#swiper-blockCarousel-prev-{{ section.id }}',
-  },
-  loop: true, 
-});
 
-</script>
 
           <div class="product-description-product-template product-description-{{ section.id }}" id="product-description">
             <div class="product-item-caption-white  sidebar_{{ section.id }}" id="sidebar">
@@ -390,6 +531,30 @@
 
 </script>
 
+<script>
+// Product Image Accordion Functionality
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Accordion script loaded');
+  
+  // Since accordion header was removed, directly set up the image grid
+  const imageGrid = document.querySelector('.accordion-content .image-grid');
+  if (imageGrid) {
+    console.log('Image grid found, setting smart scrolling');
+    // Set a reasonable max height that allows scrolling but doesn't break layout
+    imageGrid.style.maxHeight = '600px';
+    imageGrid.style.overflowY = 'auto';
+    imageGrid.style.overflowX = 'hidden';
+    
+    // Check if scrolling is needed
+    const shouldScroll = imageGrid.scrollHeight > imageGrid.clientHeight;
+    console.log('Should scroll:', shouldScroll, 'Scroll height:', imageGrid.scrollHeight, 'Client height:', imageGrid.clientHeight);
+  }
+    
+  // Accordion is always open, no click functionality needed
+  console.log('Accordion setup complete');
+});
+</script>
+
 <style>
 ul.dt-nav > li > a { color: #3c3b41; }
 ul.dt-nav > li > a:hover, ul.dt-nav > li > a:active { color: #8b9e8a; }
@@ -444,15 +609,19 @@ var acc = document.getElementsByClassName("accordion");
 var i;
 
 for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
-    }
-  });
+  if (acc[i] && acc[i].addEventListener) {
+    acc[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var panel = this.nextElementSibling;
+      if (panel && panel.style) {
+        if (panel.style.display === "block") {
+          panel.style.display = "none";
+        } else {
+          panel.style.display = "block";
+        }
+      }
+    });
+  }
 }
 </script>
 
