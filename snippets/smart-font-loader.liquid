@@ -1,0 +1,261 @@
+{% comment %}
+  Smart Font Loader - Automatically switches between Google Fonts (production) and local fonts (development)
+  This prevents CORS issues during development while maintaining optimal performance in production
+{% endcomment %}
+
+{% comment %} Detect if we're in development mode {% endcomment %}
+{% assign is_dev = false %}
+{% if request.host contains '127.0.0.1' or request.host contains 'localhost' or request.host contains '.local' %}
+  {% assign is_dev = true %}
+{% endif %}
+
+{% comment %} Load appropriate fonts based on environment {% endcomment %}
+{% if is_dev %}
+  {% comment %} Development: Load local fonts to avoid CORS issues {% endcomment %}
+  {% comment %} Prevent Shopify from prefetching external fonts {% endcomment %}
+  <meta http-equiv="Content-Security-Policy" content="font-src 'self' data: blob:;">
+  
+  {% comment %} Ultra-early font blocking - runs before any other scripts {% endcomment %}
+  <script>
+    // This script runs immediately and blocks fonts at the earliest possible moment
+    (function() {
+      'use strict';
+      
+      // Block preloads.js immediately
+      if (window.Shopify && window.Shopify.preloads) {
+        window.Shopify.preloads = function() {
+          console.log('Ultra-early: Blocked Shopify preloads function');
+          return;
+        };
+      }
+      
+      // Block any existing font links
+      if (document.head) {
+        const fontLinks = document.head.querySelectorAll('link[href*="fonts.shopifycdn.com"]');
+        fontLinks.forEach(link => {
+          console.log('Ultra-early: Removed existing font link:', link.href);
+          link.remove();
+        });
+      }
+      
+      // Override document.write to catch inline font loading
+      const originalWrite = document.write;
+      document.write = function(...args) {
+        const content = args.join('');
+        if (content.includes('fonts.shopifycdn.com')) {
+          console.log('Ultra-early: Blocked document.write with font content');
+          return;
+        }
+        return originalWrite.apply(this, args);
+      };
+      
+      console.log('Ultra-early font blocking activated');
+    })();
+  </script>
+  
+  {% comment %} Immediate font blocking script - must run before any other scripts {% endcomment %}
+  <script>
+    (function() {
+      'use strict';
+      if (window.location.host.includes('127.0.0.1') || 
+          window.location.host.includes('localhost') || 
+          window.location.host.includes('.local')) {
+        
+        console.log('Smart Font Loader: Immediate blocking mode activated');
+        
+        // Block any existing font links immediately
+        const existingFontLinks = document.querySelectorAll('link[href*="fonts.shopifycdn.com"]');
+        existingFontLinks.forEach(link => {
+          console.log('Removing existing Shopify font link:', link.href);
+          link.remove();
+        });
+        
+        // Block any existing font preloads
+        const existingFontPreloads = document.querySelectorAll('link[rel="preload"][href*="fonts.shopifycdn.com"]');
+        existingFontPreloads.forEach(link => {
+          console.log('Removing existing Shopify font preload:', link.href);
+          link.remove();
+        });
+        
+        // Block any existing font prefetch
+        const existingFontPrefetch = document.querySelectorAll('link[rel="prefetch"][href*="fonts.shopifycdn.com"]');
+        existingFontPrefetch.forEach(link => {
+          console.log('Removing existing Shopify font prefetch:', link.href);
+          link.remove();
+        });
+        
+        // Override preloads.js functionality
+        if (window.Shopify && window.Shopify.preloads) {
+          const originalPreloads = window.Shopify.preloads;
+          window.Shopify.preloads = function() {
+            console.log('Blocked Shopify preloads function in development');
+            return;
+          };
+        }
+        
+        // Block any script that tries to load fonts
+        const originalAppendChild = Node.prototype.appendChild;
+        Node.prototype.appendChild = function(child) {
+          if (child.tagName === 'LINK' && child.href && child.href.includes('fonts.shopifycdn.com')) {
+            console.log('Blocked Shopify font link append:', child.href);
+            return child; // Return without appending
+          }
+          return originalAppendChild.call(this, child);
+        };
+        
+        const originalInsertBefore = Node.prototype.insertBefore;
+        Node.prototype.insertBefore = function(newNode, referenceNode) {
+          if (newNode.tagName === 'LINK' && newNode.href && newNode.href.includes('fonts.shopifycdn.com')) {
+            console.log('Blocked Shopify font link insert:', newNode.href);
+            return newNode; // Return without inserting
+          }
+          return originalInsertBefore.call(this, newNode, referenceNode);
+        });
+        
+        // Block preloads.js script execution
+        const originalCreateElement = document.createElement;
+        document.createElement = function(tagName) {
+          const element = originalCreateElement.call(document, tagName);
+          if (tagName.toLowerCase() === 'script') {
+            const originalSetAttribute = element.setAttribute;
+            element.setAttribute = function(name, value) {
+              if (name === 'src' && value.includes('preloads.js')) {
+                console.log('Blocked preloads.js script loading:', value);
+                // Don't set the src, effectively blocking the script
+                return;
+              }
+              return originalSetAttribute.call(this, name, value);
+            };
+          }
+          return element;
+        };
+      }
+    })();
+  </script>
+  
+  <link rel="stylesheet" href="{{ 'dev-fonts.css' | asset_url }}" media="all">
+  <style>
+    /* Fallback font definitions for development */
+    body, .font-poppins { font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    .font-mulish { font-family: 'Mulish', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    
+    /* Override Shopify font loading in development */
+    /* Prevent external font requests that cause CORS issues */
+    @font-face {
+      font-family: 'Americana';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: local('Times New Roman'), local('Georgia'), local('serif');
+    }
+    @font-face {
+      font-family: 'Americana';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: local('Times New Roman'), local('Georgia'), local('serif');
+    }
+    
+    /* Additional fallback fonts for development */
+    .font-americana { font-family: 'Americana', 'Times New Roman', Georgia, serif; }
+  </style>
+  
+  {% comment %} Block Shopify font CDN in development {% endcomment %}
+  <script>
+    // Prevent Shopify from loading external fonts in development
+    if (window.location.host.includes('127.0.0.1') || 
+        window.location.host.includes('localhost') || 
+        window.location.host.includes('.local')) {
+      
+      console.log('Smart Font Loader: Development mode detected, blocking external fonts');
+      
+      // Block external font requests more aggressively
+      const blockExternalFonts = function() {
+        // Override fetch to block external font requests
+        if (window.fetch) {
+          const originalFetch = window.fetch;
+          window.fetch = function(url, options) {
+            if (typeof url === 'string' && url.includes('fonts.shopifycdn.com')) {
+              console.log('Blocked Shopify font fetch request:', url);
+              return Promise.reject(new Error('Font request blocked in development'));
+            }
+            return originalFetch.call(this, url, options);
+          };
+        }
+        
+        // Override XMLHttpRequest to block external font requests
+        if (window.XMLHttpRequest) {
+          const originalOpen = XMLHttpRequest.prototype.open;
+          XMLHttpRequest.prototype.open = function(method, url, ...args) {
+            if (typeof url === 'string' && url.includes('fonts.shopifycdn.com')) {
+              console.log('Blocked Shopify font XHR request:', url);
+              this.abort();
+              return;
+            }
+            return originalOpen.call(this, method, url, ...args);
+          };
+        }
+        
+        // Override createElement for link tags
+        const originalCreateElement = document.createElement;
+        document.createElement = function(tagName) {
+          const element = originalCreateElement.call(document, tagName);
+          if (tagName.toLowerCase() === 'link') {
+            const originalSetAttribute = element.setAttribute;
+            element.setAttribute = function(name, value) {
+              if (name === 'href' && value.includes('fonts.shopifycdn.com')) {
+                console.log('Blocked Shopify font CDN request in development:', value);
+                return; // Don't set the href for Shopify fonts in development
+              }
+              return originalSetAttribute.call(this, name, value);
+            };
+          }
+          return element;
+        };
+        
+        // Block any existing font links
+        document.querySelectorAll('link[href*="fonts.shopifycdn.com"]').forEach(link => {
+          console.log('Removing existing Shopify font link:', link.href);
+          link.remove();
+        });
+      };
+      
+              // Run immediately and also on DOM ready
+        blockExternalFonts();
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', blockExternalFonts);
+        } else {
+          blockExternalFonts();
+        }
+        
+        // Continuous monitoring for new font links
+        const observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+              mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'LINK') {
+                  if (node.href && node.href.includes('fonts.shopifycdn.com')) {
+                    console.log('MutationObserver: Blocked new Shopify font link:', node.href);
+                    node.remove();
+                  }
+                }
+              });
+            }
+          });
+        });
+        
+        // Start observing
+        observer.observe(document.head, {
+          childList: true,
+          subtree: true
+        });
+        
+        console.log('Smart Font Loader: MutationObserver started for continuous font blocking');
+    }
+  </script>
+{% else %}
+  {% comment %} Production: Load Google Fonts CDN for optimal performance {% endcomment %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&family=Mulish:wght@400;700&display=swap" media="all">
+{% endif %}

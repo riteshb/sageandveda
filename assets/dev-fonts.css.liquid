@@ -1,0 +1,57 @@
+/* Development Fonts - Only loads in development mode */
+/* This file should be included only during development to avoid CORS issues */
+
+/* Poppins Font Family */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('{{ "poppins-regular.woff2" | asset_url }}') format('woff2'),
+       url('{{ "poppins-regular.woff" | asset_url }}') format('woff');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('{{ "poppins-medium.woff2" | asset_url }}') format('woff2'),
+       url('{{ "poppins-medium.woff" | asset_url }}') format('woff');
+}
+
+/* Mulish Font Family */
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('{{ "mulish-regular.woff2" | asset_url }}') format('woff2'),
+       url('{{ "mulish-regular.woff" | asset_url }}') format('woff');
+}
+
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('{{ "mulish-bold.woff2" | asset_url }}') format('woff2'),
+       url('{{ "mulish-bold.woff" | asset_url }}') format('woff');
+}
+
+/* Americana Font Family - Fallback for development */
+@font-face {
+  font-family: 'Americana';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Times New Roman'), local('Georgia'), local('serif');
+}
+
+@font-face {
+  font-family: 'Americana';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Times New Roman'), local('Georgia'), local('serif');
+}

@@ -1,0 +1,28 @@
+/* Custom Button Styling for Homepage */
+/* Convert outline-style homepage buttons to filled buttons */
+
+.button,
+.button--secondary,
+.shopify-section .button,
+.slideshow__cta,
+.banner__buttons .button,
+.hero .button,
+.slideshow .button {
+  background-color: #B2937E !important;
+  color: #FAF7F3 !important;
+  border: none !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-shadow: none !important;
+}
+
+/* Hover style for all homepage buttons */
+.button:hover,
+.button--secondary:hover,
+.shopify-section .button:hover,
+.slideshow__cta:hover,
+.banner__buttons .button:hover,
+.hero .button:hover,
+.slideshow .button:hover {
+  background-color: #946F5E !important;
+  color: #FAF7F3 !important;
+} 
