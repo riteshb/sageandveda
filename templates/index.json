@@ -7,7 +7,6 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-
 {
   "sections": {
     "slideshow": {
@@ -69,8 +68,8 @@
             "desc_size": "",
             "button": "Shop Face Oil",
             "link": "shopify://products/amrit",
-            "btn_bg_color": "#5454c3",
-            "btn_txt_color": "#004203",
+            "btn_bg_color": "#004023",
+            "btn_txt_color": "#f3eee7",
             "btn_hoverbg_color": "#e5e5f3",
             "btn_hovertxt_color": "#004023",
             "button_2": "",
