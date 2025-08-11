@@ -15,6 +15,7 @@
         "slider_6NL7eJ": {
           "type": "Slider",
           "name": "Rakhi Offer",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/rakhi_gift_set_1800x1000px.png",
             "mobile_image": "shopify://shop_images/rakhi_new.png",
@@ -84,6 +85,7 @@
         "slider_Ebnj3J": {
           "type": "Slider",
           "name": "Rakhi Offer",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/rakhi_gift_set_1800x1000px.png",
             "mobile_image": "shopify://shop_images/rakhi_new.png",
@@ -118,6 +120,7 @@
         "slider_cxPapf": {
           "type": "Slider",
           "name": "Amrit Banner Aug 2025",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Amrit_banner_b43c16ec-212b-4d53-b041-4b26931e9e65.png",
             "mobile_image": "shopify://shop_images/Mob_Amrit_banner_bd40e4ff-8086-4dd7-8f0f-68226b79899a.png",
