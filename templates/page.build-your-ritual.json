@@ -9,12 +9,64 @@
  */
 {
   "sections": {
+    "17551727299c42aa26": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_68582cc_tdDaU6": {
+          "type": "ai_gen_block_68582cc",
+          "settings": {
+            "image": "shopify://shop_images/background_rakhi_landing_page.png",
+            "image_height": 400,
+            "image_height_mobile": 300,
+            "border_radius": 0,
+            "show_overlay": true,
+            "overlay_color": "#000000",
+            "overlay_opacity": 30,
+            "heading": "Build Your Ritual. Save While You Glow.",
+            "subtext": "Create your perfect Sage & Veda bundle—infused with Ayurvedic oils and mood-lifting scents. Choose your favorites for hair, skin, and soul care, and enjoy exclusive savings when you bundle.",
+            "content_padding": 40,
+            "content_padding_mobile": 20,
+            "text_spacing": 15,
+            "horizontal_alignment": "center",
+            "vertical_alignment": "center",
+            "text_alignment": "center",
+            "heading_color": "#ffffff",
+            "heading_size": 40,
+            "heading_size_mobile": 28,
+            "heading_weight": "600",
+            "text_color": "#ffffff",
+            "text_size": 16,
+            "text_size_mobile": 14,
+            "button_text": "Start Building Your Ritual",
+            "button_link": "",
+            "button_bg_color": "#ffffff",
+            "button_text_color": "#000000",
+            "button_hover_bg_color": "#f0f0f0",
+            "button_hover_text_color": "#000000",
+            "button_border_color": "#ffffff",
+            "button_hover_border_color": "#f0f0f0",
+            "button_border_width": 1,
+            "button_border_radius": 5,
+            "button_padding_vertical": 15,
+            "button_padding_horizontal": 30,
+            "button_text_size": 16
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_68582cc_tdDaU6"
+      ],
+      "settings": {}
+    },
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {}
     }
   },
   "order": [
+    "17551727299c42aa26",
     "main"
   ]
 }
