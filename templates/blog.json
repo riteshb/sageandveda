@@ -38,7 +38,7 @@
           "type": "collection",
           "settings": {
             "title": "Featured Products",
-            "collection": "rakhi-gift-sets-usa",
+            "collection": "giftsets",
             "limit": 2
           }
         },
