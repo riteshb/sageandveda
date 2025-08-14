@@ -426,7 +426,7 @@
       "gdpr-cookies": {
         "type": "gdpr-cookies",
         "settings": {
-          "show_gdpr": true,
+          "show_gdpr": false,
           "style": "bottom",
           "enable_box_shadow": false,
           "text": "The cookie settings on this website are set to 'allow all cookies' to give you the very best experience. Please click Accept Cookies to continue to use the site.",
