@@ -9,6 +9,10 @@
  */
 {
   "sections": {
+    "1755175328062a2aa0": {
+      "type": "_blocks",
+      "settings": {}
+    },
     "17551727299c42aa26": {
       "type": "_blocks",
       "blocks": {
@@ -64,25 +68,42 @@
       "disabled": true,
       "settings": {}
     },
-    "17551749145b4d0994": {
+    "17551753397ecd0678": {
       "type": "apps",
       "blocks": {
-        "fbp_fast_bundle_bundle_with_ids_D9EJbp": {
+        "fbp_fast_bundle_bundle_with_ids_9kawBm": {
           "type": "shopify://apps/fbp-fast-bundle/blocks/bundle_with_ids/9e87fbe2-9041-4c23-acf5-322413994cef",
           "settings": {
-            "bundle_ids": "<div class=\"rbrFastBundlePage\" data-view=\"automatic\" bundle-ids=\"ef04a2b1-0542-4c17-bdd3-909fa574ffb2\"></div>"
+            "bundle_ids": ""
           }
         }
       },
       "block_order": [
-        "fbp_fast_bundle_bundle_with_ids_D9EJbp"
+        "fbp_fast_bundle_bundle_with_ids_9kawBm"
+      ],
+      "settings": {}
+    },
+    "17551755008acc5da1": {
+      "type": "apps",
+      "blocks": {
+        "fbp_fast_bundle_bundle_with_ids_8DwJGL": {
+          "type": "shopify://apps/fbp-fast-bundle/blocks/bundle_with_ids/9e87fbe2-9041-4c23-acf5-322413994cef",
+          "settings": {
+            "bundle_ids": ""
+          }
+        }
+      },
+      "block_order": [
+        "fbp_fast_bundle_bundle_with_ids_8DwJGL"
       ],
       "settings": {}
     }
   },
   "order": [
+    "1755175328062a2aa0",
     "17551727299c42aa26",
     "main",
-    "17551749145b4d0994"
+    "17551753397ecd0678",
+    "17551755008acc5da1"
   ]
 }
