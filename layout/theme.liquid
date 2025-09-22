@@ -71,7 +71,6 @@
           if (typeof window.jQuery === 'undefined') {
             window.jQuery = window.$;
           }
-          console.log('jQuery is now available globally');
         } else {
           // jQuery not loaded yet, retry
           setTimeout(ensureJQuery, 50);
@@ -118,7 +117,6 @@
       // Check if jQuery is ready and run queued callbacks
       function checkJQueryAndRun() {
         if (typeof jQuery !== 'undefined' && typeof $ !== 'undefined') {
-          console.log('jQuery is ready, running queued callbacks');
           while (window.jQueryReadyCallbacks.length > 0) {
             try {
               window.jQueryReadyCallbacks.shift()();

@@ -96,7 +96,7 @@
     "truncated_description": false,
     "excerpt_count": "3",
     "enable_add_cart": true,
-    "item_aignment": "content-center",
+    "item_aignment": "content-left",
     "product_button_style": "button",
     "icon_alignment": "icon-right",
     "enable_compare": false,

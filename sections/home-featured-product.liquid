@@ -63,7 +63,9 @@
                 </div>
               </div>
               <h2 class="product-title">{{ product.title | escape }}</h2>
-              <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>  
+              <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+                {{ product.metafields.judgeme.badge }}
+              </div>  
               {% if section.settings.show_featured_shop_desc %}
             <div class="product-item-caption-desc product-rte-description">      
               <p>{{ product.description | strip_html | truncatewords: section.settings.featured_view_desc_truncate }}</p>                      
