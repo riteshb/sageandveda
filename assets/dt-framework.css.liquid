@@ -1746,45 +1746,238 @@ span.jdgm-prev-badge__stars:hover{
 .grid-item.product-grid-item .product-detail {
   text-align: left !important;
   padding: 0 !important;
+  margin: 0 !important;
+  display: grid !important;
+  grid-template-rows: 
+    auto      /* Title */
+    auto      /* Description */
+    auto      /* Variants */
+    auto      /* Quantity */
+    auto      /* Reviews */
+    auto;     /* Add to Cart */
+  gap: 8px;
+  align-items: start;
 }
 
 .grid-item.product-grid-item .product-detail > * {
   text-align: left !important;
   justify-content: flex-start !important;
+  margin: 0 !important;
+}
+
+/* Fixed heights for variable content sections */
+.grid-item.product-grid-item .product-short-description {
+  min-height: 40px;
+  display: flex;
+  align-items: flex-start;
+  margin: 0 !important;
+}
+
+.grid-item.product-grid-item .carousel-variant-selector {
+  min-height: 30px;
+  display: flex;
+  align-items: flex-start;
+  margin: 0 !important;
+}
+
+.grid-item.product-grid-item .carousel-quantity-selector {
+  min-height: 30px;
+  margin: 0 !important;
+}
+
+.grid-item.product-grid-item .jdgm-widget {
+  min-height: 25px;
+  display: flex;
+  align-items: center;
+  margin: 0 !important;
 }
 
 .grid-item.product-grid-item .image_group {
   text-align: left !important;
+  max-width: 300px;
+  max-height: 300px;
+  overflow: hidden;
+  width: 100%;
 }
 
 .grid-item.product-grid-item .image_group img {
   margin-left: 0 !important;
   margin-right: auto !important;
+  max-width: 300px;
+  max-height: 300px;
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Maintain aspect ratio while fitting container */
 }
 
 /* Carousel Quantity Selector Styles */
 .carousel-quantity-selector {
-  margin: 8px 0;
+  margin: 0;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .carousel-quantity-selector .quantity-label {
-  display: inline-block;
+  display: flex;
   font-size: 12px;
   font-weight: 500;
   color: var(--DTBodyTextColor);
   margin: 0;
   text-transform: capitalize;
   letter-spacing: 0.1px;
+  width: 80px;
   flex-shrink: 0;
+  line-height: 1;
+  align-items: center;
+}
+
+/* Collection Page Quantity Selector Styles */
+.collection-template .carousel-quantity-selector {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.collection-template .carousel-quantity-selector .quantity-label {
+  display: flex;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--DTBodyTextColor);
+  margin: 0;
+  text-transform: capitalize;
+  letter-spacing: 0.1px;
+  width: 80px;
+  flex-shrink: 0;
+  line-height: 1;
+  align-items: center;
 }
 
 .carousel-quantity-selector .product-item-caption-qty {
   display: flex;
   align-items: center;
-  width: fit-content;
+  width: 150px;
+  flex-shrink: 0;
+}
+
+/* Collection Page Product Item Caption Styles */
+.collection-template .carousel-quantity-selector .product-item-caption-qty {
+  display: flex;
+  align-items: center;
+  width: 150px;
+  flex-shrink: 0;
+}
+
+/* Collection Page Product Detail Grid Layout */
+.collection-template .grid-item.product-grid-item .product-detail {
+  text-align: left !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: grid !important;
+  grid-template-rows: 
+    48px      /* Title - fixed height */
+    50px      /* Description - fixed height */
+    60px      /* Variants - fixed height for multiple rows */
+    30px      /* Quantity - fixed height */
+    25px      /* Reviews - fixed height */
+    auto;     /* Add to Cart */
+  gap: 8px;
+  align-items: start;
+  min-height: 220px; /* Ensure minimum height for consistent alignment */
+}
+
+/* Fixed height for product titles */
+.collection-template .grid-item.product-grid-item .product-detail h6 {
+  height: 48px; /* Match grid template height */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+  margin: 0 !important;
+}
+
+.collection-template .grid-item.product-grid-item .product-detail > * {
+  text-align: left !important;
+  justify-content: flex-start !important;
+  margin: 0 !important;
+}
+
+/* Fixed heights for variable content sections on collection pages */
+.collection-template .grid-item.product-grid-item .product-short-description {
+  height: 50px; /* Fixed height to match grid template */
+  display: flex;
+  align-items: flex-start;
+  margin: 0 !important;
+  overflow: hidden; /* Ensure text doesn't overflow */
+}
+
+.collection-template .grid-item.product-grid-item .product-short-description p {
+  font-size: 11px; /* Slightly smaller font */
+  line-height: 1.3; /* Tighter line height */
+  color: var(--DTBodyTextColor);
+  margin: 0;
+  opacity: 0.8;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 50px; /* Match container height exactly */
+}
+
+.collection-template .grid-item.product-grid-item .carousel-variant-selector {
+  height: 60px; /* Fixed height to accommodate multiple variant rows */
+  display: block; /* Changed from flex to block for better vertical stacking */
+  margin: 0 !important;
+  overflow: hidden; /* Prevent overflow */
+}
+
+.collection-template .grid-item.product-grid-item .carousel-quantity-selector {
+  height: 30px; /* Fixed height instead of min-height */
+  margin: 0 !important;
+}
+
+.collection-template .grid-item.product-grid-item .jdgm-widget {
+  height: 25px; /* Fixed height to match grid template */
+  display: flex;
+  align-items: center;
+  margin: 0 !important;
+}
+
+/* Multiple variant options on consecutive rows */
+.collection-template .carousel-variant-selector .variant-option-wrapper {
+  margin: 0 0 4px 0; /* Reduced margin for tighter spacing */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 28px; /* Fixed height for each variant row */
+  flex-shrink: 0;
+  clear: both; /* Ensure each wrapper starts on a new line */
+}
+
+.collection-template .carousel-variant-selector .variant-option-wrapper:last-child {
+  margin-bottom: 0;
+}
+
+/* Ensure all product detail containers have consistent height */
+.collection-template .grid-item.product-grid-item .product-detail {
+  height: 220px !important; /* Fixed height for all products */
+}
+
+/* Hide variant selector if it doesn't exist but maintain space */
+.collection-template .carousel-variant-selector:empty {
+  display: block;
+  height: 60px;
+}
+
+/* Ensure Add to Cart buttons are positioned at the bottom */
+.collection-template .grid-item.product-grid-item .product-detail .dT_AddToCart {
+  align-self: end;
+  margin-top: auto;
 }
 
 .carousel-quantity-selector .btn-number {
@@ -1832,24 +2025,55 @@ span.jdgm-prev-badge__stars:hover{
   margin: 0;
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 8px;
+  width: 100%;
 }
 
 .carousel-variant-selector label {
-  display: inline-block;
+  display: flex;
   font-size: 12px;
   font-weight: 500;
   color: var(--DTBodyTextColor);
   margin: 0;
   text-transform: capitalize;
   letter-spacing: 0.1px;
-  min-width: 30px;
+  width: 80px;
   flex-shrink: 0;
+  line-height: 1;
+  align-items: center;
+}
+
+/* Collection Page Variant Selector Styles */
+.collection-template .carousel-variant-selector {
+  margin: 0;
+}
+
+.collection-template .carousel-variant-selector .variant-option-wrapper {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.collection-template .carousel-variant-selector label {
+  display: flex;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--DTBodyTextColor);
+  margin: 0;
+  text-transform: capitalize;
+  letter-spacing: 0.1px;
+  width: 80px;
+  flex-shrink: 0;
+  line-height: 1;
+  align-items: center;
 }
 
 .custom-variant-dropdown {
   position: relative;
-  width: 70%;
+  width: 150px;
+  flex-shrink: 0;
 }
 
 .variant-dropdown-button {

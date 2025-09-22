@@ -162,8 +162,9 @@
       
       <!-- Variant Dropdown for Carousel -->
       {% unless product.has_only_default_variant %}
-      <div class="carousel-variant-selector" data-product-id="{{ product.id }}">
+      
         {% for option in product.options_with_values %}
+        <div class="carousel-variant-selector" data-product-id="{{ product.id }}">
         <div class="variant-option-wrapper">
           <label>{{ option.name }}</label>
           <div class="custom-variant-dropdown" data-index="option{{ forloop.index }}">
@@ -180,8 +181,9 @@
             </div>
           </div>
         </div>
+        </div>
         {% endfor %}
-      </div>
+      
       {% endunless %}
       
       <!-- Quantity Selector for Carousel -->
