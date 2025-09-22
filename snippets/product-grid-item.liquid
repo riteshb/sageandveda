@@ -53,7 +53,15 @@
         <span class="badge badge--sold-out">
           <span class="badge__text{% if sold_out_text.size > 9 %} badge__text--small{% endif %}">{{ 'products.product.sold_out' | t }}</span>
         </span>
-        {% endif %} 
+        {% endif %}
+        
+        {% comment %} Custom Product Badge {% endcomment %}
+        {% if product.metafields.custom.badge_text != blank %}
+        <div class="custom-product-badge" 
+             style="{% if product.metafields.custom.badge_color != blank %}color: {{ product.metafields.custom.badge_color }};{% endif %}{% if product.metafields.custom.badge_background != blank %}background-color: {{ product.metafields.custom.badge_background }};{% endif %}">
+          <span class="custom-badge-text">{{ product.metafields.custom.badge_text }}</span>
+        </div>
+        {% endif %}
      <div class="image_group">
   <div class="ImageOverlayCa"></div>
   <img src="{{ 'loading.gif' | asset_url }}" 
@@ -141,11 +149,55 @@
       {% render 'new-label' %}
       {% if settings.display_vendor %}<p class="product-vendor"><span>{{ product.vendor }}</span></p>{% endif %}
       <div class="grid-link__meta">
-        {% render 'product-price', variant: product %}  
+        <!-- Price removed - now shown in Add to Cart button -->
       </div> 
       <h4  class="grid-link__title"><a href="{{ product.url | within: collection }}">{{ product.title }}</a></h4>
+      
+      <!-- Product Short Description -->
+      {% if product.metafields.custom.product_short_description_content != blank %}
+      <div class="product-short-description">
+        <p>{{ product.metafields.custom.product_short_description_content }}</p>
+      </div>
+      {% endif %}
+      
+      <!-- Variant Dropdown for Carousel -->
+      {% unless product.has_only_default_variant %}
+      <div class="carousel-variant-selector" data-product-id="{{ product.id }}">
+        {% for option in product.options_with_values %}
+        <div class="variant-option-wrapper">
+          <label>{{ option.name }}</label>
+          <div class="custom-variant-dropdown" data-index="option{{ forloop.index }}">
+            <button type="button" class="variant-dropdown-button" data-product-id="{{ product.id }}">
+              <span class="variant-selected-text">{{ option.selected_value | default: option.values.first }}</span>
+              <span class="variant-dropdown-arrow">▼</span>
+            </button>
+            <div class="variant-dropdown-options">
+              {% for value in option.values %}
+              <div class="variant-option" data-value="{{ value | escape }}">
+                {{ value | escape }}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endunless %}
+      
+      <!-- Quantity Selector for Carousel -->
+      <div class="carousel-quantity-selector">
+        <label class="quantity-label">{{ 'products.product.quantity' | t }}</label>
+        <div class="product-item-caption-qty">
+          <button class="btn-number btn-number-{{ product.id }}" type="button" data-type="minus" data-field="quant[1]">-</button>
+          <input type="text" id="Quantity-{{ product.id }}" name="quantity" value="1" class="form-control input-number input-number-{{ product.id }} product-form__input" pattern="[0-9]*">
+          <button class="btn-number btn-number-{{ product.id }}" type="button" data-type="plus" data-field="quant[1]">+</button>
+        </div>
+      </div>
+      
       {% if settings.product_review %}
-     	 <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span> 
+     	 <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+        {{ product.metafields.judgeme.badge }}
+      </div>
       {% endif %}             
          
       {% if settings.product_button_style == 'icon' %}
@@ -180,7 +232,7 @@
         <div class="dt-sc-btn-group">
           {% if settings.enable_add_cart %}       
           <button type="submit" name="add" class="dT_AddToCart dt-sc-btn">
-            {% render 'icon-cart' %} {{ 'products.product.add_to_cart' | t }}
+            {% render 'icon-cart' %} <span class="dT_AddToCartText-{{ product.id }}">{{ 'products.product.add_to_cart' | t }} - {{ product.price | money }}</span>
           </button> 
           {% endif %}
           
@@ -192,5 +244,340 @@
       {% endif %} 
 
     </div>
-  </div>  
+  </div>
+  
+  <!-- Product JSON Data for Variant Selection -->
+  <script type="application/json" id="CarouselProductJson-{{ product.id }}" style="display:none">
+    {{ product | json }}
+  </script>
+  
+  <!-- Variant Selection JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const productId = {{ product.id }};
+      const productJson = document.getElementById('CarouselProductJson-' + productId);
+      
+      if (productJson && productJson.textContent.trim()) {
+      try {
+        const jsonText = productJson.textContent.trim();
+        if (!jsonText) {
+          throw new Error('Empty JSON content');
+        }
+        console.log('JSON content for product ' + productId + ':', jsonText.substring(0, 100) + '...');
+        const product = JSON.parse(jsonText);
+          const variantDropdowns = document.querySelectorAll('.carousel-variant-selector[data-product-id="' + productId + '"] .custom-variant-dropdown');
+          // Price elements removed - price now shown in Add to Cart button only
+        
+          if (variantDropdowns.length > 0) {
+            // Initialize variant selection - mark first option as selected
+            variantDropdowns.forEach(function(dropdown) {
+              const firstOption = dropdown.querySelector('.variant-option');
+              if (firstOption && !dropdown.querySelector('.variant-option.selected')) {
+                firstOption.classList.add('selected');
+              }
+            });
+            
+            // Initialize variant selection
+            updateVariantPrice(productId, product);
+            
+            // Initialize Add to Cart button text
+            updateCarouselButtonPrice(productId, product);
+            
+            // Add event listeners to variant dropdowns
+            variantDropdowns.forEach(function(dropdown) {
+              const button = dropdown.querySelector('.variant-dropdown-button');
+              const options = dropdown.querySelectorAll('.variant-option');
+              
+              // Button click to toggle dropdown
+              button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleDropdown(dropdown);
+              });
+              
+              // Option selection
+              options.forEach(function(option) {
+                option.addEventListener('click', function(e) {
+                  e.stopPropagation();
+                  
+                  // Update selected text
+                  const selectedText = dropdown.querySelector('.variant-selected-text');
+                  selectedText.textContent = this.textContent;
+                  
+                  // Update selected state
+                  options.forEach(function(opt) {
+                    opt.classList.remove('selected');
+                  });
+                  this.classList.add('selected');
+                  
+                  // Close dropdown
+                  closeDropdown(dropdown);
+                  
+                  // Update price
+                  updateVariantPrice(productId, product);
+                  
+                  // Update Add to Cart button text
+                  updateCarouselButtonPrice(productId, product);
+                });
+              });
+            });
+            
+                      // Close dropdowns when clicking outside
+                      document.addEventListener('click', function() {
+                        variantDropdowns.forEach(function(dropdown) {
+                          closeDropdown(dropdown);
+                        });
+                      });
+                      
+                      // Add quantity event listeners
+                      const quantityInput = document.querySelector('#Quantity-' + productId);
+                      if (quantityInput) {
+                        quantityInput.addEventListener('input', function() {
+                          updateCarouselButtonPrice(productId, product);
+                        });
+                        quantityInput.addEventListener('change', function() {
+                          updateCarouselButtonPrice(productId, product);
+                        });
+                      }
+                      
+                      // Add quantity button event listeners
+                      const quantityButtons = document.querySelectorAll('.btn-number-' + productId);
+                      quantityButtons.forEach(function(button) {
+                        button.addEventListener('click', function() {
+                          const quantityInput = document.querySelector('#Quantity-' + productId);
+                          if (quantityInput) {
+                            let currentValue = parseInt(quantityInput.value) || 1;
+                            const type = this.getAttribute('data-type');
+                            
+                            if (type === 'plus') {
+                              currentValue++;
+                            } else if (type === 'minus' && currentValue > 1) {
+                              currentValue--;
+                            }
+                            
+                            quantityInput.value = currentValue;
+                            updateCarouselButtonPrice(productId, product);
+                          }
+                        });
+                      });
+          }
+        } catch (error) {
+          console.error('Error parsing product JSON for product ' + productId + ':', error);
+                    // Fallback: still enable dropdown functionality without price updates
+                    const variantDropdowns = document.querySelectorAll('.carousel-variant-selector[data-product-id="' + productId + '"] .custom-variant-dropdown');
+                    if (variantDropdowns.length > 0) {
+                      // Initialize variant selection - mark first option as selected
+                      variantDropdowns.forEach(function(dropdown) {
+                        const firstOption = dropdown.querySelector('.variant-option');
+                        if (firstOption && !dropdown.querySelector('.variant-option.selected')) {
+                          firstOption.classList.add('selected');
+                        }
+                      });
+            variantDropdowns.forEach(function(dropdown) {
+              const button = dropdown.querySelector('.variant-dropdown-button');
+              const options = dropdown.querySelectorAll('.variant-option');
+              
+              // Button click to toggle dropdown
+              button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleDropdown(dropdown);
+              });
+              
+              // Option selection (without price updates)
+              options.forEach(function(option) {
+                option.addEventListener('click', function(e) {
+                  e.stopPropagation();
+                  
+                  // Update selected text
+                  const selectedText = dropdown.querySelector('.variant-selected-text');
+                  selectedText.textContent = this.textContent;
+                  
+                  // Update selected state
+                  options.forEach(function(opt) {
+                    opt.classList.remove('selected');
+                  });
+                  this.classList.add('selected');
+                  
+                  // Close dropdown
+                  closeDropdown(dropdown);
+                  
+                  // Note: Cannot update button price in fallback mode without product data
+                });
+              });
+            });
+          }
+        }
+      }
+    });
+    
+    function toggleDropdown(dropdown) {
+      const isOpen = dropdown.querySelector('.variant-dropdown-options').classList.contains('show');
+      
+      // Close all other dropdowns first
+      document.querySelectorAll('.custom-variant-dropdown').forEach(function(otherDropdown) {
+        if (otherDropdown !== dropdown) {
+          closeDropdown(otherDropdown);
+        }
+      });
+      
+      if (isOpen) {
+        closeDropdown(dropdown);
+      } else {
+        openDropdown(dropdown);
+      }
+    }
+    
+    function openDropdown(dropdown) {
+      const options = dropdown.querySelector('.variant-dropdown-options');
+      const button = dropdown.querySelector('.variant-dropdown-button');
+      
+      options.classList.add('show');
+      button.classList.add('active');
+    }
+    
+    function closeDropdown(dropdown) {
+      const options = dropdown.querySelector('.variant-dropdown-options');
+      const button = dropdown.querySelector('.variant-dropdown-button');
+      
+      options.classList.remove('show');
+      button.classList.remove('active');
+    }
+    
+    function updateVariantPrice(productId, product) {
+      const variantDropdowns = document.querySelectorAll('.carousel-variant-selector[data-product-id="' + productId + '"] .custom-variant-dropdown');
+      const selectedOptions = [];
+      
+      // Get selected values from all variant dropdowns
+      variantDropdowns.forEach(function(dropdown) {
+        const selectedOption = dropdown.querySelector('.variant-option.selected');
+        if (selectedOption) {
+          selectedOptions.push(selectedOption.getAttribute('data-value'));
+        }
+      });
+      
+      // Find matching variant
+      const selectedVariant = product.variants.find(function(variant) {
+        return variant.options.every(function(option, index) {
+          return option === selectedOptions[index];
+        });
+      });
+      
+      if (selectedVariant) {
+        // Update variant ID in hidden input (if exists)
+        const variantInput = document.querySelector('#product-' + productId + ' .variant-push');
+        if (variantInput) {
+          variantInput.value = selectedVariant.id;
+        }
+        
+        // Update availability
+        const addToCartButton = document.querySelector('#product-' + productId + ' .dT_AddToCart');
+        if (addToCartButton) {
+          if (selectedVariant.available) {
+            addToCartButton.disabled = false;
+            addToCartButton.classList.remove('disabled');
+          } else {
+            addToCartButton.disabled = true;
+            addToCartButton.classList.add('disabled');
+          }
+        }
+      }
+    }
+    
+              function updateCarouselButtonPrice(productId, product) {
+                const variantDropdowns = document.querySelectorAll('.carousel-variant-selector[data-product-id="' + productId + '"] .custom-variant-dropdown');
+                const selectedOptions = [];
+                
+                // Get selected values from all variant dropdowns
+                variantDropdowns.forEach(function(dropdown) {
+                  const selectedOption = dropdown.querySelector('.variant-option.selected');
+                  if (selectedOption) {
+                    selectedOptions.push(selectedOption.getAttribute('data-value'));
+                  }
+                });
+                
+                // Find matching variant
+                const selectedVariant = product.variants.find(function(variant) {
+                  return variant.options.every(function(option, index) {
+                    return option === selectedOptions[index];
+                  });
+                });
+                
+                if (selectedVariant) {
+                  const addToCartText = document.querySelector('.dT_AddToCartText-' + productId);
+                  const quantityInput = document.querySelector('#Quantity-' + productId);
+                  
+                  if (addToCartText) {
+                    let quantity = 1;
+                    if (quantityInput && quantityInput.value) {
+                      quantity = parseInt(quantityInput.value) || 1;
+                    }
+                    
+                    const basePriceText = formatMoney(selectedVariant.price, product.money_format);
+                    
+                    if (quantity > 1) {
+                      // Calculate total price
+                      const totalPrice = selectedVariant.price * quantity;
+                      const totalPriceText = formatMoney(totalPrice, product.money_format);
+                      addToCartText.textContent = '{{ "products.product.add_to_cart" | t }} - ' + quantity + ' × ' + basePriceText + ' = ' + totalPriceText;
+                    } else {
+                      addToCartText.textContent = '{{ "products.product.add_to_cart" | t }} - ' + basePriceText;
+                    }
+                  }
+                }
+              }
+    
+    function formatMoney(cents, format) {
+      if (typeof cents === 'string') {
+        cents = cents.replace('.', '');
+      }
+      var value = '';
+      var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+      var formatString = (format || '{{ amount }}');
+      
+      function formatWithDelimiters(number, precision, thousands, decimal) {
+        thousands = thousands || ',';
+        decimal = decimal || '.';
+        
+        if (isNaN(number) || number == null) {
+          return '$0.00';
+        }
+        
+        number = (number / 100.0).toFixed(precision);
+        
+        var parts = number.split('.');
+        var dollarsAmount = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands);
+        var centsAmount = parts[1] ? (decimal + parts[1]) : '';
+        
+        return '$' + dollarsAmount + centsAmount;
+      }
+      
+      var formatMatch = formatString.match(placeholderRegex);
+      if (!formatMatch) {
+        // Fallback to simple formatting
+        return '$' + (cents / 100).toFixed(2);
+      }
+      
+      switch (formatMatch[1]) {
+        case 'amount':
+          value = formatWithDelimiters(cents, 2);
+          break;
+        case 'amount_no_decimals':
+          value = formatWithDelimiters(cents, 0);
+          break;
+        case 'amount_with_comma_separator':
+          value = formatWithDelimiters(cents, 2, '.', ',');
+          break;
+        case 'amount_no_decimals_with_comma_separator':
+          value = formatWithDelimiters(cents, 0, '.', ',');
+          break;
+        case 'amount_no_decimals_with_space_separator':
+          value = formatWithDelimiters(cents, 0, ' ');
+          break;
+        case 'amount_with_apostrophe_separator':
+          value = formatWithDelimiters(cents, 2, "'");
+          break;
+      }
+      
+      return formatString.replace(placeholderRegex, value);
+    }
+  </script>
 </li>

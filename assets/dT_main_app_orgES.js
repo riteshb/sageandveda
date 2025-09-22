@@ -274,7 +274,6 @@ function getWishList() {
                 }
             },
             remove: function(productHandle) {
-                console.log('remove from wish list ' + productHandle);
                 try {
 
                     var p2  = Promise.resolve(1);
@@ -291,7 +290,6 @@ function getWishList() {
 						setTimeout(function(){ 
 							var items = dTWhistList.getWishlist();
 							var cnt = items.length;
-							console.log("wish list count " + cnt);
 
 							if (cnt <= 0 ) {
 								window.location.reload();
@@ -520,7 +518,6 @@ document.addEventListener("shopify:section:load", function(event) {
 
         }).then(function(value) {   
         }).catch(function(err){
-			console.log('dT_WishListGrid error' + err);
         });        
 
 		//dTWhistList.setupGrid(getWishList, "wishList");
@@ -692,7 +689,6 @@ document.addEventListener("shopify:section:load", function(event) {
 
 		if (urlParams) {
 			for (const [key, value] of urlParams) {
-				console.log(`${key}:${value}`);
 				a_params[`${key}`] = `${value}`;
 			}
 		}
