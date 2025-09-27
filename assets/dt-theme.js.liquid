@@ -714,6 +714,7 @@ theme.ProductPage = function () {
         }
       });
 
+
       var selectedOptionsLength = $('#ProductSelect-' + productJSON.id + ' option[selected]').length;
       var optionsLength = $('#ProductSelect-' + productJSON.id).length;
       if (!selectedOptionsLength || optionsLength == 1) {
@@ -761,6 +762,7 @@ theme.ProductPage = function () {
 
       this.productVariantStyles();
     },
+
 
     productVariantStyles: function productVariantStyles() {
       $('.selector-wrapper').addClass('product-form__item');

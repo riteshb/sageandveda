@@ -62,6 +62,14 @@
           <span class="custom-badge-text">{{ product.metafields.custom.badge_text }}</span>
         </div>
         {% endif %}
+        
+        {% comment %} Custom Product Badge 2 {% endcomment %}
+        {% if product.metafields.custom.badge_text_2 != blank %}
+        <div class="custom-product-badge custom-product-badge-2" 
+             style="{% if product.metafields.custom.badge_color_2 != blank %}color: {{ product.metafields.custom.badge_color_2 }};{% endif %}{% if product.metafields.custom.badge_background_2 != blank %}background-color: {{ product.metafields.custom.badge_background_2 }};{% endif %}">
+          <span class="custom-badge-text">{{ product.metafields.custom.badge_text_2 }}</span>
+        </div>
+        {% endif %}
      <div class="image_group">
   <div class="ImageOverlayCa"></div>
   <img src="{{ 'loading.gif' | asset_url }}" 

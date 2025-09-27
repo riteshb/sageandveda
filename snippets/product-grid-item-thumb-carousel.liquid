@@ -49,6 +49,23 @@
           <span class="badge__text{% if sold_out_text.size > 9 %} badge__text--small{% endif %}">{{ 'products.product.sold_out' | t }}</span>
         </span>
         {% endif %} 
+        
+        {% comment %} Custom Product Badge {% endcomment %}
+        {% if product.metafields.custom.badge_text != blank %}
+        <div class="custom-product-badge" 
+             style="{% if product.metafields.custom.badge_color != blank %}color: {{ product.metafields.custom.badge_color }};{% endif %}{% if product.metafields.custom.badge_background != blank %}background-color: {{ product.metafields.custom.badge_background }};{% endif %}">
+          <span class="custom-badge-text">{{ product.metafields.custom.badge_text }}</span>
+        </div>
+        {% endif %}
+        
+        {% comment %} Custom Product Badge 2 {% endcomment %}
+        {% if product.metafields.custom.badge_text_2 != blank %}
+        <div class="custom-product-badge custom-product-badge-2" 
+             style="{% if product.metafields.custom.badge_color_2 != blank %}color: {{ product.metafields.custom.badge_color_2 }};{% endif %}{% if product.metafields.custom.badge_background_2 != blank %}background-color: {{ product.metafields.custom.badge_background_2 }};{% endif %}">
+          <span class="custom-badge-text">{{ product.metafields.custom.badge_text_2 }}</span>
+        </div>
+        {% endif %}
+        
         {% if product.images.size > 1 %}
         <div class="middle-gallery_block {{ product.title | handle }}">            
           <div class="sliders">
