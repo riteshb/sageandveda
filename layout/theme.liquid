@@ -171,8 +171,8 @@
         moneyFormat: {{ shop.money_format | json }}
       };
     </script>
-    {% include 'pagefly-app-header' %}
-  </head>
+    
+  {% include 'pagefly-app-header' %}</head>
   <body
     id="{{ page_title | handle }}"
     class="{% if settings.home_sidebar   %}{% endif %} {% if settings.enable_boxed %}body-boxed {% endif %}{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }} {% unless tempate contains 'index' %} others {% endunless %}"

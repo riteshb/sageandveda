@@ -5,12 +5,24 @@ If you plan to remove PageFly, please see the guide in our help center first: ht
 <!doctype html>
 <html class="no-js" lang="{{ request.locale.iso_code }}">
   <head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16990829846"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16990829846');
+</script>
     <meta name="facebook-domain-verification" content="880ueyncwedojzcb0ssurwpzre48ro">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="{{ settings.color_primary }}">
     <meta name="p:domain_verify" content="43260539ac78a776a280f62bc0aa2b97">
+    
+
+    
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
     <link rel="preconnect" href="https://fonts.shopify.com" crossorigin>
     <link rel="preconnect" href="https://monorail-edge.shopifysvc.com">
@@ -28,6 +40,11 @@ If you plan to remove PageFly, please see the guide in our help center first: ht
     <!-- Social meta ================================================== -->
     {% include 'social-meta-tags' %}
 
+
+  
+  {% comment %} Smart Font Loader - Must be loaded early to prevent CORS issues {% endcomment %}
+  {% render 'smart-font-loader' %}
+    
     {{ 'dt-framework.css' | asset_url | stylesheet_tag }}
     {{ 'dt-custom.css' | asset_url | stylesheet_tag }}
     {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
@@ -36,23 +53,111 @@ If you plan to remove PageFly, please see the guide in our help center first: ht
     {% endunless %}
     {{ 'slick.css' | asset_url | stylesheet_tag }}
     {{ 'font-all.min.css' | asset_url | stylesheet_tag }}
+    
+    {% comment %} Custom button styling is now in dt-custom.css.liquid {% endcomment %}
 
+    <!-- Load jQuery first without defer to make it globally available -->
     <script src="{{ 'jquery-3.5.1.min.js' | asset_url }}"></script>
+    <!-- Load jQuery cookie plugin immediately after jQuery -->
+    <script src="{{ 'jquery-cookie.min.js' | asset_url }}"></script>
+    <!-- Load Handlebars next without defer -->
+    <script src="{{ 'handlebars.min.js' | asset_url }}"></script>
+    
+    <!-- Ensure jQuery is globally available -->
+    <script>
+      // Wait for jQuery to load and ensure global availability
+      function ensureJQuery() {
+        if (typeof jQuery !== 'undefined') {
+          // jQuery is loaded, ensure global availability
+          if (typeof window.$ === 'undefined') {
+            window.$ = window.jQuery;
+          }
+          if (typeof window.jQuery === 'undefined') {
+            window.jQuery = window.$;
+          }
+        } else {
+          // jQuery not loaded yet, retry
+          setTimeout(ensureJQuery, 50);
+        }
+      }
+      
+      // Start checking for jQuery
+      ensureJQuery();
+      
+      // Also check when DOM is ready
+      document.addEventListener('DOMContentLoaded', ensureJQuery);
+    </script>
+    
     <script src="{{ 'api.js' | shopify_asset_url }}" defer="defer"></script>
     <script src="{{ 'ajax-cart.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'dt-plugins.js' | asset_url }}"></script>
+    <script src="{{ 'dt-plugins.js' | asset_url }}" defer></script>
     {% unless template contains 'customers' or template contains 'cart' %}
       <script src="{{ 'select2.min.js' | asset_url }}" defer="defer"></script>
     {% endunless %}
     <script src="{{ 'slick.min.js' | asset_url }}" defer="defer"></script>
 
     {% if template contains 'customers' %}
-      {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
-      {{ 'customer_area.js' | shopify_asset_url | script_tag }}
+      <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer></script>
+      <script src="{{ 'customer_area.js' | shopify_asset_url }}" defer></script>
     {% endif %}
     <!-- connter for header -->
     {{ content_for_header }}
     <!-- connter for header -->
+    
+    <!-- Global script dependency manager -->
+    <script>
+      // Create a global queue for scripts that need jQuery
+      window.jQueryReadyCallbacks = [];
+      
+      // Function to run when jQuery is ready
+      window.runWhenJQueryReady = function(callback) {
+        if (typeof jQuery !== 'undefined' && typeof $ !== 'undefined') {
+          callback();
+        } else {
+          window.jQueryReadyCallbacks.push(callback);
+        }
+      };
+      
+      // Check if jQuery is ready and run queued callbacks
+      function checkJQueryAndRun() {
+        if (typeof jQuery !== 'undefined' && typeof $ !== 'undefined') {
+          while (window.jQueryReadyCallbacks.length > 0) {
+            try {
+              window.jQueryReadyCallbacks.shift()();
+            } catch (e) {
+              console.error('Error in jQuery ready callback:', e);
+            }
+          }
+        } else {
+          setTimeout(checkJQueryAndRun, 100);
+        }
+      }
+      
+      // Start checking
+      checkJQueryAndRun();
+      
+      // Override problematic jQuery calls
+      window.$ = window.$ || function() {
+        console.warn('jQuery not ready yet, queuing call');
+        return {
+          ready: function(callback) {
+            window.runWhenJQueryReady(callback);
+          },
+          on: function() {},
+          off: function() {},
+          find: function() { return []; },
+          addClass: function() { return this; },
+          removeClass: function() { return this; },
+          css: function() { return this; },
+          hide: function() { return this; },
+          show: function() { return this; },
+          data: function() { return null; },
+          select2: function() { return this; }
+        };
+      };
+      
+      window.jQuery = window.jQuery || window.$;
+    </script>
 
     <script>
       var DT_THEME = {
@@ -70,6 +175,7 @@ If you plan to remove PageFly, please see the guide in our help center first: ht
         moneyFormat: {{ shop.money_format | json }}
       };
     </script>
+    
   {% include 'pagefly-app-header' %}</head>
   <body
     id="{{ page_title | handle }}"
