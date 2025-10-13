@@ -209,11 +209,16 @@
         "navigation_dot_active_color": "",
         "custom_class_name": "collection-pro-v"
       }
+    },
+    "pagefly-collection-section": {
+      "type": "pagefly-collection-section",
+      "settings": {}
     }
   },
   "order": [
     "1626870276b398a0aa",
     "main",
-    "home_product_carousel_DHpHxU"
+    "home_product_carousel_DHpHxU",
+    "pagefly-collection-section"
   ]
 }
