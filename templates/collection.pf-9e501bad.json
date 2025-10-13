@@ -209,11 +209,16 @@
         "navigation_dot_active_color": "",
         "custom_class_name": "collection-pro-v"
       }
+    },
+    "pf-9e501bad": {
+      "type": "pf-9e501bad",
+      "settings": {}
     }
   },
   "order": [
     "1626870276b398a0aa",
     "main",
-    "home_product_carousel_DHpHxU"
+    "home_product_carousel_DHpHxU",
+    "pf-9e501bad"
   ]
 }
