@@ -1643,11 +1643,6 @@
       "1625464732dee99c61"
     ],
     "blocks": {
-      "13375938897875554821": {
-        "type": "shopify://apps/qikify-sales-pop-up/blocks/app-embed/688dd516-1cdc-4008-8329-23089a1c4e24",
-        "disabled": false,
-        "settings": {}
-      },
       "14060646107696862457": {
         "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
         "disabled": false,
@@ -1701,6 +1696,43 @@
       "3577669850698438243": {
         "type": "shopify://apps/wod-preorder-now/blocks/app-embed/fdf17d17-ef12-4a7b-8383-20cc1fc2a4b6",
         "disabled": false,
+        "settings": {}
+      },
+      "2353461558643755616": {
+        "type": "shopify://apps/tinyseo/blocks/breadcrumbs-json-ld-embed/0605268f-f7c4-4e95-b560-e43df7d59ae4",
+        "disabled": false,
+        "settings": {}
+      },
+      "15154131639906026026": {
+        "type": "shopify://apps/tinyseo/blocks/broken-link-embed/0605268f-f7c4-4e95-b560-e43df7d59ae4",
+        "disabled": false,
+        "settings": {}
+      },
+      "14971748854670876780": {
+        "type": "shopify://apps/tinyseo/blocks/product-json-ld-embed/0605268f-f7c4-4e95-b560-e43df7d59ae4",
+        "disabled": false,
+        "settings": {
+          "hide_price": false
+        }
+      },
+      "1369284949797581044": {
+        "type": "shopify://apps/tinyseo/blocks/collection-json-ld-embed/0605268f-f7c4-4e95-b560-e43df7d59ae4",
+        "disabled": false,
+        "settings": {}
+      },
+      "11089864892113081655": {
+        "type": "shopify://apps/tinyseo/blocks/website-json-ld-embed/0605268f-f7c4-4e95-b560-e43df7d59ae4",
+        "disabled": false,
+        "settings": {}
+      },
+      "1360768219604461044": {
+        "type": "shopify://apps/tinyseo/blocks/store-json-ld-embed/0605268f-f7c4-4e95-b560-e43df7d59ae4",
+        "disabled": false,
+        "settings": {}
+      },
+      "13375938897875554821": {
+        "type": "shopify://apps/qikify-sales-pop-up/blocks/app-embed/688dd516-1cdc-4008-8329-23089a1c4e24",
+        "disabled": true,
         "settings": {}
       }
     }
