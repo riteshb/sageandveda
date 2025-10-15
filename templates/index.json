@@ -118,7 +118,6 @@
         "slider_cxPapf": {
           "type": "Slider",
           "name": "Team Sweet or Spice",
-          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Team_Sweet_or_Spice_This_Diwali_Banner.png",
             "mobile_image": "shopify://shop_images/mobile_banner_team_sewet_team_spice.png",
