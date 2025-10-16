@@ -85,7 +85,7 @@
     </script>
     
     <script src="{{ 'api.js' | shopify_asset_url }}" defer="defer"></script>
-    {% comment %} <script src="{{ 'ajax-cart.js' | asset_url }}" defer="defer"></script> {% endcomment %}
+    <script src="{{ 'ajax-cart.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'dt-plugins.js' | asset_url }}" defer></script>
     {% unless template contains 'customers' or template contains 'cart' %}
       <script src="{{ 'select2.min.js' | asset_url }}" defer="defer"></script>
@@ -219,7 +219,7 @@
     -->
     <script src="{{ 'dT_main.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'dT_main_app.js' | asset_url }}" defer="defer"></script>
-    {% comment %} {% include 'ajax-cart-template' %} {% endcomment %}
+    {% include 'ajax-cart-template' %}
     <script>
       // Ensure jQuery and Handlebars are available
       if (typeof Handlebars !== 'undefined') {
@@ -255,7 +255,7 @@
         initializeSelect2();
       }
     </script>
-    <script>
+    {% comment %} <script>
             document.addEventListener("DOMContentLoaded", function() {
           let savedCart = localStorage.getItem("cart");
 
@@ -273,7 +273,7 @@
                   localStorage.setItem("cart", JSON.stringify(data.items));
               });
       });
-    </script>
+    </script> {% endcomment %}
     {% include 'scroll-to-top' %}
   </body>
 </html>
