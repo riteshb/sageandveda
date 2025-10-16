@@ -134,6 +134,7 @@
     "share_twitter": true,
     "share_pinterest": true,
     "share_google": true,
+    "shipping_calculator": "Enabled",
     "password_bg_img": "shopify://shop_images/modern-jewelry-and-accessories-on-display.jpg",
     "password_logo": "shopify://shop_images/about-icon-1.png",
     "logo_txt_color": "#ee2d7a",
