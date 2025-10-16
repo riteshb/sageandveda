@@ -70,7 +70,7 @@
         "arrows": true,
         "nav_arrow_position": "navigation-bottom-center",
         "center_nav_arrow_alignment": "inside_container",
-        "navigation_button_color": "#f3eee7",
+        "navigation_button_color": "rgba(0,0,0,0)",
         "navigation_button_icon_color": "#344323",
         "navigation_button_hover_color": "",
         "navigation_button_hover_icon_color": "",
