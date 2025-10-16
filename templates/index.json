@@ -350,7 +350,7 @@
         "slider_height": 850,
         "slider_height_lap": 700,
         "slider_height_tab": 600,
-        "slider_height_mobile": 720,
+        "slider_height_mobile": 500,
         "content_within_container": true,
         "enable_box_shadow": false,
         "border_radius": "0",
