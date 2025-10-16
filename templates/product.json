@@ -87,7 +87,7 @@
     "product-recommendations": {
       "type": "product-recommendations",
       "settings": {
-        "show_product_recommendations": true,
+        "show_product_recommendations": false,
         "heading": "You'll Love These!",
         "heading_position": "text-center"
       }
