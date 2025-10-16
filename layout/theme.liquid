@@ -1,5 +1,22 @@
 <!doctype html>
 <html class="no-js" lang="{{ request.locale.iso_code }}">
+  {% if template.name contains 'cart' %}
+  <style>
+    /* Force readable text in the cart/order summary (Iva3) */
+    .cart-summary,
+    .cart-summary * {
+      color: #000 !important;
+    }
+    /* Keep buttons readable (don’t override their text colors) */
+    .cart-summary .button, 
+    .cart-summary .shopify-payment-button__button,
+    .cart-summary .shopify-payment-button__more-options,
+    .cart-summary .shopify-cleanslate [role="button"] {
+      color: inherit !important;
+    }
+  </style>
+{% endif %}
+
   <head>
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16990829846"></script>
