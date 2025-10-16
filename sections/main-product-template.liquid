@@ -291,32 +291,9 @@
                     {% endif %}
                   {% endfor %}
 
-                  <div class="product-item-caption-select product-select-block-{{ section.id }} {% if section.settings.show_variants_swatches and is_gift_set == false %} hidden {% endif %}">
-                    {% unless product.options.size == 1
-                      and product.variants[0].title contains 'Default'
-                      and product.variants.size == 1
-                    %}
-                      {% for option in product.options_with_values %}
-                        <div class="selector-wrapper main-product-select-{{product.id}}">
-                          <label
-                            {% if option.name == 'default' %}
-                              class="hidden"
-                            {% endif %}
-                            for="product-select-{{ option.name }}"
-                          >
-                            {{ option.name }}
-                          </label>
-                          <select class="single-option-selector" id="SingleOptionSelector-{{ forloop.index0 }}">
-                            <option value="" selected>Please Choose</option>
-                            {% for value in option.values %}
-                              <option value="{{ value | escape }}">{{ value }}</option>
-                            {% endfor %}
-                          </select>
-                        </div>
-                      {% endfor %}
-                    {% endunless %}
+                  
 
-                    {% comment %} <div class="product-item-caption-select product-select-block-{{ section.id }} {% if section.settings.show_variants_swatches and is_gift_set == false %} hidden {% endif %}">
+                    <div class="product-item-caption-select product-select-block-{{ section.id }} {% if section.settings.show_variants_swatches and is_gift_set == false %} hidden {% endif %}">
                       {% unless product.options.size == 1
                         and product.variants[0].title contains 'Default'
                         and product.variants.size == 1
@@ -331,7 +308,7 @@
                             >
                               {{ option.name }}
                             </label>
-                            <select
+                            {% comment %} <select
                               class="single-option-selector"
                               id="SingleOptionSelector-{{ forloop.index0 }}"
                               name="options[{{ option.name | escape }}]"
@@ -355,13 +332,9 @@
                                   {{ value }}
                                 </option>
                               {% endfor %}
-                            </select>
-                          </div>
-                        {% endfor %}
-                      {% endunless %} {% endcomment %}
-                    </div>
+                            </select> {% endcomment %}
 
-                    {% comment %}
+
                       <select name="id" id="ProductSelect-{{ product.id }}" data-section="{{ section.id }}" class="product-form__variants hidden">
                         {% for variant in product.variants %}
                         {% if variant.available %}
@@ -382,7 +355,14 @@
                         {% endif %}
                         {% endfor %}
                       </select>
-                    {% endcomment %}
+                    
+
+                          </div>
+                        {% endfor %}
+                      {% endunless %}
+                    </div>
+
+                    
                   </div>
                   {% if section.settings.show_variants_swatches and is_gift_set == false %}
                     {% unless product.options.size == 1
