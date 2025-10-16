@@ -307,7 +307,7 @@
 </div>
 
 
-                <select name="id" id="ProductSelect-{{ product.id }}" data-section="{{ section.id }}" class="product-form__variants hidden">
+                {% comment %} <select name="id" id="ProductSelect-{{ product.id }}" data-section="{{ section.id }}" class="product-form__variants hidden">
                   {% for variant in product.variants %}
                   {% if variant.available %}
                   <option {% if section.settings.show_product_quantity %}
@@ -326,7 +326,7 @@
                           {% endif %}  >{{ variant.title | escape }} - {{ 'products.product.sold_out' | t }}</option>
                   {% endif %}
                   {% endfor %}
-                </select>
+                </select> {% endcomment %}
 
               </div>
               {% if section.settings.show_variants_swatches and is_gift_set == false %}
