@@ -255,7 +255,7 @@
         initializeSelect2();
       }
     </script>
-    <script>
+    {% comment %} <script>
             document.addEventListener("DOMContentLoaded", function() {
           let savedCart = localStorage.getItem("cart");
 
@@ -273,7 +273,7 @@
                   localStorage.setItem("cart", JSON.stringify(data.items));
               });
       });
-    </script>
+    </script> {% endcomment %}
     {% include 'scroll-to-top' %}
   </body>
 </html>
