@@ -47,32 +47,31 @@
             "slide_content_bg": "rgba(0,0,0,0)"
           }
         },
-        "slider_zcQbAx": {
+        "slider_NiXrnj": {
           "type": "Slider",
-          "name": "Team Sweet or Spice",
+          "name": "Team Sweet or Team Spice",
           "settings": {
             "image": "shopify://shop_images/Team_Sweet_or_Spice_This_Diwali_Banner.png",
             "mobile_image": "shopify://shop_images/mobile_banner_team_sewet_team_spice.png",
-            "mobile_bg_clr": "rgba(0,0,0,0)",
-            "text_alignment": "text-end",
-            "content_position": "bottom-right",
-            "block_image": "shopify://shop_images/Team_Sweet_or_Spice_This_Diwali_Banner.png",
+            "mobile_bg_clr": "#ffffff",
+            "text_alignment": "text-start",
+            "content_position": "center-left",
             "show_image": false,
             "title_2": "",
-            "subheading_color": "#f8f4ea",
-            "subheading_size": "24",
+            "subheading_color": "#ee2d7a",
+            "subheading_size": "40",
             "title": "",
-            "heading_color": "#f6f4e8",
-            "heading_size": "12",
+            "heading_color": "#3c3b41",
+            "heading_size": "",
             "desc": "",
-            "desc_color": "#f6f4e8",
+            "desc_color": "#3c3b41",
             "desc_size": "",
             "button": "",
             "link": "shopify://pages/limited-edition-diwali-offers",
-            "btn_bg_color": "#004023",
-            "btn_txt_color": "#f3eee7",
-            "btn_hoverbg_color": "#e5e5f3",
-            "btn_hovertxt_color": "#004023",
+            "btn_bg_color": "#85321a",
+            "btn_txt_color": "#ffffff",
+            "btn_hoverbg_color": "#8b9e8a",
+            "btn_hovertxt_color": "#ffffff",
             "button_2": "",
             "link_2": "",
             "btn_bg_color_2": "",
@@ -82,7 +81,7 @@
             "slide_content_bg": "rgba(0,0,0,0)"
           }
         },
-        "slider_NiXrnj": {
+        "slider_ipcHfq": {
           "type": "Slider",
           "name": "Diwali Candle Offer",
           "settings": {
@@ -183,41 +182,6 @@
             "btn_txt_color_2": "#f3eee7",
             "btn_hoverbg_color_2": "#8b9e8a",
             "btn_hovertxt_color_2": "#3c3b41",
-            "slide_content_bg": "rgba(0,0,0,0)"
-          }
-        },
-        "slider_cxPapf": {
-          "type": "Slider",
-          "name": "Team Sweet or Spice",
-          "settings": {
-            "image": "shopify://shop_images/Team_Sweet_or_Spice_This_Diwali_Banner.png",
-            "mobile_image": "shopify://shop_images/mobile_banner_team_sewet_team_spice.png",
-            "mobile_bg_clr": "rgba(0,0,0,0)",
-            "text_alignment": "text-end",
-            "content_position": "bottom-right",
-            "block_image": "shopify://shop_images/Team_Sweet_or_Spice_This_Diwali_Banner.png",
-            "show_image": false,
-            "title_2": "",
-            "subheading_color": "#f8f4ea",
-            "subheading_size": "24",
-            "title": "",
-            "heading_color": "#f6f4e8",
-            "heading_size": "12",
-            "desc": "",
-            "desc_color": "#f6f4e8",
-            "desc_size": "",
-            "button": "",
-            "link": "shopify://pages/limited-edition-diwali-offers",
-            "btn_bg_color": "#004023",
-            "btn_txt_color": "#f3eee7",
-            "btn_hoverbg_color": "#e5e5f3",
-            "btn_hovertxt_color": "#004023",
-            "button_2": "",
-            "link_2": "",
-            "btn_bg_color_2": "",
-            "btn_txt_color_2": "",
-            "btn_hoverbg_color_2": "",
-            "btn_hovertxt_color_2": "",
             "slide_content_bg": "rgba(0,0,0,0)"
           }
         },
@@ -328,11 +292,10 @@
       },
       "block_order": [
         "slider_6NL7eJ",
-        "slider_zcQbAx",
         "slider_NiXrnj",
+        "slider_ipcHfq",
         "slider_wLmggE",
         "slider_TBPWLe",
-        "slider_cxPapf",
         "slider_AbFnA9",
         "slider_4Wignr",
         "slider_gGf3V9"
