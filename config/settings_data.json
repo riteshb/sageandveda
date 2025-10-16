@@ -110,7 +110,7 @@
     "blog_page_sidebar": "right-sidebar",
     "collection_sidebar_mobile": false,
     "product_sidebar_mobile": true,
-    "sidebar_title_bg": "rgba(0,0,0,0)",
+    "sidebar_title_bg": "#344323",
     "sidebar_title_border": "#ee2d7a",
     "cart_notes_enable": false,
     "ajax_cart_method": "drawer",
