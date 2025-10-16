@@ -4495,4 +4495,32 @@ sticky-header.dt-header-scroll {
   border: 1px solid #ccc;          /* optional subtle border */
   border-radius: 4px;
 }
+/* --- Iva3 mini-cart quantity input: force visible number --- */
+.dt-sc-cart-drawer .qty input,
+.dt-sc-cart-drawer input.cart-number,
+.dt-sc-mini-cart .qty input,
+.ajaxcart__qty input,
+.ajaxcart__qty-num,
+.ajaxcart .qty input,
+.cart-drawer .qty input,
+.cart-drawer input.cart-number,
+.mini-cart .qty input {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important; /* Safari */
+  text-shadow: none !important;
+  opacity: 1 !important;
+  background: #fff !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  border: 1px solid #ccc !important;
+  border-radius: 6px !important;
+}
+
+/* Some themes hide the value with text-indent/overflow */
+.dt-sc-cart-drawer .qty input,
+.ajaxcart__qty-num {
+  text-indent: 0 !important;
+  overflow: visible !important;
+}
 
