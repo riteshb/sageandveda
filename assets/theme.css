@@ -4475,3 +4475,11 @@ sticky-header.dt-header-scroll {
     background-color: transparent !important;
   }
 }
+/* Fix subtotal text color in Order Summary */
+.cart__footer .cart__subtotal,
+.cart__footer .cart-subtotal,
+.cart__subtotal-label,
+.totals__subtotal-label,
+.totals__subtotal-value {
+  color: #000 !important; /* black text */
+}
