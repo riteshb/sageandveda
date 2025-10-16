@@ -4495,32 +4495,37 @@ sticky-header.dt-header-scroll {
   border: 1px solid #ccc;          /* optional subtle border */
   border-radius: 4px;
 }
-/* --- Iva3 mini-cart quantity input: force visible number --- */
+/* --- Force visible quantity text & clean background inside mini-cart (Iva3) --- */
 .dt-sc-cart-drawer .qty input,
 .dt-sc-cart-drawer input.cart-number,
-.dt-sc-mini-cart .qty input,
 .ajaxcart__qty input,
-.ajaxcart__qty-num,
 .ajaxcart .qty input,
-.cart-drawer .qty input,
-.cart-drawer input.cart-number,
-.mini-cart .qty input {
-  color: #000 !important;
-  -webkit-text-fill-color: #000 !important; /* Safari */
-  text-shadow: none !important;
-  opacity: 1 !important;
-  background: #fff !important;
-  font-size: 16px !important;
-  font-weight: 600 !important;
+.mini-cart .qty input,
+.cart-drawer .qty input {
+  color: #000 !important;               /* text always black */
+  -webkit-text-fill-color: #000 !important;
+  background-color: #fff !important;    /* white background */
+  border: 1px solid #d8d8d8 !important; /* subtle border */
   text-align: center !important;
-  border: 1px solid #ccc !important;
-  border-radius: 6px !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+  width: 40px !important;
+  height: 32px !important;
+  border-radius: 4px !important;
 }
 
-/* Some themes hide the value with text-indent/overflow */
-.dt-sc-cart-drawer .qty input,
-.ajaxcart__qty-num {
-  text-indent: 0 !important;
-  overflow: visible !important;
+/* Make sure focus and active states stay visible */
+.dt-sc-cart-drawer .qty input:focus,
+.dt-sc-cart-drawer .qty input:active {
+  background-color: #fff !important;
+  color: #000 !important;
+  outline: 1px solid #a98979 !important; /* optional brand tone */
 }
+
+/* Hide any overlay color applied by the theme */
+.dt-sc-cart-drawer .qty input::placeholder {
+  color: transparent !important;
+}
+
 
