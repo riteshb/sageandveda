@@ -16,11 +16,12 @@
           "type": "Slider",
           "settings": {
             "image": "shopify://shop_images/team_sweet_spicy_no_text.png",
+            "mobile_image": "shopify://shop_images/mobile_banner_team_sewet_team_spice_b4a3acfe-6d83-4aa9-ae81-7d542f393808.png",
             "mobile_bg_clr": "rgba(0,0,0,0)",
             "text_alignment": "text-center",
             "content_position": "top-center",
             "show_image": false,
-            "title_2": "test",
+            "title_2": "",
             "subheading_color": "#f3eee7",
             "subheading_size": "24",
             "title": "Team Sweet or Team Spice This Diwali?",
