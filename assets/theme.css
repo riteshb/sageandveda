@@ -4527,5 +4527,35 @@ sticky-header.dt-header-scroll {
 .dt-sc-cart-drawer .qty input::placeholder {
   color: transparent !important;
 }
+/* Iva3 drawer cart: make quantity number visible */
+.dt-sc-cart-drawer .qty input,
+.dt-sc-cart-drawer input.cart-number,
+.dt-sc-cart-drawer .ajaxcart__qty-num {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important; /* Safari */
+  background: #fff !important;
+  text-align: center !important;
+  font-weight: 600 !important;
+  border: 1px solid #d8d8d8 !important;
+  border-radius: 6px !important;
+  width: 42px !important;
+  height: 34px !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+  text-indent: 0 !important;
+  box-shadow: none !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Some Iva3 builds overlay the number with a span — make that visible too */
+.dt-sc-cart-drawer .qty span,
+.dt-sc-cart-drawer .ajaxcart__qty-num span {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  opacity: 1 !important;
+}
+
+/* Remove any theme rule that hides the text */
+.dt-sc-cart-drawer .qty input::placeholder { color: transparent !important; }
 
 
