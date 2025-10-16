@@ -4481,4 +4481,18 @@ sticky-header.dt-header-scroll {
 .cart-summary .summary-total .money {
   color: #000 !important;  /* black subtotal text */
 }
+/* --- Fix quantity input visibility inside Ajax cart drawer --- */
+.ajaxcart__qty input,
+.ajax-cart__qty input,
+.cart-drawer input[type="number"],
+.cart-drawer input[type="text"],
+.cart__drawer input[type="number"],
+.cart__drawer input[type="text"] {
+  color: #000 !important;          /* make the number visible */
+  background-color: #fff !important; /* ensure white background */
+  text-align: center;
+  font-weight: 500;
+  border: 1px solid #ccc;          /* optional subtle border */
+  border-radius: 4px;
+}
 
