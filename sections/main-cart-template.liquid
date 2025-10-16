@@ -136,6 +136,20 @@
 
         </div>
         <div class="shipping-section">  
+          <style>
+  /* Force readable text in the Order Summary (Iva3) */
+  .order_summary,
+  .order_summary * {
+    color: #000 !important;
+  }
+  /* Optional: make the Subtotal label/value a bit clearer */
+  .order_summary .cart__subtotal-title,
+  .order_summary .cart__subtotal { 
+    color: #000 !important;
+    font-weight: 600;
+  }
+</style>
+
           <div class="order_summary">  
             <h4 class="cart_heading">{{ 'cart.general.order_summary' | t }}</h4>        
 
