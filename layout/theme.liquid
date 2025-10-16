@@ -291,5 +291,23 @@
       });
     </script>
     {% include 'scroll-to-top' %}
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('form[action="/cart/add"]').forEach(function(form){
+    form.addEventListener('submit', function(e){
+      // Allow if you ever explicitly set data-direct-checkout
+      if (form.dataset.directCheckout === 'true') return;
+
+      e.preventDefault();
+      fetch('/cart/add.js', { method:'POST', body:new FormData(form), headers:{Accept:'application/json'} })
+        .then(function(){
+          document.documentElement.classList.add('cart-drawer-open');
+        })
+        .catch(console.error);
+    });
+  });
+});
+</script>
+
   </body>
 </html>
