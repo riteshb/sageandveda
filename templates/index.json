@@ -87,7 +87,7 @@
           "settings": {
             "image": "shopify://shop_images/25_percent_candle_offer_banner.png",
             "mobile_image": "shopify://shop_images/Candle_30_percent_offer_banner_ece0d071-27c5-4d04-bf8b-8bae283b7cd6.png",
-            "mobile_bg_clr": "#ffffff",
+            "mobile_bg_clr": "rgba(0,0,0,0)",
             "text_alignment": "text-start",
             "content_position": "center-left",
             "show_image": false,
