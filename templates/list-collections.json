@@ -26,6 +26,29 @@
         "collection_tc8dLe": {
           "type": "collection",
           "settings": {
+            "collection": "limited-time-diwali-offer",
+            "block_button_text": "Shop Now",
+            "block_text_align": "text-center",
+            "content_position": "center",
+            "reverse_column": false,
+            "block_banner_bg": "",
+            "block_content_box_bg": "",
+            "block_heading_color": "",
+            "block_sub_heading_color": "",
+            "block_description_color": "",
+            "block_button_bg_color": "",
+            "block_button_text_color": "",
+            "block_button_hover_bg_color": "",
+            "block_button_hover_text_color": "",
+            "overlay_style": "use_overlay",
+            "overlay_color": "",
+            "overlay_opacity": "0.5",
+            "rotation_degree": "180"
+          }
+        },
+        "collection_g9n8RU": {
+          "type": "collection",
+          "settings": {
             "collection": "frontpage",
             "block_button_text": "Shop Now",
             "block_text_align": "text-center",
@@ -72,6 +95,7 @@
       },
       "block_order": [
         "collection_tc8dLe",
+        "collection_g9n8RU",
         "collection_LcNJpJ"
       ],
       "settings": {
