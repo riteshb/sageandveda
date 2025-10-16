@@ -167,7 +167,7 @@
 <script>
   jQuery(function($) {
     ajaxCart.init({
-      formSelector: '[data-product-form]',
+      formSelector: 'form[action^="/cart/add"]', // '[data-product-form]',
       cartContainer: '#CartContainer',
       addToCartSelector: '.dT_AddToCart',
       cartCountSelector: '.CartCount',
