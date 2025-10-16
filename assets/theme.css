@@ -4474,12 +4474,11 @@ sticky-header.dt-header-scroll {
     background: none !important;
     background-color: transparent !important;
   }
+/* --- Fix subtotal color in Order Summary (Iva3 theme) --- */
+.cart-summary .summary-total,
+.cart-summary .summary-total span,
+.cart-summary .summary-total strong,
+.cart-summary .summary-total .money {
+  color: #000 !important;  /* black subtotal text */
 }
-/* Fix subtotal text color in Order Summary */
-.cart__footer .cart__subtotal,
-.cart__footer .cart-subtotal,
-.cart__subtotal-label,
-.totals__subtotal-label,
-.totals__subtotal-value {
-  color: #000 !important; /* black text */
-}
+
