@@ -54,8 +54,8 @@
             "text_alignment": "text-center",
             "content_position": "top-center",
             "show_image": false,
-            "title_2": "This Diwali",
-            "subheading_color": "#f3eee7",
+            "title_2": "",
+            "subheading_color": "rgba(0,0,0,0)",
             "subheading_size": "20",
             "title": "Rituals of Radiance",
             "heading_color": "#f3eee7",
@@ -78,7 +78,7 @@
             "slide_content_bg": ""
           }
         },
-        "slider_pfF7Qe": {
+        "slider_yxK4fV": {
           "type": "Slider",
           "settings": {
             "image": "shopify://shop_images/team_sweet_spicy_no_text.png",
@@ -89,13 +89,13 @@
             "show_image": false,
             "title_2": "This Diwali",
             "subheading_color": "#f3eee7",
-            "subheading_size": "20",
-            "title": "Team Sweet or Team Spice?",
+            "subheading_size": "32",
+            "title": "Are You Team Sweet or Team Spice?",
             "heading_color": "#f3eee7",
-            "heading_size": "54",
-            "desc": "This Diwali. Two boxes. Two moods. One big glow vibe.",
+            "heading_size": "48",
+            "desc": "Two boxes. Two moods. One big glow vibe.",
             "desc_color": "#ffffff",
-            "desc_size": "24",
+            "desc_size": "21",
             "button": "Buy Team Sweet",
             "link": "shopify://products/team-sweet-gift-set",
             "btn_bg_color": "#b2937e",
@@ -120,8 +120,8 @@
             "text_alignment": "text-center",
             "content_position": "top-center",
             "show_image": false,
-            "title_2": "This Diwali",
-            "subheading_color": "#f3eee7",
+            "title_2": "",
+            "subheading_color": "rgba(0,0,0,0)",
             "subheading_size": "20",
             "title": "Rituals of Radiance",
             "heading_color": "#f3eee7",
@@ -148,7 +148,7 @@
       "block_order": [
         "slider_dF8xRN",
         "slider_7cxJ4A",
-        "slider_pfF7Qe",
+        "slider_yxK4fV",
         "slider_gNJijY"
       ],
       "name": "Slider",
