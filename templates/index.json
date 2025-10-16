@@ -339,7 +339,7 @@
         "@media (max-width: 767px) {.home-slideshow-section .dt-sc-swiper-slider .swiper-wrapper .slider-content {padding: 0px 15px 15px 15px; margin-top: -80px; }}",
         ".home-slideshow-section .slide-heading {font-size: 45px; font-weight: bold; margin-bottom: 7px !important; font-family: \"Americana\";}",
         "a.slide-button.dt-sc-btn {padding: 10px 35px 13px !important; font-size: 15px !important;}",
-        "a.slide-button.dt-sc-btn:hover {background-color: #85321a !important ;}"
+        "a.slide-button.dt-sc-btn:hover {background-color: transparent;}"
       ],
       "settings": {
         "full": true,
