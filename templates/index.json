@@ -9,51 +9,51 @@
  */
 {
   "sections": {
-    "slideshow_BgqGdw": {
+    "slideshow_VBq79B": {
       "type": "slideshow",
       "blocks": {
-        "slider_3PaBRa": {
+        "slider_dF8xRN": {
           "type": "Slider",
           "settings": {
             "image": "shopify://shop_images/team_sweet_spicy_no_text.png",
             "mobile_image": "shopify://shop_images/mobile_banner_team_sewet_team_spice_b4a3acfe-6d83-4aa9-ae81-7d542f393808.png",
-            "mobile_bg_clr": "rgba(0,0,0,0)",
+            "mobile_bg_clr": "",
             "text_alignment": "text-center",
             "content_position": "top-center",
             "show_image": false,
-            "title_2": "",
-            "subheading_color": "#344323",
-            "subheading_size": "24",
-            "title": "Team Sweet or Team Spice This Diwali?",
-            "heading_color": "#344323",
-            "heading_size": "16",
-            "desc": "Two boxes. Two moods. One big glow vibe.",
-            "desc_color": "#344323",
-            "desc_size": "18",
-            "button": "Gift Team Sweet",
+            "title_2": "This Diwali",
+            "subheading_color": "#f3eee7",
+            "subheading_size": "20",
+            "title": "Team Sweet or Team Spice?",
+            "heading_color": "#f3eee7",
+            "heading_size": "54",
+            "desc": "This Diwali. Two boxes. Two moods. One big glow vibe.",
+            "desc_color": "#ffffff",
+            "desc_size": "24",
+            "button": "Buy Team Sweet",
             "link": "shopify://products/team-sweet-gift-set",
             "btn_bg_color": "#b2937e",
-            "btn_txt_color": "#fffdfb",
-            "btn_hoverbg_color": "#9f6000",
-            "btn_hovertxt_color": "#fffdfb",
-            "button_2": "Gift Team Spice",
+            "btn_txt_color": "#ffffff",
+            "btn_hoverbg_color": "",
+            "btn_hovertxt_color": "",
+            "button_2": "Buy Team Spice",
             "link_2": "shopify://products/team-spice-gift-set-diwali-limited-edition",
-            "btn_bg_color_2": "#9f6000",
-            "btn_txt_color_2": "#fffdfb",
+            "btn_bg_color_2": "#946f5e",
+            "btn_txt_color_2": "#ffffff",
             "btn_hoverbg_color_2": "",
             "btn_hovertxt_color_2": "",
-            "slide_content_bg": "#f3eee7"
+            "slide_content_bg": ""
           }
         }
       },
       "block_order": [
-        "slider_3PaBRa"
+        "slider_dF8xRN"
       ],
       "name": "Slider",
       "settings": {
         "full": true,
         "spacing_both_ends": false,
-        "margin": "60,40",
+        "margin": "0,0",
         "slider_height": 850,
         "slider_height_lap": 700,
         "slider_height_tab": 600,
@@ -62,7 +62,7 @@
         "enable_box_shadow": false,
         "border_radius": "0",
         "content_border_radius": "0",
-        "autoplay": false,
+        "autoplay": true,
         "slideshow_speed": "5000",
         "dots": true,
         "carousel_pagination_alignment": "center_pagination",
@@ -70,8 +70,8 @@
         "arrows": true,
         "nav_arrow_position": "navigation-bottom-center",
         "center_nav_arrow_alignment": "inside_container",
-        "navigation_button_color": "#9f6000",
-        "navigation_button_icon_color": "#344323",
+        "navigation_button_color": "",
+        "navigation_button_icon_color": "",
         "navigation_button_hover_color": "",
         "navigation_button_hover_icon_color": "",
         "navigation_dot_color": "",
@@ -1779,7 +1779,7 @@
     }
   },
   "order": [
-    "slideshow_BgqGdw",
+    "slideshow_VBq79B",
     "16287681011da5dc71",
     "home_custom_section_tXxf9z",
     "16287481215d3f5554",
