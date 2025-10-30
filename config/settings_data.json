@@ -1305,6 +1305,7 @@
           },
           "092ecb58-c7b7-4f0d-92b0-1a614b5b80fc": {
             "type": "content",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/founders.jpg",
               "font_icon": "",
@@ -1599,7 +1600,7 @@
       "inner-page-header": {
         "type": "inner-page-header",
         "custom_css": [
-          ".dt-sc-section-wrapper {padding-left: 5% !important; padding-right: 50% !important; min-height:450px;}",
+          ".dt-sc-section-wrapper {padding-left: 5% !important; padding-right: 50% !important; min-height: 450px;}",
           ".dt-sc-heading .dt-sc-main-heading {font-size: 30px; color: #ffffff !important;}",
           ".dt-sc-heading-description {font-size: 20px; color: #ffffff !important; line-height: 1.5;}",
           "@media (max-width: 767px) {.dt-sc-section-wrapper {padding: 20% 5% 10% 5% !important; }}"
@@ -1616,7 +1617,7 @@
           "enable_overlay": false,
           "background_color": "",
           "overlay_transparency": "1",
-          "section_heading": "MISSION",
+          "section_heading": "OUR MISSION",
           "section_sub_heading": "",
           "section_description": "We transform everyday rituals into moments of luxury through thoughtfully crafted, heritage-inspired formulations.",
           "section_button_text": "",

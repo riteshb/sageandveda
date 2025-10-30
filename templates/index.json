@@ -306,6 +306,7 @@
       "block_order": [
         "banner_LgbJcB"
       ],
+      "disabled": true,
       "custom_css": [
         ".products .product-detail .grid-link__meta .product_price > span {font-size: 20px; color: #000; margin-left: 0px;}",
         ".products .product-detail .grid-link__title a {color: #000000;}",
