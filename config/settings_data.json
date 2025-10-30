@@ -1264,6 +1264,7 @@
         "blocks": {
           "f672b65a-10bf-44a7-b408-14e79abbdee6": {
             "type": "content",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/aboutus.jpg",
               "font_icon": "",
