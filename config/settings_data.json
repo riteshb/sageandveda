@@ -1275,12 +1275,11 @@
           },
           "content_XtFqHG": {
             "type": "content",
-            "disabled": true,
             "settings": {
-              "image": "shopify://shop_images/Our_Mission_option_3.jpg",
+              "image": "shopify://shop_images/glass_amrit_5c5e3b9d-1301-4066-afd5-cdaf159f324e.png",
               "font_icon": "",
-              "title": "OUR ETHOS",
-              "text": "<strong> Where Heritage Meets Modern Luxury</strong><br><br>\nBy combining time-honored traditions with modern innovation, our products transform daily routines into spa-like moments of indulgence, while honoring our commitment to the planet.",
+              "title": "Where Heritage Meets Modern Luxury",
+              "text": "By combining time-honored traditions with modern innovation, our products transform daily routines into spa-like moments of indulgence, while honoring our commitment to the planet.",
               "reverse_column": false
             }
           },
@@ -1308,12 +1307,11 @@
           },
           "092ecb58-c7b7-4f0d-92b0-1a614b5b80fc": {
             "type": "content",
-            "disabled": true,
             "settings": {
-              "image": "shopify://shop_images/founders.jpg",
+              "image": "shopify://shop_images/About-us_four_cofounders.png",
               "font_icon": "",
               "title": "FOUNDER STORY",
-              "text": "Our story begins with the gentle wisdom and unwavering spirit of Shaku, our beloved grandmother, the Sage in our life. Her deep connection to nature and the ancient practices of Ayurveda instilled in us the importance of mindful rituals and holistic well-being. Through her, we learned to cherish life's subtle luxuries - those quiet moments of beauty we often overlook, yet hold the power to transform our daily existence.\n<br><br>\nToday, we are the living bridge that honors Shaku's legacy while forging new paths of modern luxury. Drawing inspiration from the luscious herbs and botanicals thriving on our family farm nestled in the Koyna river hills, we craft formulations that blend timeless wisdom with contemporary innovation.\n<br><br>\nOur vision was clear from the beginning - to create premium experiences that never compromise between luxury and consciousness. Each product is thoughtfully designed to engage the senses and transform daily routines into moments of pure indulgence, from dawn till dusk. For us, conscious luxury. isn't merely an ideal—it's the foundation of everything we create, a principle that guides every decision, every ingredient, and every ritual we share with you.<br><br>\nWith love and gratitude,<br>\nDr Arundhati, Dhana, and Amarja<br>\nCo-founders, Sage & Veda",
+              "text": "Our story begins with the gentle wisdom and unwavering spirit of Shaku, our beloved grandmother, the Sage in our life. Her deep connection to nature and the ancient practices of Ayurveda instilled in us the importance of mindful rituals and holistic well-being. Through her, we learned to cherish life's subtle luxuries - those quiet moments of beauty we often overlook, yet hold the power to transform our daily existence.\n<br><br>\nToday, we are the living bridge that honors Shaku's legacy while forging new paths of modern luxury. Drawing inspiration from the luscious herbs and botanicals thriving on our family farm nestled in the Koyna river hills, we craft formulations that blend timeless wisdom with contemporary innovation.\n<br><br>\nOur vision was clear from the beginning - to create premium experiences that never compromise between luxury and consciousness. Each product is thoughtfully designed to engage the senses and transform daily routines into moments of pure indulgence, from dawn till dusk. For us, conscious luxury. isn't merely an ideal—it's the foundation of everything we create, a principle that guides every decision, every ingredient, and every ritual we share with you.<br><br>\nWith love and gratitude,<br>\nDr Arundhati, Keya, Dhana, and Amarja<br>\nCo-founders, Sage & Veda",
               "reverse_column": true
             }
           },
@@ -1495,56 +1493,12 @@
       "inner-page-team-section": {
         "type": "inner-page-team-section",
         "blocks": {
-          "content_6K7kpH": {
-            "type": "content",
-            "settings": {
-              "name": "Name",
-              "designation": "Customer support",
-              "facebook": "#",
-              "twitter": "#",
-              "pinterest": "#",
-              "youtube": "#"
-            }
-          },
-          "5ad1ccde-926a-4254-96df-940caa2742cb": {
-            "type": "content",
-            "settings": {
-              "name": "Shad Hews",
-              "designation": "Supporter",
-              "facebook": "#",
-              "twitter": "#",
-              "pinterest": "#",
-              "youtube": "#"
-            }
-          },
-          "a6ef35b5-b4c3-4d5d-a4f3-96a4a6779168": {
-            "type": "content",
-            "settings": {
-              "name": "Caroline",
-              "designation": "Designer",
-              "facebook": "#",
-              "twitter": "#",
-              "pinterest": "#",
-              "youtube": "#"
-            }
-          },
           "e6a8a992-1e61-4790-aa5e-6ff05d5bb35e": {
-            "type": "content",
-            "settings": {
-              "name": "Reva Quail",
-              "designation": "Quality Tester",
-              "facebook": "#",
-              "twitter": "#",
-              "pinterest": "#",
-              "youtube": "#"
-            }
-          },
-          "a8e037ff-179b-4bcb-9bdc-6d44cc8f2134": {
             "type": "content",
             "disabled": true,
             "settings": {
-              "name": "Julie Liam",
-              "designation": "CEO",
+              "name": "",
+              "designation": "",
               "facebook": "#",
               "twitter": "#",
               "pinterest": "#",
@@ -1553,11 +1507,7 @@
           }
         },
         "block_order": [
-          "content_6K7kpH",
-          "5ad1ccde-926a-4254-96df-940caa2742cb",
-          "a6ef35b5-b4c3-4d5d-a4f3-96a4a6779168",
-          "e6a8a992-1e61-4790-aa5e-6ff05d5bb35e",
-          "a8e037ff-179b-4bcb-9bdc-6d44cc8f2134"
+          "e6a8a992-1e61-4790-aa5e-6ff05d5bb35e"
         ],
         "settings": {
           "enable": false,
@@ -1570,8 +1520,8 @@
           "enable_overlay": false,
           "background_color": "",
           "overlay_transparency": "0.5",
-          "section_heading": "Our Team",
-          "section_sub_heading": "",
+          "section_heading": "Sasd/fn sjfberifc djkf vcdfjv;dfknv",
+          "section_sub_heading": "dfvc/ajfvn fdakjbvadkfjv kzjdfvb dzfnmv z/kdjf v",
           "section_description": "",
           "section_button_text": "",
           "section_button_link": "",
@@ -1583,7 +1533,7 @@
           "section_button_hover_bg_color": "",
           "section_button_hover_text_color": "",
           "heading_position": "text-center",
-          "column": "three-column",
+          "column": "one-column",
           "block_heading_color": "",
           "block_designation_color": "#848484",
           "block_bg": "#fdefe1",
