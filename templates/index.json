@@ -14,6 +14,7 @@
       "blocks": {
         "slider_dF8xRN": {
           "type": "Slider",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/team_sweet_spicy_no_text.png",
             "mobile_image": "shopify://shop_images/mobile_banner_team_sewet_team_spice_b4a3acfe-6d83-4aa9-ae81-7d542f393808.png",
@@ -37,6 +38,39 @@
             "btn_hoverbg_color": "",
             "btn_hovertxt_color": "",
             "button_2": "Buy Team Spice",
+            "link_2": "shopify://products/team-spice-gift-set-diwali-limited-edition",
+            "btn_bg_color_2": "#946f5e",
+            "btn_txt_color_2": "#ffffff",
+            "btn_hoverbg_color_2": "",
+            "btn_hovertxt_color_2": "",
+            "slide_content_bg": ""
+          }
+        },
+        "slider_t6PdBG": {
+          "type": "Slider",
+          "settings": {
+            "image": "shopify://shop_images/Website_Banner_Amrit_Nov_2025.png",
+            "mobile_image": "shopify://shop_images/Amrit__mobile_banners_nov_2025.png",
+            "mobile_bg_clr": "",
+            "text_alignment": "text-start",
+            "content_position": "top-center",
+            "show_image": false,
+            "title_2": "Nourish. Soothe. Glow",
+            "subheading_color": "#f3eee7",
+            "subheading_size": "32",
+            "title": "Awaken Tired Skin",
+            "heading_color": "#8b9e8a",
+            "heading_size": "48",
+            "desc": "Powered by 11 nutrient-rich oils and 8 actives \nthat revive dull skin\nand shield it from daily stressors.",
+            "desc_color": "#ffffff",
+            "desc_size": "21",
+            "button": "Go Bigger, Glow Longer",
+            "link": "shopify://products/amrit",
+            "btn_bg_color": "#b2937e",
+            "btn_txt_color": "#ffffff",
+            "btn_hoverbg_color": "",
+            "btn_hovertxt_color": "",
+            "button_2": "Buy 30ml",
             "link_2": "shopify://products/team-spice-gift-set-diwali-limited-edition",
             "btn_bg_color_2": "#946f5e",
             "btn_txt_color_2": "#ffffff",
@@ -78,8 +112,42 @@
             "slide_content_bg": ""
           }
         },
+        "slider_FFhaNj": {
+          "type": "Slider",
+          "settings": {
+            "image": "shopify://shop_images/Website_Banner_Amrit_Nov_2025.png",
+            "mobile_image": "shopify://shop_images/Amrit__mobile_banners_nov_2025.png",
+            "mobile_bg_clr": "",
+            "text_alignment": "text-start",
+            "content_position": "top-center",
+            "show_image": false,
+            "title_2": "Nourish. Soothe. Glow",
+            "subheading_color": "#f3eee7",
+            "subheading_size": "32",
+            "title": "Awaken Tired Skin",
+            "heading_color": "#8b9e8a",
+            "heading_size": "48",
+            "desc": "Powered by 11 nutrient-rich oils and 8 actives \nthat revive dull skin\nand shield it from daily stressors.",
+            "desc_color": "#ffffff",
+            "desc_size": "21",
+            "button": "Go Bigger, Glow Longer",
+            "link": "shopify://products/amrit",
+            "btn_bg_color": "#b2937e",
+            "btn_txt_color": "#ffffff",
+            "btn_hoverbg_color": "",
+            "btn_hovertxt_color": "",
+            "button_2": "Buy 30ml",
+            "link_2": "shopify://products/team-spice-gift-set-diwali-limited-edition",
+            "btn_bg_color_2": "#946f5e",
+            "btn_txt_color_2": "#ffffff",
+            "btn_hoverbg_color_2": "",
+            "btn_hovertxt_color_2": "",
+            "slide_content_bg": ""
+          }
+        },
         "slider_yxK4fV": {
           "type": "Slider",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/team_sweet_spicy_no_text.png",
             "mobile_image": "shopify://shop_images/mobile_banner_team_sewet_team_spice_b4a3acfe-6d83-4aa9-ae81-7d542f393808.png",
@@ -147,7 +215,9 @@
       },
       "block_order": [
         "slider_dF8xRN",
+        "slider_t6PdBG",
         "slider_7cxJ4A",
+        "slider_FFhaNj",
         "slider_yxK4fV",
         "slider_gNJijY"
       ],
