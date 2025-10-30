@@ -1264,7 +1264,6 @@
         "blocks": {
           "f672b65a-10bf-44a7-b408-14e79abbdee6": {
             "type": "content",
-            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/aboutus.jpg",
               "font_icon": "",
@@ -1275,6 +1274,7 @@
           },
           "content_XtFqHG": {
             "type": "content",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Our_Mission_option_3.jpg",
               "font_icon": "",
@@ -1285,6 +1285,7 @@
           },
           "content_JrjqeT": {
             "type": "content",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/Sustainability_1.jpg",
               "font_icon": "",
@@ -1295,6 +1296,7 @@
           },
           "532384c2-a96d-4a56-96f6-3673233e0b89": {
             "type": "content",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/sageveda.png",
               "font_icon": "",
@@ -1611,7 +1613,7 @@
           "spacing_both_ends": true,
           "padding": "150,150",
           "margin": "0,0",
-          "background_image": "shopify://shop_images/About_US_Mission_Banner.png",
+          "background_image": "shopify://shop_images/Maati_sari_about_us_banner.png",
           "show_background_image": true,
           "background_style": "default",
           "enable_overlay": false,
