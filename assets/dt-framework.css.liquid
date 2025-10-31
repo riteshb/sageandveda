@@ -646,7 +646,7 @@ form[class*=shopify-product] .dt-sc-qty .product-label { margin: 0; }
 .product-item-caption-qty button:hover { background-color: var(--DTPrimaryColor); border-color: var(--DTPrimaryColor);}
 .product-item-caption-qty button[data-type="minus"]{border-radius: var(--DTRadius) 0 0 var(--DTRadius);}
 .product-item-caption-qty button[data-type="plus"]{border-radius:0 var(--DTRadius) var(--DTRadius) 0;}
-.product-item-caption-qty input.input-number{ height: 30px; padding: 0; max-width:40px; border-width: 1px 0; text-align:center; padding-left:0; padding-right:0;  border-radius:0; border-color: var(--DTColor_Border);}
+.product-item-caption-qty input.input-number{ height: 30px; padding: 0; max-width:40px; border-width: 1px 0; text-align:center; padding-left:0; padding-right:0;  border-radius:0; border-color: var(--DTColor_Border); color: var(--DTColor_Body) !important;}
 .product-price li[id^=ComparePrice-] span.money {
     color: var(--DTColor_Body);
 }
@@ -657,6 +657,10 @@ form[class*=shopify-product] .dt-sc-qty .product-label { margin: 0; }
 .product_payments_btns button, .product-form__item--submit button{ margin:0; } 
 
 body .drawer .ajaxcart__product .product-item-caption-qty button{line-height:28px;}
+.drawer .ajaxcart__qty-num,
+.drawer .ajaxcart__qty input,
+.drawer .product-item-caption-qty input.input-number,
+.drawer input[name="updates[]"]{ color: var(--DTColor_Body) !important; -webkit-text-fill-color: var(--DTColor_Body) !important;}
 
 .dt-sc-btn[aria-label="Add to wishlist"]{display: inline-flex; margin: 0;}
 .product-description-product-template .dt-sc-btn[aria-label="Add to wishlist"] svg{ display:none;}
