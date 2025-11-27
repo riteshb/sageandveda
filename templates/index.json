@@ -51,7 +51,7 @@
           "settings": {
             "image": "shopify://shop_images/Website_Banner_Amrit_Nov_2025.png",
             "mobile_image": "shopify://shop_images/Amrit__mobile_banners_nov_2025.png",
-            "mobile_bg_clr": "",
+            "mobile_bg_clr": "#f3eee7",
             "text_alignment": "text-start",
             "content_position": "center-left",
             "show_image": false,
