@@ -234,8 +234,8 @@
 
                       {%- when 'price' -%}
                         <!-- Hidden price element for button functionality -->
-                        <div style="display: none;">
-                          <span id="ProductPrice-{{ section.id }}" class="money">
+                        <div id="ProductPrice-{{ section.id }}" style="display: none;">
+                          <span class="money">
                             {{- current_variant.price | money -}}
                           </span>
                         </div>
@@ -598,6 +598,56 @@
 
       const variantDropdowns = document.querySelectorAll('.carousel-variant-selector[data-product-id="' + productId + '"] .custom-variant-dropdown');
 
+      // Function to update button price - make it accessible globally
+      window.updateProductButtonPrice = function() {
+        const addToCartText = document.querySelector('.dT_AddToCartText-{{ section.id }}');
+        const priceElement = document.querySelector('#ProductPrice-{{ section.id }} .money') || 
+                            document.querySelector('#ProductPrice-{{ section.id }}') ||
+                            document.querySelector('[id*="ProductPrice"] .money') ||
+                            document.querySelector('.money');
+        const quantityInput = document.querySelector('#Quantity-{{ section.id }}');
+
+        if (addToCartText && priceElement) {
+          const basePrice = priceElement.textContent.trim();
+          const baseText = '{{ 'products.product.add_to_cart' | t }}';
+
+          // Get quantity (default to 1 if not found)
+          let quantity = 1;
+          if (quantityInput && quantityInput.value) {
+            quantity = parseInt(quantityInput.value) || 1;
+          }
+
+          // Calculate total price
+          let totalPrice;
+          if (quantity > 1) {
+            // Extract numeric value from price (remove currency symbol and formatting)
+            const priceMatch = basePrice.match(/[\d,]+\.?\d*/);
+            if (priceMatch) {
+              const numericPrice = parseFloat(priceMatch[0].replace(/,/g, ''));
+              const total = numericPrice * quantity;
+
+              // Format the total price
+              if (total % 1 === 0) {
+                totalPrice = basePrice.replace(/[\d,]+\.?\d*/, total.toString());
+              } else {
+                totalPrice = basePrice.replace(/[\d,]+\.?\d*/, total.toFixed(2));
+              }
+            } else {
+              totalPrice = basePrice;
+            }
+          } else {
+            totalPrice = basePrice;
+          }
+
+          // Update button text with quantity and total price
+          if (quantity > 1) {
+            addToCartText.textContent = baseText + ' - ' + quantity + ' × ' + basePrice + ' = ' + totalPrice;
+          } else {
+            addToCartText.textContent = baseText + ' - ' + totalPrice;
+          }
+        }
+      };
+
       if (variantDropdowns.length > 0) {
         // Initialize variant selection - mark first option as selected
         variantDropdowns.forEach(function(dropdown) {
@@ -644,7 +694,86 @@
               // Update the corresponding single-option-selector
               const optionIndex = dropdown.getAttribute('data-index').replace('option', '') - 1;
               const optionValue = option.getAttribute('data-value');
+              
+              // Find the matching variant from the product JSON
+              const selectedOptions = [];
+              const allDropdowns = document.querySelectorAll('.carousel-variant-selector[data-product-id="' + productId + '"] .custom-variant-dropdown');
+              allDropdowns.forEach(function(dd) {
+                const selected = dd.querySelector('.variant-option.selected');
+                if (selected) {
+                  selectedOptions.push(selected.getAttribute('data-value'));
+                } else {
+                  // Use the one we just selected
+                  if (dd === dropdown) {
+                    selectedOptions.push(optionValue);
+                  } else {
+                    // Get first option as fallback
+                    const first = dd.querySelector('.variant-option');
+                    if (first) {
+                      selectedOptions.push(first.getAttribute('data-value'));
+                    }
+                  }
+                }
+              });
+              
+              // Find matching variant
+              const selectedVariant = product.variants.find(function(variant) {
+                return variant.options.every(function(option, idx) {
+                  return option === selectedOptions[idx];
+                });
+              });
+              
+              if (selectedVariant) {
+                // Format the price using Shopify's formatMoney
+                const formattedPrice = typeof Shopify !== 'undefined' && Shopify.formatMoney 
+                  ? Shopify.formatMoney(selectedVariant.price, theme.moneyFormat || '{{ shop.money_format }}')
+                  : '$' + (selectedVariant.price / 100).toFixed(2);
+                
+                // Update the DOM price element FIRST so other code reads the correct value
+                const priceElement = document.querySelector('#ProductPrice-{{ section.id }} span.money') || 
+                                    document.querySelector('#ProductPrice-{{ section.id }}') ||
+                                    document.querySelector('[id*="ProductPrice"] span.money') ||
+                                    document.querySelector('[id*="ProductPrice"]');
+                
+                if (priceElement) {
+                  // Update the price element in DOM
+                  if (priceElement.tagName === 'SPAN') {
+                    priceElement.textContent = formattedPrice;
+                  } else {
+                    const span = priceElement.querySelector('span.money') || priceElement.querySelector('span');
+                    if (span) {
+                      span.textContent = formattedPrice;
+                    } else {
+                      priceElement.textContent = formattedPrice;
+                    }
+                  }
+                }
+                
+                // Update button price directly with variant price
+                const addToCartText = document.querySelector('.dT_AddToCartText-{{ section.id }}');
+                if (addToCartText) {
+                  const baseText = '{{ 'products.product.add_to_cart' | t }}';
+                  addToCartText.textContent = baseText + ' - ' + formattedPrice;
+                  // Store the manually set price to prevent overwriting
+                  window['lastManualPrice_{{ section.id }}'] = formattedPrice;
+                }
+              }
+              
+              // Trigger the variant change (this will update the ProductSelect and price element via variant system)
               $(".main-product-select-" + productId + " .single-option-selector").eq(optionIndex).val(optionValue).trigger('change');
+              
+              // Ensure ProductSelect is updated after variant system runs (as backup)
+              if (selectedVariant) {
+                setTimeout(function() {
+                  const productSelect = document.querySelector('#ProductSelect-' + productId);
+                  if (productSelect && productSelect.value != selectedVariant.id) {
+                    productSelect.value = selectedVariant.id;
+                  }
+                }, 100);
+              }
+              
+              // Don't set up timeouts that will overwrite our correct price
+              // The variant system will update the DOM, but we've already set it correctly
             });
           });
         });
@@ -705,51 +834,46 @@
   <script>
     // Product Image Accordion Functionality
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('Accordion script loaded');
-
       // Since accordion header was removed, directly set up the image grid
       const imageGrid = document.querySelector('.accordion-content .image-grid');
       if (imageGrid) {
-        console.log('Image grid found, setting smart scrolling');
         // Set a reasonable max height that allows scrolling but doesn't break layout
         imageGrid.style.maxHeight = '600px';
         imageGrid.style.overflowY = 'auto';
         imageGrid.style.overflowX = 'hidden';
-
-        // Check if scrolling is needed
-        const shouldScroll = imageGrid.scrollHeight > imageGrid.clientHeight;
-        console.log('Should scroll:', shouldScroll, 'Scroll height:', imageGrid.scrollHeight, 'Client height:', imageGrid.clientHeight);
       }
 
-      // Accordion is always open, no click functionality needed
-      console.log('Accordion setup complete');
-
+      // Track last manually set price to prevent overwriting (in outer scope)
+      window['lastManualPrice_{{ section.id }}'] = null;
+      
       // Function to update Add to Cart button text with price
       function updateButtonWithPrice() {
         const addToCartText = document.querySelector('.dT_AddToCartText-{{ section.id }}');
-        const priceElement = document.querySelector('#ProductPrice-{{ section.id }} .money');
+        // The price element structure: <div id="ProductPrice-{id}"><span class="money">...</span></div>
+        const priceElement = document.querySelector('#ProductPrice-{{ section.id }} span.money') ||
+                            document.querySelector('#ProductPrice-{{ section.id }}') ||
+                            document.querySelector('[id*="ProductPrice"] span.money') ||
+                            document.querySelector('[id*="ProductPrice"]');
         const quantityInput = document.querySelector('#Quantity-{{ section.id }}');
 
-        console.log('Debug - addToCartText:', addToCartText);
-        console.log('Debug - priceElement:', priceElement);
-        console.log('Debug - quantityInput:', quantityInput);
-
-        // Debug: Let's see what price elements exist in the DOM
-        const allPriceElements = document.querySelectorAll('[id*="ProductPrice"]');
-        console.log('Debug - All ProductPrice elements found:', allPriceElements);
-
-        // Try alternative selectors
-        const alternativePriceElement = document.querySelector('#ProductPrice-{{ section.id }}') ||
-                                       document.querySelector('[id*="ProductPrice"] .money') ||
-                                       document.querySelector('.money');
-        console.log('Debug - Alternative price element:', alternativePriceElement);
-
-        if (addToCartText && alternativePriceElement) {
-          const basePrice = alternativePriceElement.textContent;
+        if (addToCartText && priceElement) {
+          // Get the text content - handle both direct text and nested spans
+          let basePrice = priceElement.textContent || priceElement.innerText || priceElement.innerHTML;
+          // Clean up the price text
+          basePrice = basePrice.trim();
+          
+          // Check if this price was manually set and hasn't changed in DOM yet
+          // If so, don't overwrite it
+          const lastManual = window['lastManualPrice_{{ section.id }}'];
+          if (lastManual && addToCartText.textContent.includes(lastManual)) {
+            // Clear the flag after a delay so future updates can work
+            setTimeout(function() {
+              window['lastManualPrice_{{ section.id }}'] = null;
+            }, 1000);
+            return;
+          }
+          
           const baseText = '{{ 'products.product.add_to_cart' | t }}';
-
-          console.log('Debug - basePrice:', basePrice);
-          console.log('Debug - baseText:', baseText);
 
           // Get quantity (default to 1 if not found)
           let quantity = 1;
@@ -785,50 +909,105 @@
           } else {
             addToCartText.textContent = baseText + ' - ' + totalPrice;
           }
-
-          console.log('Debug - Button text updated to:', addToCartText.textContent);
-        } else {
-          console.log('Debug - Missing elements:', { addToCartText: !!addToCartText, priceElement: !!alternativePriceElement });
         }
       }
+      
+      // Make function globally accessible (sanitize section ID for JavaScript)
+      const sectionIdSafe = '{{ section.id }}'.replace(/[^a-zA-Z0-9]/g, '_');
+      window['updateButtonWithPrice_' + sectionIdSafe] = updateButtonWithPrice;
+      
+      // Helper function to call update (defined early so it can be used everywhere)
+      const callUpdateButtonPrice = function() {
+        const updateFn = window['updateButtonWithPrice_' + sectionIdSafe];
+        if (updateFn && typeof updateFn === 'function') {
+          updateFn();
+        } else if (typeof updateButtonWithPrice === 'function') {
+          updateButtonWithPrice();
+        }
+      };
 
       // Update button text on page load
       updateButtonWithPrice();
 
+      // Hook into the variant callback system directly using jQuery
+      // Watch for when the price element's HTML is updated
+      if (typeof jQuery !== 'undefined') {
+        jQuery(document).ready(function($) {
+          const priceSelector = '#ProductPrice-{{ section.id }} span.money';
+          const priceElement = $(priceSelector);
+          
+          if (priceElement.length && priceElement[0]) {
+            // Watch for DOM changes using MutationObserver
+            const priceObserver = new MutationObserver(function(mutations) {
+              mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList' || mutation.type === 'characterData') {
+                  callUpdateButtonPrice();
+                }
+              });
+            });
+            
+            priceObserver.observe(priceElement[0], {
+              childList: true,
+              subtree: true,
+              characterData: true
+            });
+          }
+        });
+      }
+
       // Listen for variant changes
       document.addEventListener('click', function(event) {
         if (event.target.matches('.swatch-element input, .single-option-selector, .dt-sc-btn')) {
-          setTimeout(updateButtonWithPrice, 100);
+          setTimeout(callUpdateButtonPrice, 100);
         }
       });
 
       // Listen for quantity changes
       const quantityInput = document.querySelector('#Quantity-{{ section.id }}');
       if (quantityInput) {
-        quantityInput.addEventListener('input', updateButtonWithPrice);
-        quantityInput.addEventListener('change', updateButtonWithPrice);
+        quantityInput.addEventListener('input', callUpdateButtonPrice);
+        quantityInput.addEventListener('change', callUpdateButtonPrice);
       }
 
       // Listen for quantity button clicks
       document.addEventListener('click', function(event) {
         if (event.target.matches('.btn-number-{{ section.id }}')) {
-          setTimeout(updateButtonWithPrice, 100);
+          setTimeout(callUpdateButtonPrice, 100);
         }
       });
 
       // Listen for form changes (variant selector changes)
       const variantSelectors = document.querySelectorAll('.single-option-selector');
-      variantSelectors.forEach(function(selector) {
-        selector.addEventListener('change', function() {
-          setTimeout(updateButtonWithPrice, 100);
+      if (variantSelectors && variantSelectors.length > 0) {
+        variantSelectors.forEach(function(selector) {
+          if (selector) {
+            selector.addEventListener('change', function() {
+              setTimeout(callUpdateButtonPrice, 100);
+            });
+          }
         });
+      }
+      
+      // Listen for custom variant dropdown changes
+      document.addEventListener('click', function(event) {
+        if (event.target.closest('.variant-option')) {
+          // Wait for variant system to update price, then update button
+          setTimeout(callUpdateButtonPrice, 300);
+        }
       });
+      
+      // Listen for jQuery events when variant changes (more reliable)
+      if (typeof jQuery !== 'undefined') {
+        jQuery(document).on('change', '.single-option-selector', function() {
+          setTimeout(callUpdateButtonPrice, 200);
+        });
+      }
 
       // Listen for any AJAX updates that might change the price
       const observer = new MutationObserver(function(mutations) {
         let shouldUpdate = false;
         mutations.forEach(function(mutation) {
-          if (mutation.type === 'childList') {
+          if (mutation.type === 'childList' || mutation.type === 'characterData') {
             // Check if price-related elements changed
             if (mutation.target.id && mutation.target.id.includes('ProductPrice')) {
               shouldUpdate = true;
@@ -837,12 +1016,26 @@
             if (mutation.target.classList && mutation.target.classList.contains('swatch-element')) {
               shouldUpdate = true;
             }
+            // Check if price text content changed
+            if (mutation.target.classList && mutation.target.classList.contains('money')) {
+              shouldUpdate = true;
+            }
           }
         });
         if (shouldUpdate) {
-          setTimeout(updateButtonWithPrice, 100);
+          setTimeout(callUpdateButtonPrice, 100);
         }
       });
+
+      // Observe the price element for changes
+      const priceElement = document.querySelector('#ProductPrice-{{ section.id }}');
+      if (priceElement) {
+        observer.observe(priceElement, {
+          childList: true,
+          subtree: true,
+          characterData: true
+        });
+      }
 
       // Observe the product form for changes
       const productForm = document.querySelector('form[data-product-form]');
@@ -902,24 +1095,33 @@
   </style>
 
   <script>
-    var acc = document.getElementsByClassName('accordion');
-    var i;
+    // Accordion functionality - wait for DOM to be ready
+    document.addEventListener('DOMContentLoaded', function() {
+      var acc = document.getElementsByClassName('accordion');
+      var i;
 
-    for (i = 0; i < acc.length; i++) {
-      if (acc[i] && acc[i].addEventListener) {
-        acc[i].addEventListener('click', function () {
-          this.classList.toggle('active');
-          var panel = this.nextElementSibling;
-          if (panel && panel.style) {
-            if (panel.style.display === 'block') {
-              panel.style.display = 'none';
-            } else {
-              panel.style.display = 'block';
-            }
-          }
-        });
+      if (!acc || acc.length === 0) {
+        return; // No accordion elements found, exit early
       }
-    }
+
+      for (i = 0; i < acc.length; i++) {
+        if (acc[i] && typeof acc[i].addEventListener === 'function') {
+          acc[i].addEventListener('click', function () {
+            if (this && this.classList) {
+              this.classList.toggle('active');
+              var panel = this.nextElementSibling;
+              if (panel && panel.style) {
+                if (panel.style.display === 'block') {
+                  panel.style.display = 'none';
+                } else {
+                  panel.style.display = 'block';
+                }
+              }
+            }
+          });
+        }
+      }
+    });
   </script>
 {% endunless %}
 

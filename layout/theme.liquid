@@ -294,17 +294,204 @@
     <script>
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('form[action="/cart/add"]').forEach(function(form){
+    // Mark form as handled to prevent other handlers from running
+    form.setAttribute('data-handled-by', 'theme-handler');
+    
     form.addEventListener('submit', function(e){
       // Allow if you ever explicitly set data-direct-checkout
       if (form.dataset.directCheckout === 'true') return;
-
+      
+      // Prevent other handlers from running
       e.preventDefault();
+      e.stopImmediatePropagation();
+
+      // Show loading state immediately
+      var submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
+      var originalText = '';
+      if (submitButton) {
+        submitButton.disabled = true;
+        originalText = submitButton.textContent || submitButton.value;
+        var textElement = submitButton.querySelector('.dT_AddToCartText');
+        if (textElement) {
+          textElement.textContent = 'Adding...';
+        }
+      }
+      
+      // Show loading indicator on cart icon immediately
+      var cartCountElement = document.querySelector('#CartCount .CartCount, .CartCount, .cart-count');
+      var cartCountContainer = document.querySelector('#CartCount');
+      var currentCount = 0;
+      if (cartCountElement) {
+        currentCount = parseInt(cartCountElement.textContent) || 0;
+        // Show loading spinner on cart icon
+        if (cartCountContainer) {
+          cartCountContainer.classList.add('cart-count-loading');
+        }
+      }
+      
+      // Store current variant selection to prevent reset
+      var currentVariantSelections = {};
+      var productId = form.querySelector('[name="id"]') ? form.querySelector('[name="id"]').closest('form').getAttribute('data-product-id') : null;
+      if (!productId) {
+        var productSelect = form.querySelector('[id^="ProductSelect-"]');
+        if (productSelect) {
+          productId = productSelect.id.replace('ProductSelect-', '');
+        }
+      }
+      
+      // Store custom dropdown selections
+      var variantDropdowns = document.querySelectorAll('.carousel-variant-selector .custom-variant-dropdown');
+      variantDropdowns.forEach(function(dropdown) {
+        var selectedOption = dropdown.querySelector('.variant-option.selected');
+        if (selectedOption) {
+          var optionIndex = dropdown.getAttribute('data-index');
+          currentVariantSelections[optionIndex] = selectedOption.getAttribute('data-value');
+        }
+      });
+      
+      // Also store the hidden single-option-selector values
+      if (productId) {
+        var singleOptionSelectors = document.querySelectorAll('.main-product-select-' + productId + ' .single-option-selector');
+        singleOptionSelectors.forEach(function(selector) {
+          var index = selector.getAttribute('data-index') || selector.id.replace(/[^0-9]/g, '');
+          if (index && selector.value) {
+            currentVariantSelections['selector-' + index] = selector.value;
+          }
+        });
+        
+        // Store ProductSelect value
+        var productSelectEl = document.querySelector('#ProductSelect-' + productId);
+        if (productSelectEl) {
+          currentVariantSelections['productSelect'] = productSelectEl.value;
+        }
+      }
+      
+      // Add to cart
       fetch('/cart/add.js', { method:'POST', body:new FormData(form), headers:{Accept:'application/json'} })
-        .then(function(){
-          document.documentElement.classList.add('cart-drawer-open');
+        .then(function(response){
+          return response.json().then(function(data) {
+            if (response.ok) {
+              // Optimistically update cart count immediately (increment by 1)
+              if (cartCountElement) {
+                var newCount = currentCount + 1;
+                cartCountElement.textContent = newCount;
+                if (cartCountContainer) {
+                  cartCountContainer.classList.remove('xhide', 'hidden-count');
+                  cartCountContainer.setAttribute('data-cart_item_count', newCount);
+                }
+              }
+              
+              // Remove loading indicator immediately after optimistic update
+              if (cartCountContainer) {
+                cartCountContainer.classList.remove('cart-count-loading');
+              }
+              
+              // Fetch actual cart count in background (non-blocking)
+              fetch('/cart.js')
+                .then(function(r) { return r.json(); })
+                .then(function(cart) {
+                  // Update cart count with real value
+                  if (cartCountElement) {
+                    cartCountElement.textContent = cart.item_count;
+                    if (cartCountContainer) {
+                      cartCountContainer.setAttribute('data-cart_item_count', cart.item_count);
+                      if (cart.item_count === 0) {
+                        cartCountContainer.classList.add('xhide');
+                      } else {
+                        cartCountContainer.classList.remove('xhide', 'hidden-count');
+                      }
+                    }
+                  }
+                  
+                  // Update cart count in ajax-cart if it exists
+                  if (typeof jQuery !== 'undefined' && typeof ShopifyAPI !== 'undefined') {
+                    var $cartCount = jQuery('.CartCount');
+                    if ($cartCount.length) {
+                      $cartCount.html(cart.item_count);
+                    }
+                  }
+                })
+                .catch(function(err) {
+                  // Silently fail - we already have optimistic update
+                });
+              
+              // Restore variant selections after a brief delay to prevent reset
+              setTimeout(function() {
+                if (!productId) return;
+                
+                // Restore custom dropdown selections
+                Object.keys(currentVariantSelections).forEach(function(key) {
+                  if (key.startsWith('selector-')) {
+                    // Restore hidden single-option-selector
+                    var index = key.replace('selector-', '');
+                    var selector = document.querySelector('.main-product-select-' + productId + ' .single-option-selector[data-index="option' + index + '"]') ||
+                                  document.querySelector('.main-product-select-' + productId + ' #SingleOptionSelector-' + (parseInt(index) - 1));
+                    if (selector && selector.value !== currentVariantSelections[key]) {
+                      selector.value = currentVariantSelections[key];
+                    }
+                  } else if (key === 'productSelect') {
+                    // Restore ProductSelect
+                    var productSelectEl = document.querySelector('#ProductSelect-' + productId);
+                    if (productSelectEl && productSelectEl.value !== currentVariantSelections[key]) {
+                      productSelectEl.value = currentVariantSelections[key];
+                    }
+                  } else {
+                    // Restore custom dropdown UI
+                    var dropdown = document.querySelector('.carousel-variant-selector .custom-variant-dropdown[data-index="' + key + '"]');
+                    if (dropdown) {
+                      var optionValue = currentVariantSelections[key];
+                      var option = dropdown.querySelector('.variant-option[data-value="' + optionValue + '"]');
+                      if (option) {
+                        // Update selected state
+                        dropdown.querySelectorAll('.variant-option').forEach(function(opt) {
+                          opt.classList.remove('selected');
+                        });
+                        option.classList.add('selected');
+                        
+                        // Update selected text
+                        var selectedText = dropdown.querySelector('.variant-selected-text');
+                        if (selectedText) {
+                          selectedText.textContent = option.textContent.trim();
+                        }
+                      }
+                    }
+                  }
+                });
+              }, 50);
+              
+              // Restore button state
+              if (submitButton) {
+                submitButton.disabled = false;
+                var textEl = submitButton.querySelector('.dT_AddToCartText');
+                if (textEl) {
+                  textEl.textContent = originalText;
+                }
+              }
+            } else {
+              throw new Error(data.description || 'Failed to add to cart');
+            }
+          });
         })
-        .catch(console.error);
-    });
+        .catch(function(error){
+          console.error('Add to cart error:', error);
+          
+          // Remove loading indicator on error
+          if (cartCountContainer) {
+            cartCountContainer.classList.remove('cart-count-loading');
+          }
+          
+          // Restore button state on error
+          if (submitButton) {
+            submitButton.disabled = false;
+            var textEl = submitButton.querySelector('.dT_AddToCartText');
+            if (textEl) {
+              textEl.textContent = originalText;
+            }
+          }
+        });
+        
+      return false;
+    }, true); // Use capture phase to run before other handlers
   });
 });
 </script>
