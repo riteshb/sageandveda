@@ -369,8 +369,8 @@
                       and product.variants[0].title contains 'Default'
                       and product.variants.size == 1
                     %}
-                      {% for option in product.options %}
-                        {% render 'swatch' with option %}
+                      {% for option in product.options_with_values %}
+                        {% render 'swatch' with option.name %}
                       {% endfor %}
                     {% endunless %}
                   {% endif %}
