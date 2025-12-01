@@ -571,7 +571,7 @@
         "post_limit": 12,
         "enable_slider": true,
         "items_per_view": 4,
-        "rows": 1,
+        "rows": 2,
         "slider_autoplay": 0,
         "enable_auto_height": false,
         "dots": false,
