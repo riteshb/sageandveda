@@ -194,16 +194,6 @@
       
       {% endunless %}
       
-      <!-- Quantity Selector for Carousel -->
-      <div class="carousel-quantity-selector">
-        <label class="quantity-label">{{ 'products.product.quantity' | t }}</label>
-        <div class="product-item-caption-qty">
-          <button class="btn-number btn-number-{{ product.id }}" type="button" data-type="minus" data-field="quant[1]">-</button>
-          <input type="text" id="Quantity-{{ product.id }}" name="quantity" value="1" class="form-control input-number input-number-{{ product.id }} product-form__input" pattern="[0-9]*">
-          <button class="btn-number btn-number-{{ product.id }}" type="button" data-type="plus" data-field="quant[1]">+</button>
-        </div>
-      </div>
-      
       {% if settings.product_review %}
      	 <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
         {{ product.metafields.judgeme.badge }}
@@ -238,6 +228,16 @@
         {% render 'variant-tag-color',product: product %}   
 
         <input type="hidden" name="id" class="variant-push" value="{{ product.variants[0].id }}" /> 
+        
+        <!-- Quantity Selector - INSIDE the form so it gets submitted -->
+        <div class="carousel-quantity-selector">
+          <label class="quantity-label">{{ 'products.product.quantity' | t }}</label>
+          <div class="product-item-caption-qty">
+            <button class="btn-number btn-number-{{ product.id }}" type="button" data-type="minus" data-field="quant[1]">-</button>
+            <input type="text" id="Quantity-{{ product.id }}" name="quantity" value="1" class="form-control input-number input-number-{{ product.id }} product-form__input" pattern="[0-9]*">
+            <button class="btn-number btn-number-{{ product.id }}" type="button" data-type="plus" data-field="quant[1]">+</button>
+          </div>
+        </div>
 
         <div class="dt-sc-btn-group">
           {% if settings.enable_add_cart %}       
