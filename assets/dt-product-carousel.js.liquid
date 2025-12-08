@@ -1,0 +1,441 @@
+/**
+ * DT Product Carousel - Centralized JavaScript for Product Carousels
+ * This file contains all shared functions for product variant selection,
+ * quantity buttons, and price updates in product carousels.
+ */
+
+(function() {
+  'use strict';
+
+  // Product data cache - stores parsed product JSON by product ID
+  var productCache = {};
+
+  // Money formatting function
+  function formatMoney(cents, format) {
+    if (typeof cents === 'string') {
+      cents = cents.replace('.', '');
+    }
+    var value = '';
+    var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+    var formatString = (format || '{{ amount }}');
+    
+    function formatWithDelimiters(number, precision, thousands, decimal) {
+      thousands = thousands || ',';
+      decimal = decimal || '.';
+      
+      if (isNaN(number) || number == null) {
+        return '$0.00';
+      }
+      
+      number = (number / 100.0).toFixed(precision);
+      
+      var parts = number.split('.');
+      var dollarsAmount = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands);
+      var centsAmount = parts[1] ? (decimal + parts[1]) : '';
+      
+      return '$' + dollarsAmount + centsAmount;
+    }
+    
+    var formatMatch = formatString.match(placeholderRegex);
+    if (!formatMatch) {
+      // Fallback to simple formatting
+      return '$' + (cents / 100).toFixed(2);
+    }
+    
+    switch (formatMatch[1]) {
+      case 'amount':
+        value = formatWithDelimiters(cents, 2);
+        break;
+      case 'amount_no_decimals':
+        value = formatWithDelimiters(cents, 0);
+        break;
+      case 'amount_with_comma_separator':
+        value = formatWithDelimiters(cents, 2, '.', ',');
+        break;
+      case 'amount_no_decimals_with_comma_separator':
+        value = formatWithDelimiters(cents, 0, '.', ',');
+        break;
+      case 'amount_no_decimals_with_space_separator':
+        value = formatWithDelimiters(cents, 0, ' ');
+        break;
+      case 'amount_with_apostrophe_separator':
+        value = formatWithDelimiters(cents, 2, "'");
+        break;
+    }
+    
+    return formatString.replace(placeholderRegex, value);
+  }
+
+  // Dropdown functions
+  function openDropdown(dropdown) {
+    var options = dropdown.querySelector('.variant-dropdown-options');
+    var button = dropdown.querySelector('.variant-dropdown-button');
+    
+    if (options) options.classList.add('show');
+    if (button) button.classList.add('active');
+  }
+
+  function closeDropdown(dropdown) {
+    var options = dropdown.querySelector('.variant-dropdown-options');
+    var button = dropdown.querySelector('.variant-dropdown-button');
+    
+    if (options) options.classList.remove('show');
+    if (button) button.classList.remove('active');
+  }
+
+  function toggleDropdown(dropdown) {
+    var options = dropdown.querySelector('.variant-dropdown-options');
+    if (!options) return;
+    
+    var isOpen = options.classList.contains('show');
+    
+    // Close all other dropdowns first
+    document.querySelectorAll('.custom-variant-dropdown').forEach(function(otherDropdown) {
+      if (otherDropdown !== dropdown) {
+        closeDropdown(otherDropdown);
+      }
+    });
+    
+    if (isOpen) {
+      closeDropdown(dropdown);
+    } else {
+      openDropdown(dropdown);
+    }
+  }
+
+  // Get product data from cache or JSON element
+  function getProductData(productId) {
+    if (productCache[productId]) {
+      return productCache[productId];
+    }
+    
+    var productJson = document.getElementById('CarouselProductJson-' + productId);
+    if (productJson && productJson.textContent.trim()) {
+      try {
+        var product = JSON.parse(productJson.textContent.trim());
+        productCache[productId] = product;
+        return product;
+      } catch (error) {
+        console.error('Error parsing product JSON for product ' + productId + ':', error);
+        return null;
+      }
+    }
+    
+    return null;
+  }
+
+  // Get selected variant for a product
+  function getSelectedVariant(productId, product) {
+    if (!product || !product.variants) return null;
+    
+    var variantDropdowns = document.querySelectorAll('.carousel-variant-selector[data-product-id="' + productId + '"] .custom-variant-dropdown');
+    var selectedOptions = [];
+    
+    // Get selected values from all variant dropdowns
+    variantDropdowns.forEach(function(dropdown) {
+      var selectedOption = dropdown.querySelector('.variant-option.selected');
+      if (selectedOption) {
+        selectedOptions.push(selectedOption.getAttribute('data-value'));
+      }
+    });
+    
+    // Find matching variant
+    return product.variants.find(function(variant) {
+      return variant.options && variant.options.every(function(option, index) {
+        return option === selectedOptions[index];
+      });
+    }) || null;
+  }
+
+  // Update variant price and availability
+  function updateVariantPrice(productId, product) {
+    if (!product) return;
+    
+    var selectedVariant = getSelectedVariant(productId, product);
+    
+    if (selectedVariant) {
+      // Update variant ID in hidden input (if exists)
+      var variantInput = document.querySelector('#product-' + productId + ' .variant-push');
+      if (variantInput) {
+        variantInput.value = selectedVariant.id;
+      }
+      
+      // Update availability
+      var addToCartButton = document.querySelector('#product-' + productId + ' .dT_AddToCart');
+      if (addToCartButton) {
+        if (selectedVariant.available) {
+          addToCartButton.disabled = false;
+          addToCartButton.classList.remove('disabled');
+        } else {
+          addToCartButton.disabled = true;
+          addToCartButton.classList.add('disabled');
+        }
+      }
+    }
+  }
+
+  // Update Add to Cart button price text
+  function updateCarouselButtonPrice(productId, product) {
+    if (!product) return;
+    
+    var selectedVariant = getSelectedVariant(productId, product);
+    
+    if (selectedVariant) {
+      var addToCartText = document.querySelector('.dT_AddToCartText-' + productId);
+      var quantityInput = document.querySelector('#Quantity-' + productId);
+      
+      if (addToCartText) {
+        var quantity = 1;
+        if (quantityInput && quantityInput.value) {
+          quantity = parseInt(quantityInput.value) || 1;
+        }
+        
+        var basePriceText = formatMoney(selectedVariant.price, product.money_format);
+        
+        // Get base text - try to extract from current text or use default
+        var addToCartTextBase = addToCartText.getAttribute('data-base-text');
+        if (!addToCartTextBase) {
+          // Try to extract from current text (format: "Add to cart - $XX.XX")
+          var currentText = addToCartText.textContent || '';
+          var match = currentText.match(/^([^-]+?)(?:\s*-\s*|$)/);
+          addToCartTextBase = match ? match[1].trim() : 'Add to cart';
+          addToCartText.setAttribute('data-base-text', addToCartTextBase);
+        }
+        
+        if (quantity > 1) {
+          // Calculate total price
+          var totalPrice = selectedVariant.price * quantity;
+          var totalPriceText = formatMoney(totalPrice, product.money_format);
+          addToCartText.textContent = addToCartTextBase + ' - ' + quantity + ' × ' + basePriceText + ' = ' + totalPriceText;
+        } else {
+          addToCartText.textContent = addToCartTextBase + ' - ' + basePriceText;
+        }
+      }
+    }
+  }
+
+  // Initialize a single product
+  function initProduct(productId) {
+    var product = getProductData(productId);
+    if (!product) return;
+    
+    var variantDropdowns = document.querySelectorAll('.carousel-variant-selector[data-product-id="' + productId + '"] .custom-variant-dropdown');
+    
+    if (variantDropdowns.length > 0) {
+      // Initialize variant selection - mark first option as selected
+      variantDropdowns.forEach(function(dropdown) {
+        var firstOption = dropdown.querySelector('.variant-option');
+        if (firstOption && !dropdown.querySelector('.variant-option.selected')) {
+          firstOption.classList.add('selected');
+        }
+      });
+      
+      // Initialize variant selection and button price
+      updateVariantPrice(productId, product);
+      updateCarouselButtonPrice(productId, product);
+    } else {
+      // No variants, just initialize button price with default variant
+      if (product.variants && product.variants.length > 0) {
+        updateCarouselButtonPrice(productId, product);
+      }
+    }
+  }
+
+  // Initialize all products on the page
+  function initAllProducts() {
+    // Find all product JSON elements
+    var productJsonElements = document.querySelectorAll('[id^="CarouselProductJson-"]');
+    
+    productJsonElements.forEach(function(element) {
+      var productId = element.id.replace('CarouselProductJson-', '');
+      if (productId) {
+        initProduct(productId);
+      }
+    });
+  }
+
+  // Public API
+  window.DTProductCarousel = {
+    initProduct: initProduct,
+    initAll: initAllProducts,
+    updateVariantPrice: updateVariantPrice,
+    updateCarouselButtonPrice: updateCarouselButtonPrice,
+    getProductData: getProductData
+  };
+
+  // Event Delegation - Single listeners for all products
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all products
+    initAllProducts();
+  });
+
+  // Handle variant dropdown button clicks
+  document.addEventListener('click', function(e) {
+    var dropdownButton = e.target.closest('.variant-dropdown-button');
+    if (dropdownButton) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      var dropdown = dropdownButton.closest('.custom-variant-dropdown');
+      if (dropdown) {
+        toggleDropdown(dropdown);
+      }
+    }
+  }, true);
+
+  // Handle variant option selection
+  document.addEventListener('click', function(e) {
+    var option = e.target.closest('.variant-option');
+    if (option && option.closest('.custom-variant-dropdown')) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      var dropdown = option.closest('.custom-variant-dropdown');
+      var productSelector = dropdown.closest('[data-product-id]');
+      
+      if (productSelector) {
+        var productId = productSelector.getAttribute('data-product-id');
+        var product = getProductData(productId);
+        
+        if (dropdown && product) {
+          // Update selected text
+          var selectedText = dropdown.querySelector('.variant-selected-text');
+          if (selectedText) {
+            selectedText.textContent = option.textContent;
+          }
+          
+          // Update selected state
+          var options = dropdown.querySelectorAll('.variant-option');
+          options.forEach(function(opt) {
+            opt.classList.remove('selected');
+          });
+          option.classList.add('selected');
+          
+          // Close dropdown
+          closeDropdown(dropdown);
+          
+          // Update price and button
+          updateVariantPrice(productId, product);
+          updateCarouselButtonPrice(productId, product);
+        }
+      }
+    }
+  }, true);
+
+  // Close dropdowns when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.custom-variant-dropdown')) {
+      document.querySelectorAll('.custom-variant-dropdown').forEach(function(dropdown) {
+        closeDropdown(dropdown);
+      });
+    }
+  });
+
+  // Handle quantity input changes
+  document.addEventListener('input', function(e) {
+    if (e.target.id && e.target.id.startsWith('Quantity-')) {
+      var productId = e.target.id.replace('Quantity-', '');
+      var product = getProductData(productId);
+      if (product) {
+        updateCarouselButtonPrice(productId, product);
+      }
+    }
+  });
+
+  document.addEventListener('change', function(e) {
+    if (e.target.id && e.target.id.startsWith('Quantity-')) {
+      var productId = e.target.id.replace('Quantity-', '');
+      var product = getProductData(productId);
+      if (product) {
+        updateCarouselButtonPrice(productId, product);
+      }
+    }
+  });
+
+  // Handle quantity button clicks
+  document.addEventListener('click', function(e) {
+    var button = e.target.closest('[class*="btn-number-"]');
+    if (button && button.classList.contains('btn-number')) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Extract product ID from class name (e.g., "btn-number-123456")
+      var classList = Array.from(button.classList);
+      var productId = null;
+      
+      classList.forEach(function(className) {
+        if (className.startsWith('btn-number-')) {
+          productId = className.replace('btn-number-', '');
+        }
+      });
+      
+      if (productId) {
+        var type = button.getAttribute('data-type');
+        var quantityInput = document.querySelector('#Quantity-' + productId);
+        
+        if (quantityInput) {
+          var currentValue = parseInt(quantityInput.value) || 1;
+          
+          if (type === 'plus') {
+            quantityInput.value = currentValue + 1;
+          } else if (type === 'minus' && currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+          }
+          
+          // Trigger change event
+          var changeEvent = new Event('change', { bubbles: true });
+          quantityInput.dispatchEvent(changeEvent);
+          
+          var product = getProductData(productId);
+          if (product) {
+            updateCarouselButtonPrice(productId, product);
+          }
+        }
+      }
+    }
+  }, true);
+
+  // Re-initialize products when new content is loaded (for AJAX carousels)
+  if (typeof MutationObserver !== 'undefined') {
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        mutation.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) { // Element node
+            // Check if this node or its children contain product JSON
+            var productJsonElements = node.querySelectorAll ? node.querySelectorAll('[id^="CarouselProductJson-"]') : [];
+            if (node.id && node.id.startsWith('CarouselProductJson-')) {
+              productJsonElements = [node];
+            }
+            
+            productJsonElements.forEach(function(element) {
+              var productId = element.id.replace('CarouselProductJson-', '');
+              if (productId) {
+                // Clear cache for this product and reinitialize
+                delete productCache[productId];
+                setTimeout(function() {
+                  initProduct(productId);
+                }, 100);
+              }
+            });
+          }
+        });
+      });
+    });
+    
+    // Start observing
+    if (document.body) {
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+    } else {
+      document.addEventListener('DOMContentLoaded', function() {
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true
+        });
+      });
+    }
+  }
+
+})();

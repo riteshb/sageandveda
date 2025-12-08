@@ -1250,6 +1250,7 @@ theme.ProductPage = function () {
                   function dt_Quantity(sectionId) {
                     $('.btn-number-' + sectionId).click(function (e) {
                       e.preventDefault();
+                      e.stopPropagation();
                       fieldName = $(this).attr('data-field');
                       type = $(this).attr('data-type');
                       var input = $(this).closest(".product-form__item--quantity").find("input[name='quantity']");
