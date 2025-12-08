@@ -293,16 +293,31 @@
     </script>
     {% include 'scroll-to-top' %}
     <script>
-document.addEventListener('DOMContentLoaded', function () {
+// Wait for both DOM and jQuery/ajax-cart to be ready
+function initFormHandlers() {
+  // Check if ajax-cart drawer is enabled
+  var ajaxCartEnabled = {% if settings.ajax_cart_method == 'drawer' %}true{% else %}false{% endif %};
+  
   document.querySelectorAll('form[action="/cart/add"]').forEach(function(form){
-    // Mark form as handled to prevent other handlers from running
+    // Check if this form should be handled by ajax-cart
+    // ajax-cart handles forms with [data-product-form] attribute
+    var hasProductFormAttr = form.hasAttribute('data-product-form');
+    var shouldUseAjaxCart = ajaxCartEnabled && hasProductFormAttr;
+    
+    // If ajax-cart should handle this form, don't attach our handler at all
+    // Let ajax-cart handle it completely
+    if (shouldUseAjaxCart) {
+      return; // Skip this form - ajax-cart will handle it
+    }
+    
+    // For non-ajax-cart forms, attach our theme handler
     form.setAttribute('data-handled-by', 'theme-handler');
     
     form.addEventListener('submit', function(e){
       // Allow if you ever explicitly set data-direct-checkout
       if (form.dataset.directCheckout === 'true') return;
       
-      // Prevent other handlers from running
+      // Prevent other handlers from running (for non-ajax-cart forms)
       e.preventDefault();
       e.stopImmediatePropagation();
 
@@ -494,7 +509,19 @@ document.addEventListener('DOMContentLoaded', function () {
       return false;
     }, true); // Use capture phase to run before other handlers
   });
-});
+}
+
+// Initialize form handlers
+// Wait for DOM and ensure ajax-cart has time to initialize
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() {
+    // Wait a bit for ajax-cart to initialize (it uses jQuery ready)
+    setTimeout(initFormHandlers, 100);
+  });
+} else {
+  // DOM already loaded
+  setTimeout(initFormHandlers, 100);
+}
 </script>
 
   </body>

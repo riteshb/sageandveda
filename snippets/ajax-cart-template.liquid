@@ -166,24 +166,97 @@
 {% if settings.ajax_cart_method == 'drawer' %}    
 <script>
   jQuery(function($) {
-    ajaxCart.init({
-      formSelector: '[data-product-form]',
-      cartContainer: '#CartContainer',
-      addToCartSelector: '.dT_AddToCart',
-      cartCountSelector: '.CartCount',
-      cartCostSelector: '.CartCost',
-      moneyFormat: {{ shop.money_format | json }}
-    });
-    });
-
+    // Function to initialize ajax-cart
+    function initAjaxCart() {
+      // Find product forms - try multiple selectors
+      var $forms = $('form[data-product-form]');
+      if ($forms.length === 0) {
+        $forms = $('form[action="/cart/add"]');
+      }
+      
+      if ($forms.length === 0) {
+        // Forms not ready yet, try again
+        setTimeout(initAjaxCart, 200);
+        return;
+      }
+      
+      // Ensure all product forms have the data-product-form attribute
+      $forms.each(function() {
+        var $form = $(this);
+        if (!$form.attr('data-product-form')) {
+          $form.attr('data-product-form', 'true');
+        }
+        
+        // Manually intercept form submission if ajax-cart hasn't done it yet
+        // This ensures the form doesn't redirect even if ajax-cart initialization fails
+        $form.off('submit.ajaxcart-manual').on('submit.ajaxcart-manual', function(evt) {
+          // Only intercept if ajax-cart is supposed to handle it
+          if (typeof ajaxCart !== 'undefined') {
+            evt.preventDefault();
+            evt.stopImmediatePropagation();
+            
+            // Try to use ajax-cart's method
+            if (typeof ShopifyAPI !== 'undefined' && typeof ShopifyAPI.addItemFromForm === 'function') {
+              var $addToCart = $form.find('.dT_AddToCart, button[type="submit"][name="add"], input[type="submit"][name="add"]');
+              $addToCart.removeClass('is-added').addClass('is-adding');
+              
+              ShopifyAPI.addItemFromForm(this, function(product) {
+                $addToCart.removeClass('is-adding').addClass('is-added');
+                if (typeof ajaxCart !== 'undefined' && typeof ajaxCart.load === 'function') {
+                  ajaxCart.load();
+                } else {
+                  // Fallback: manually load cart and open drawer
+                  if (typeof ShopifyAPI !== 'undefined' && typeof ShopifyAPI.getCart === 'function') {
+                    ShopifyAPI.getCart(function(cart) {
+                      if (typeof theme !== 'undefined' && typeof theme.RightDrawer !== 'undefined' && typeof theme.RightDrawer.open === 'function') {
+                        theme.RightDrawer.open();
+                      }
+                    });
+                  }
+                }
+              }, function(XMLHttpRequest, textStatus) {
+                $addToCart.removeClass('is-adding is-added');
+                var data = eval('(' + XMLHttpRequest.responseText + ')');
+                if (data && data.message) {
+                  alert(data.message);
+                }
+              });
+            }
+          }
+        });
+      });
+      
+      // Now initialize ajax-cart normally
+      ajaxCart.init({
+        formSelector: 'form[data-product-form]',
+        cartContainer: '#CartContainer',
+        addToCartSelector: '.dT_AddToCart, button[type="submit"][name="add"], input[type="submit"][name="add"]',
+        cartCountSelector: '.CartCount',
+        cartCostSelector: '.CartCost',
+        moneyFormat: {{ shop.money_format | json }}
+      });
+    }
+    
+    // Initialize ajax-cart
+    initAjaxCart();
+    
+    // Also try after a delay in case DOM isn't ready
+    setTimeout(initAjaxCart, 100);
+    setTimeout(initAjaxCart, 500);
+    
+    // Ensure drawer opens after cart loads
     jQuery('body').on('ajaxCart.afterCartLoad', function(evt, cart) {
-      theme.RightDrawer.open();
+      if (typeof theme !== 'undefined' && typeof theme.RightDrawer !== 'undefined' && typeof theme.RightDrawer.open === 'function') {
+        theme.RightDrawer.open();
+      }
     });
+    
     {% if settings.show_multiple_currencies %}
     jQuery('body').on('ajaxCart.afterCartLoad', function(evt, cart) {          
       Currency.convertAll(shopCurrency, Currency.currentCurrency);
     });
     {% endif %}
+  });
 </script>  
 {% endif %}
 

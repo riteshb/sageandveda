@@ -324,30 +324,50 @@
     setTimeout(initAllProducts, 100);
   });
 
-  // Handle variant dropdown button clicks
+  // Handle variant dropdown button clicks (only for carousels, not product pages)
   document.addEventListener('click', function(e) {
     var dropdownButton = e.target.closest('.variant-dropdown-button');
     if (dropdownButton) {
+      var dropdown = dropdownButton.closest('.custom-variant-dropdown');
+      
+      // Skip if this is inside a product page section (product pages handle their own variants)
+      if (dropdown) {
+        var productSection = dropdown.closest('#ProductSection, .product-template__container, .product-template-content');
+        if (productSection) {
+          // This is a product page, let the product page handler deal with it
+          return;
+        }
+      }
+      
+      // This is a carousel, handle it
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation();
       
-      var dropdown = dropdownButton.closest('.custom-variant-dropdown');
       if (dropdown) {
         toggleDropdown(dropdown);
       }
     }
   }, true);
 
-  // Handle variant option selection
+  // Handle variant option selection (only for carousels, not product pages)
   document.addEventListener('click', function(e) {
     var option = e.target.closest('.variant-option');
     if (option && option.closest('.custom-variant-dropdown')) {
+      var dropdown = option.closest('.custom-variant-dropdown');
+      
+      // Skip if this is inside a product page section (product pages handle their own variants)
+      var productSection = dropdown.closest('#ProductSection, .product-template__container, .product-template-content');
+      if (productSection) {
+        // This is a product page, let the product page handler deal with it
+        return;
+      }
+      
+      // This is a carousel, handle it
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation();
       
-      var dropdown = option.closest('.custom-variant-dropdown');
       var productSelector = dropdown.closest('[data-product-id]');
       
       if (productSelector) {
@@ -379,11 +399,15 @@
     }
   }, true);
 
-  // Close dropdowns when clicking outside
+  // Close dropdowns when clicking outside (only carousel dropdowns, not product pages)
   document.addEventListener('click', function(e) {
     if (!e.target.closest('.custom-variant-dropdown')) {
       document.querySelectorAll('.custom-variant-dropdown').forEach(function(dropdown) {
-        closeDropdown(dropdown);
+        // Only close carousel dropdowns, not product page dropdowns
+        var productSection = dropdown.closest('#ProductSection, .product-template__container, .product-template-content');
+        if (!productSection) {
+          closeDropdown(dropdown);
+        }
       });
     }
   });
@@ -409,11 +433,18 @@
     }
   });
 
-  // Handle quantity button clicks
+  // Handle quantity button clicks (only for carousels, not product pages)
   document.addEventListener('click', function(e) {
     // Check if clicked element is a quantity button or inside one
     var button = e.target.closest('.btn-number');
     if (!button) return;
+    
+    // Skip if this is inside a product page section (product pages handle their own quantity buttons)
+    var productSection = button.closest('#ProductSection, .product-template__container, .product-template-content');
+    if (productSection) {
+      // This is a product page, let the product page handler deal with it
+      return;
+    }
     
     // Check if it has a btn-number-{productId} class
     var classList = Array.from(button.classList);
