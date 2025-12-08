@@ -217,7 +217,10 @@
   // Initialize a single product
   function initProduct(productId) {
     var product = getProductData(productId);
-    if (!product) return;
+    if (!product) {
+      // Product data not available yet, try again later
+      return false;
+    }
     
     var variantDropdowns = document.querySelectorAll('.carousel-variant-selector[data-product-id="' + productId + '"] .custom-variant-dropdown');
     
@@ -239,17 +242,33 @@
         updateCarouselButtonPrice(productId, product);
       }
     }
+    
+    return true;
   }
 
+  // Track initialized products to avoid duplicate initialization
+  var initializedProducts = {};
+  
   // Initialize all products on the page
   function initAllProducts() {
     // Find all product JSON elements
     var productJsonElements = document.querySelectorAll('[id^="CarouselProductJson-"]');
     
+    if (productJsonElements.length === 0) {
+      // No products found yet, might be loading
+      return;
+    }
+    
     productJsonElements.forEach(function(element) {
       var productId = element.id.replace('CarouselProductJson-', '');
-      if (productId) {
-        initProduct(productId);
+      if (productId && !initializedProducts[productId]) {
+        try {
+          if (initProduct(productId)) {
+            initializedProducts[productId] = true;
+          }
+        } catch (error) {
+          console.error('Error initializing product ' + productId + ':', error);
+        }
       }
     });
   }
@@ -264,9 +283,45 @@
   };
 
   // Event Delegation - Single listeners for all products
-  document.addEventListener('DOMContentLoaded', function() {
+  function initializeWhenReady() {
     // Initialize all products
     initAllProducts();
+    
+    // Also initialize after a short delay to catch any products that might be added slightly later
+    setTimeout(function() {
+      initAllProducts();
+    }, 100);
+    
+    // One more check after a longer delay for AJAX-loaded content
+    setTimeout(function() {
+      initAllProducts();
+    }, 500);
+    
+    // Final check after 1 second for any lazy-loaded content
+    setTimeout(function() {
+      initAllProducts();
+    }, 1000);
+  }
+
+  // Initialize when DOM is ready
+  function setupInitialization() {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeWhenReady);
+    } else {
+      // DOM already loaded
+      initializeWhenReady();
+    }
+  }
+  
+  // Setup initialization
+  setupInitialization();
+  
+  // Also expose initialization function globally for manual calls if needed
+  window.DTProductCarouselInit = initializeWhenReady;
+  
+  // Re-initialize on window load (in case products are added after DOMContentLoaded)
+  window.addEventListener('load', function() {
+    setTimeout(initAllProducts, 100);
   });
 
   // Handle variant dropdown button clicks
@@ -275,6 +330,7 @@
     if (dropdownButton) {
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
       
       var dropdown = dropdownButton.closest('.custom-variant-dropdown');
       if (dropdown) {
@@ -289,6 +345,7 @@
     if (option && option.closest('.custom-variant-dropdown')) {
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
       
       var dropdown = option.closest('.custom-variant-dropdown');
       var productSelector = dropdown.closest('[data-product-id]');
@@ -354,43 +411,47 @@
 
   // Handle quantity button clicks
   document.addEventListener('click', function(e) {
-    var button = e.target.closest('[class*="btn-number-"]');
-    if (button && button.classList.contains('btn-number')) {
-      e.preventDefault();
-      e.stopPropagation();
+    // Check if clicked element is a quantity button or inside one
+    var button = e.target.closest('.btn-number');
+    if (!button) return;
+    
+    // Check if it has a btn-number-{productId} class
+    var classList = Array.from(button.classList);
+    var productId = null;
+    
+    classList.forEach(function(className) {
+      if (className.startsWith('btn-number-') && className !== 'btn-number') {
+        productId = className.replace('btn-number-', '');
+      }
+    });
+    
+    if (!productId) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    
+    var type = button.getAttribute('data-type');
+    if (!type) return;
+    
+    var quantityInput = document.querySelector('#Quantity-' + productId);
+    
+    if (quantityInput) {
+      var currentValue = parseInt(quantityInput.value) || 1;
       
-      // Extract product ID from class name (e.g., "btn-number-123456")
-      var classList = Array.from(button.classList);
-      var productId = null;
+      if (type === 'plus') {
+        quantityInput.value = currentValue + 1;
+      } else if (type === 'minus' && currentValue > 1) {
+        quantityInput.value = currentValue - 1;
+      }
       
-      classList.forEach(function(className) {
-        if (className.startsWith('btn-number-')) {
-          productId = className.replace('btn-number-', '');
-        }
-      });
+      // Trigger change event
+      var changeEvent = new Event('change', { bubbles: true });
+      quantityInput.dispatchEvent(changeEvent);
       
-      if (productId) {
-        var type = button.getAttribute('data-type');
-        var quantityInput = document.querySelector('#Quantity-' + productId);
-        
-        if (quantityInput) {
-          var currentValue = parseInt(quantityInput.value) || 1;
-          
-          if (type === 'plus') {
-            quantityInput.value = currentValue + 1;
-          } else if (type === 'minus' && currentValue > 1) {
-            quantityInput.value = currentValue - 1;
-          }
-          
-          // Trigger change event
-          var changeEvent = new Event('change', { bubbles: true });
-          quantityInput.dispatchEvent(changeEvent);
-          
-          var product = getProductData(productId);
-          if (product) {
-            updateCarouselButtonPrice(productId, product);
-          }
-        }
+      var product = getProductData(productId);
+      if (product) {
+        updateCarouselButtonPrice(productId, product);
       }
     }
   }, true);
@@ -412,8 +473,11 @@
               if (productId) {
                 // Clear cache for this product and reinitialize
                 delete productCache[productId];
+                delete initializedProducts[productId];
                 setTimeout(function() {
-                  initProduct(productId);
+                  if (initProduct(productId)) {
+                    initializedProducts[productId] = true;
+                  }
                 }, 100);
               }
             });
