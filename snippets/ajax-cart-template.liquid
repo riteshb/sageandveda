@@ -12,7 +12,7 @@
       <ul class="ajaxcart__inner">
         {{#items}}
         <li class="ajaxcart__product">
-          <div class="ajaxcart row" data-line="{{line}}">
+          <div class="ajaxcart row ajaxcart__row" data-line="{{line}}">
           <div class="item_img"><a href="{{url}}" class="ajaxcart__product-image"> <img src="{{img}}" alt=""></a> </a></div>
           <div  class="details">
           
@@ -60,7 +60,7 @@
                     <span>+</span>
                   </button>                                  
                 </div>
-                 <span id="changeQty" class="ajaxcart__qty-remove remove-btn  dt-sc-btn close-icon" data-id="{{key}}" data-line="{{line}}" data-qty="{{itemAdd}}"></span>
+                 <span class="ajaxcart__qty-remove remove-btn dt-sc-btn close-icon" data-id="{{id}}" data-line="{{line}}" data-key="{{key}}" data-variant-id="{{id}}"></span>
               </div>		
           </div>
         </div>
@@ -166,8 +166,15 @@
 {% if settings.ajax_cart_method == 'drawer' %}    
 <script>
   jQuery(function($) {
+    var ajaxCartInitialized = false;
+    
     // Function to initialize ajax-cart
     function initAjaxCart() {
+      // Prevent multiple initializations
+      if (ajaxCartInitialized) {
+        return;
+      }
+      
       // Find product forms - try multiple selectors
       var $forms = $('form[data-product-form]');
       if ($forms.length === 0) {
@@ -180,69 +187,45 @@
         return;
       }
       
+      // Mark as initialized to prevent duplicate handlers
+      ajaxCartInitialized = true;
+      
       // Ensure all product forms have the data-product-form attribute
       $forms.each(function() {
         var $form = $(this);
         if (!$form.attr('data-product-form')) {
           $form.attr('data-product-form', 'true');
         }
-        
-        // Manually intercept form submission if ajax-cart hasn't done it yet
-        // This ensures the form doesn't redirect even if ajax-cart initialization fails
-        $form.off('submit.ajaxcart-manual').on('submit.ajaxcart-manual', function(evt) {
-          // Only intercept if ajax-cart is supposed to handle it
-          if (typeof ajaxCart !== 'undefined') {
-            evt.preventDefault();
-            evt.stopImmediatePropagation();
-            
-            // Try to use ajax-cart's method
-            if (typeof ShopifyAPI !== 'undefined' && typeof ShopifyAPI.addItemFromForm === 'function') {
-              var $addToCart = $form.find('.dT_AddToCart, button[type="submit"][name="add"], input[type="submit"][name="add"]');
-              $addToCart.removeClass('is-added').addClass('is-adding');
-              
-              ShopifyAPI.addItemFromForm(this, function(product) {
-                $addToCart.removeClass('is-adding').addClass('is-added');
-                if (typeof ajaxCart !== 'undefined' && typeof ajaxCart.load === 'function') {
-                  ajaxCart.load();
-                } else {
-                  // Fallback: manually load cart and open drawer
-                  if (typeof ShopifyAPI !== 'undefined' && typeof ShopifyAPI.getCart === 'function') {
-                    ShopifyAPI.getCart(function(cart) {
-                      if (typeof theme !== 'undefined' && typeof theme.RightDrawer !== 'undefined' && typeof theme.RightDrawer.open === 'function') {
-                        theme.RightDrawer.open();
-                      }
-                    });
-                  }
-                }
-              }, function(XMLHttpRequest, textStatus) {
-                $addToCart.removeClass('is-adding is-added');
-                var data = eval('(' + XMLHttpRequest.responseText + ')');
-                if (data && data.message) {
-                  alert(data.message);
-                }
-              });
-            }
-          }
-        });
       });
       
-      // Now initialize ajax-cart normally
-      ajaxCart.init({
-        formSelector: 'form[data-product-form]',
-        cartContainer: '#CartContainer',
-        addToCartSelector: '.dT_AddToCart, button[type="submit"][name="add"], input[type="submit"][name="add"]',
-        cartCountSelector: '.CartCount',
-        cartCostSelector: '.CartCost',
-        moneyFormat: {{ shop.money_format | json }}
-      });
+      // Now initialize ajax-cart normally - it will handle form submissions
+      // Don't add manual handlers here as ajax-cart.js already handles it
+      if (typeof ajaxCart !== 'undefined' && typeof ajaxCart.init === 'function') {
+        ajaxCart.init({
+          formSelector: 'form[data-product-form]',
+          cartContainer: '#CartContainer',
+          addToCartSelector: '.dT_AddToCart, button[type="submit"][name="add"], input[type="submit"][name="add"]',
+          cartCountSelector: '.CartCount',
+          cartCostSelector: '.CartCost',
+          moneyFormat: {{ shop.money_format | json }}
+        });
+      }
     }
     
     // Initialize ajax-cart
     initAjaxCart();
     
-    // Also try after a delay in case DOM isn't ready
-    setTimeout(initAjaxCart, 100);
-    setTimeout(initAjaxCart, 500);
+    // Also try after a delay in case DOM isn't ready (but only if not already initialized)
+    setTimeout(function() {
+      if (!ajaxCartInitialized) {
+        initAjaxCart();
+      }
+    }, 100);
+    setTimeout(function() {
+      if (!ajaxCartInitialized) {
+        initAjaxCart();
+      }
+    }, 500);
     
     // Ensure drawer opens after cart loads
     jQuery('body').on('ajaxCart.afterCartLoad', function(evt, cart) {

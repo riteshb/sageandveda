@@ -110,11 +110,28 @@ ShopifyAPI.getCart = function(callback) {
 };
 
 // POST to cart/change.js returns the cart in JSON
-ShopifyAPI.changeItem = function(line, quantity, callback) {
+ShopifyAPI.changeItem = function(line, quantity, callback, variantId) {
+  // Ensure line is a valid number (1-based index)
+  var parsedLine = parseInt(line, 10);
+  quantity = parseInt(quantity, 10);
+  
+  var dataString;
+  
+  // Use line parameter if valid, otherwise fall back to variant ID
+  if (!isNaN(parsedLine) && parsedLine >= 1) {
+    dataString = 'quantity=' + quantity + '&line=' + parsedLine;
+  } else if (variantId) {
+    // Fallback to variant ID if line is invalid
+    dataString = 'quantity=' + quantity + '&id=' + variantId;
+  } else {
+    console.error('Invalid line number and no variant ID provided:', line);
+    return;
+  }
+  
   var params = {
     type: 'POST',
     url: '/cart/change.js',
-    data: 'quantity=' + quantity + '&line=' + line,
+    data: dataString,
     dataType: 'json',
     success: function(cart) {
       if ((typeof callback) === 'function') {
@@ -216,25 +233,236 @@ var ajaxCart = (function(module, $) {
   };
 
   formOverride = function () {
-    $formContainer.on('submit', function(evt) {
+    // Remove any existing handlers to prevent duplicates
+    $formContainer.off('submit.ajaxcart');
+    
+    $formContainer.on('submit.ajaxcart', function(evt) {
+      // Prevent multiple submissions
+      if (isUpdating) {
+        evt.preventDefault();
+        evt.stopImmediatePropagation();
+        return false;
+      }
+      
       evt.preventDefault();
+      evt.stopImmediatePropagation();
 
+      var $form = $(evt.target);
+      
+      // Get the ProductSelect dropdown - try multiple selectors
+      var productSelect = $form.find('select[id^="ProductSelect-"]');
+      if (!productSelect.length) {
+        // Try finding it by name attribute
+        productSelect = $form.find('select[name="id"]');
+      }
+      
+      var variantId = null;
+      
+      // Try multiple ways to get the variant ID
+      // 1. Check for hidden input with name="id"
+      var idInput = $form.find('input[name="id"]');
+      if (idInput.length && idInput.val()) {
+        variantId = idInput.val();
+      }
+      
+      // 2. Check ProductSelect value
+      if ((!variantId || variantId === '0' || variantId === '') && productSelect.length) {
+        variantId = productSelect.val();
+      }
+      
+      // 3. Check select[name="id"] directly
+      if ((!variantId || variantId === '0' || variantId === '') && productSelect.length) {
+        var selectById = $form.find('select[name="id"]');
+        if (selectById.length && selectById.val()) {
+          variantId = selectById.val();
+        }
+      }
+      
+      // 4. For single-variant products, get the first available option
+      if ((!variantId || variantId === '0' || variantId === '') && productSelect.length) {
+        // Try to find any option with a value
+        var firstOption = productSelect.find('option[value]:not([value=""]):not([value="0"])').first();
+        if (!firstOption.length) {
+          // Try without filtering disabled
+          firstOption = productSelect.find('option[value]').not('[value=""]').not('[value="0"]').first();
+        }
+        if (firstOption.length) {
+          variantId = firstOption.attr('value') || firstOption.val();
+          if (variantId && variantId !== '0' && variantId !== '') {
+            productSelect.val(variantId);
+          }
+        }
+      }
+      
+      // 5. Last resort: check if ProductSelect has any selected option
+      if ((!variantId || variantId === '0' || variantId === '') && productSelect.length) {
+        var selectedOption = productSelect.find('option:selected');
+        if (selectedOption.length) {
+          var selectedVal = selectedOption.attr('value') || selectedOption.val();
+          if (selectedVal && selectedVal !== '0' && selectedVal !== '') {
+            variantId = selectedVal;
+          }
+        }
+        // If still no value, try finding option with selected attribute
+        if ((!variantId || variantId === '0' || variantId === '') && productSelect.length) {
+          var selectedByAttr = productSelect.find('option[selected="selected"]');
+          if (!selectedByAttr.length) {
+            selectedByAttr = productSelect.find('option[selected]');
+          }
+          if (selectedByAttr.length) {
+            var attrVal = selectedByAttr.attr('value') || selectedByAttr.val();
+            if (attrVal && attrVal !== '0' && attrVal !== '') {
+              variantId = attrVal;
+              productSelect.val(variantId);
+            }
+          }
+        }
+      }
+      
+      // Check if this product has visible variant selectors that require user selection
+      // Only validate if there are visible variant dropdowns/swatches that the user needs to interact with
+      var hasVisibleVariantSelectors = $form.find('.single-option-selector:visible, .custom-variant-dropdown:visible, .variant-option-wrapper:visible, .carousel-variant-selector:visible').length > 0;
+      var hasMultipleSelectableVariants = productSelect.length > 0 && productSelect.find('option[value!=""][value!="0"]:not(:disabled)').length > 1;
+      
+      // Only validate variant selection if the product has visible variant selectors that require user interaction
+      // Products with no variants or single variant (where variant is auto-selected) don't need validation
+      if (hasVisibleVariantSelectors && hasMultipleSelectableVariants) {
+        // Check if variant ID is empty or invalid (0, empty string, etc.)
+        if (!variantId || variantId === '0' || variantId === '') {
+          // Remove any existing error messages
+          $form.find('.variant-error-message').remove();
+          
+          // Show error message
+          var errorMsg = $('<div class="variant-error-message" style="color: #d32f2f; padding: 10px; margin: 10px 0; background: #ffebee; border: 1px solid #ffcdd2; border-radius: 4px;">Please select a variant before adding to cart.</div>');
+          var $submitButton = $form.find('.dT_AddToCart, button[type="submit"][name="add"]');
+          if ($submitButton.length) {
+            $submitButton.before(errorMsg);
+          } else {
+            $form.prepend(errorMsg);
+          }
+          
+          // Scroll to error message
+          $('html, body').animate({
+            scrollTop: errorMsg.offset().top - 100
+          }, 300);
+          
+          // Remove error after 5 seconds
+          setTimeout(function() {
+            errorMsg.fadeOut(function() {
+              $(this).remove();
+            });
+          }, 5000);
+          
+          return false;
+        }
+      }
+      
+      // Ensure variant ID is set in the form before submission
+      // This is important for single-variant products
+      if (variantId && variantId !== '0' && variantId !== '') {
+        // Set ProductSelect value if it exists
+        if (productSelect.length) {
+          productSelect.val(variantId);
+          // Ensure ProductSelect has name="id" attribute
+          if (!productSelect.attr('name')) {
+            productSelect.attr('name', 'id');
+          }
+        }
+        
+        // Also ensure there's a hidden input with name="id" if it doesn't exist
+        var idInput = $form.find('input[name="id"]');
+        if (!idInput.length) {
+          $form.append('<input type="hidden" name="id" value="' + variantId + '">');
+        } else {
+          idInput.val(variantId);
+        }
+      }
+
+      // Final check - if still no variant ID, try one more time with a different approach
+      if (!variantId || variantId === '0' || variantId === '') {
+        // Try to find ProductSelect by checking all selects in the form
+        var allSelects = $form.find('select');
+        allSelects.each(function() {
+          var $select = $(this);
+          if ($select.attr('id') && $select.attr('id').indexOf('ProductSelect') !== -1) {
+            productSelect = $select;
+            var val = $select.val();
+            if (val && val !== '0' && val !== '') {
+              variantId = val;
+              return false; // break loop
+            }
+            // Try to get first option
+            var opt = $select.find('option[value]:not([value=""]):not([value="0"])').first();
+            if (opt.length) {
+              variantId = opt.attr('value') || opt.val();
+              if (variantId && variantId !== '0' && variantId !== '') {
+                $select.val(variantId);
+                return false; // break loop
+              }
+            }
+          }
+        });
+      }
+      
+      // If still no variant ID, show error with debug info
+      if (!variantId || variantId === '0' || variantId === '') {
+        console.log('Variant ID not found. Form:', $form[0], 'ProductSelect:', productSelect[0], 'Options:', productSelect.find('option').length);
+        $form.find('.variant-error-message').remove();
+        var errorMsg = $('<div class="variant-error-message" style="color: #d32f2f; padding: 10px; margin: 10px 0; background: #ffebee; border: 1px solid #ffcdd2; border-radius: 4px;">Unable to add product to cart. Please refresh the page and try again.</div>');
+        var $submitButton = $form.find('.dT_AddToCart, button[type="submit"][name="add"]');
+        if ($submitButton.length) {
+          $submitButton.before(errorMsg);
+        } else {
+          $form.prepend(errorMsg);
+        }
+        return false;
+      }
+
+      // Ensure the variant ID is in the form data that will be serialized
+      // Make sure ProductSelect has name="id" attribute
+      if (productSelect.length && !productSelect.attr('name')) {
+        productSelect.attr('name', 'id');
+      }
+      
+      // Ensure ProductSelect value is set
+      if (productSelect.length) {
+        productSelect.val(variantId);
+      }
+      
+      // Ensure hidden input with name="id" exists and has the correct value
+      var idInput = $form.find('input[name="id"]');
+      if (!idInput.length) {
+        $form.append('<input type="hidden" name="id" value="' + variantId + '">');
+      } else {
+        idInput.val(variantId);
+      }
+
+      // Set updating flag to prevent duplicate submissions
+      isUpdating = true;
+      
       // Add class to be styled if desired
-      $addToCart.removeClass('is-added').addClass('is-adding');
+      var $submitButton = $form.find('.dT_AddToCart, button[type="submit"][name="add"], input[type="submit"][name="add"]');
+      $submitButton.removeClass('is-added').addClass('is-adding');
 
-      // Remove any previous quantity errors
+      // Remove any previous quantity errors and variant errors
       $('.qty-error').remove();
+      $form.find('.variant-error-message').remove();
 
       ShopifyAPI.addItemFromForm(evt.target, itemAddedCallback, itemErrorCallback);
     });
   };
 
   itemAddedCallback = function (product) {
-    $addToCart.removeClass('is-adding').addClass('is-added');
+    isUpdating = false;
+    var $submitButton = $formContainer.find('.dT_AddToCart.is-adding, button[type="submit"][name="add"].is-adding, input[type="submit"][name="add"].is-adding');
+    $submitButton.removeClass('is-adding').addClass('is-added');
     ShopifyAPI.getCart(cartUpdateCallback);
   };
 
   itemErrorCallback = function (XMLHttpRequest, textStatus) {
+    isUpdating = false;
+    var $submitButton = $formContainer.find('.dT_AddToCart.is-adding, button[type="submit"][name="add"].is-adding, input[type="submit"][name="add"].is-adding');
+    $submitButton.removeClass('is-adding is-added');
     var data = eval('(' + XMLHttpRequest.responseText + ')');
     $addToCart.removeClass('is-adding is-added');
 
@@ -406,7 +634,8 @@ var ajaxCart = (function(module, $) {
     // Add or remove from the quantity
     $body.on('click', '.ajaxcart__qty-adjust', function() {
       var $el = $(this),
-          line = $el.data('line'),
+          line = parseInt($el.data('line'), 10),
+          variantId = $el.attr('data-id') || $el.data('id'),
           $qtySelector = $el.siblings('.ajaxcart__qty-num'),
           qty = parseInt($qtySelector.val().replace(/\D/g, ''));
 
@@ -422,33 +651,29 @@ var ajaxCart = (function(module, $) {
 
       // If it has a data-line, update the cart.
       // Otherwise, just update the input's number
-      if (line) {
-        updateQuantity(line, qty);
+      if (line && !isNaN(line) && line > 0) {
+        updateQuantity(line, qty, variantId);
       } else {
         $qtySelector.val(qty);
       }
     });
     
     
-    // Add or remove from the quantity
-    $body.on('click', '.ajaxcart__qty-remove', function() {
+    // Remove item from cart (set quantity to 0)
+    $body.on('click', '.ajaxcart__qty-remove', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
       var $el = $(this),
-          line = $el.data('line'),
-          $qtySelector = $el.siblings('.ajaxcart__qty-num'),      
-          qty = parseInt($qtySelector.val());      
-          if (!isNaN(qty)) {
-            var qty = validateQty(qty); 
-          }
-          else
-          {
-            qty = 0;
-          }
-
-      if (line) {
-        updateQuantity(line, qty);
-      } else {
-        $qtySelector.val(qty);
-      }
+          line = $el.attr('data-line') || $el.data('line'),
+          variantId = $el.attr('data-id') || $el.data('id') || $el.attr('data-variant-id') || $el.data('variant-id');
+      
+      // Parse line as integer (1-based index)
+      line = parseInt(line, 10);
+      
+      // Always set quantity to 0 to remove the item
+      // Pass both line and variantId - updateQuantity will use line if valid, otherwise variantId
+      updateQuantity(line, 0, variantId);
     });
     
     
@@ -456,14 +681,15 @@ var ajaxCart = (function(module, $) {
     // Update quantity based on input on change
     $body.on('change', '.ajaxcart__qty-num', function() {
       var $el = $(this),
-          line = $el.data('line'),
+          line = parseInt($el.data('line'), 10),
+          variantId = $el.attr('data-id') || $el.data('id'),
           qty = parseInt($el.val().replace(/\D/g, ''));
 
       var qty = validateQty(qty);
 
       // If it has a data-line, update the cart
-      if (line) {
-        updateQuantity(line, qty);
+      if (line && !isNaN(line) && line > 0) {
+        updateQuantity(line, qty, variantId);
       }
     });
 
@@ -482,7 +708,7 @@ var ajaxCart = (function(module, $) {
       }, 50);
     });
 
-    function updateQuantity(line, qty) {
+    function updateQuantity(line, qty, variantId) {
       isUpdating = true;
 
       // Add activity classes when changing cart quantities
@@ -494,7 +720,7 @@ var ajaxCart = (function(module, $) {
 
       // Slight delay to make sure removed animation is done
       setTimeout(function() {
-        ShopifyAPI.changeItem(line, qty, adjustCartCallback);
+        ShopifyAPI.changeItem(line, qty, adjustCartCallback, variantId);
       }, 250);
     }
 

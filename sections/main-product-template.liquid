@@ -292,6 +292,8 @@
                   {% endfor %}
 
                   
+                    {% comment %} Always add a hidden input with the first variant ID (same as home page carousel) - dropdown will update it if present {% endcomment %}
+                    <input type="hidden" name="id" class="variant-push" value="{{ product.variants[0].id }}" />
 
                     <div class="product-item-caption-select product-select-block-{{ section.id }} {% if section.settings.show_variants_swatches and is_gift_set == false %} hidden {% endif %}">
                       {% unless product.options.size == 1
@@ -334,8 +336,8 @@
                               {% endfor %}
                             </select> {% endcomment %}
 
-
-                      <select name="id" id="ProductSelect-{{ product.id }}" data-section="{{ section.id }}" class="product-form__variants hidden">
+                      {% comment %} ProductSelect doesn't need name="id" since we use the hidden input {% endcomment %}
+                      <select id="ProductSelect-{{ product.id }}" data-section="{{ section.id }}" class="product-form__variants hidden">
                         {% for variant in product.variants %}
                         {% if variant.available %}
                         <option {% if section.settings.show_product_quantity %}
@@ -596,7 +598,15 @@
       const productId = {{ product.id }};
       const product = {{ product | json }};
 
-      const variantDropdowns = document.querySelectorAll('.carousel-variant-selector[data-product-id="' + productId + '"] .custom-variant-dropdown');
+      // Find variant dropdowns - check both carousel selectors and product detail page selectors
+      // Try multiple selectors to find dropdowns on product detail page
+      let variantDropdowns = document.querySelectorAll('.carousel-variant-selector[data-product-id="' + productId + '"] .custom-variant-dropdown');
+      // Also check for dropdowns in the product section (product detail page)
+      const productPageDropdowns = document.querySelectorAll('#ProductSection-{{ section.id }} .custom-variant-dropdown, .product-template-content .custom-variant-dropdown, .product-template__container .custom-variant-dropdown, .carousel-variant-selector .custom-variant-dropdown');
+      // Use product page dropdowns if found, otherwise use carousel dropdowns
+      if (productPageDropdowns.length > 0) {
+        variantDropdowns = productPageDropdowns;
+      }
 
       // Function to update button price - make it accessible globally
       window.updateProductButtonPrice = function() {
@@ -697,7 +707,12 @@
               
               // Find the matching variant from the product JSON
               const selectedOptions = [];
-              const allDropdowns = document.querySelectorAll('.carousel-variant-selector[data-product-id="' + productId + '"] .custom-variant-dropdown');
+              // Check both carousel and product detail page dropdowns
+              let allDropdowns = document.querySelectorAll('.carousel-variant-selector[data-product-id="' + productId + '"] .custom-variant-dropdown');
+              const productPageDropdowns = document.querySelectorAll('#ProductSection-{{ section.id }} .custom-variant-dropdown, .product-template-content .custom-variant-dropdown, .product-template__container .custom-variant-dropdown, .carousel-variant-selector .custom-variant-dropdown');
+              if (productPageDropdowns.length > 0) {
+                allDropdowns = productPageDropdowns;
+              }
               allDropdowns.forEach(function(dd) {
                 const selected = dd.querySelector('.variant-option.selected');
                 if (selected) {
@@ -759,6 +774,24 @@
                 }
               }
               
+              // Update ProductSelect and hidden input with selected variant ID
+              if (selectedVariant) {
+                const productSelect = document.querySelector('#ProductSelect-' + productId);
+                const hiddenIdInput = document.querySelector('input[name="id"].variant-push');
+                
+                if (productSelect) {
+                  productSelect.value = selectedVariant.id;
+                  // Trigger change event to ensure other handlers are notified
+                  const changeEvent = new Event('change', { bubbles: true });
+                  productSelect.dispatchEvent(changeEvent);
+                }
+                
+                // Always update the hidden input with the selected variant ID
+                if (hiddenIdInput) {
+                  hiddenIdInput.value = selectedVariant.id;
+                }
+              }
+              
               // Trigger the variant change (this will update the ProductSelect and price element via variant system)
               $(".main-product-select-" + productId + " .single-option-selector").eq(optionIndex).val(optionValue).trigger('change');
               
@@ -768,6 +801,8 @@
                   const productSelect = document.querySelector('#ProductSelect-' + productId);
                   if (productSelect && productSelect.value != selectedVariant.id) {
                     productSelect.value = selectedVariant.id;
+                    const changeEvent = new Event('change', { bubbles: true });
+                    productSelect.dispatchEvent(changeEvent);
                   }
                 }, 100);
               }
@@ -1002,14 +1037,42 @@
         }
       }, true); // Use capture phase to catch events early
 
+      // Get form elements once
+      const productForm = document.querySelector('form[data-product-form]');
+      const productSelect = document.querySelector('#ProductSelect-{{ product.id }}');
+      let hiddenInput = document.querySelector('input[name="id"].variant-push');
+      
+      // If hidden input doesn't exist, create it
+      if (!hiddenInput && productForm && productSelect) {
+        hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'id';
+        hiddenInput.className = 'variant-push';
+        productForm.appendChild(hiddenInput);
+      }
+      
       // Listen for form changes (variant selector changes)
       const variantSelectors = document.querySelectorAll('.single-option-selector');
+      
       if (variantSelectors && variantSelectors.length > 0) {
         variantSelectors.forEach(function(selector) {
           if (selector) {
             selector.addEventListener('change', function() {
+              // Update hidden input when variant selector changes
+              if (productSelect && hiddenInput && productSelect.value) {
+                hiddenInput.value = productSelect.value;
+              }
               setTimeout(callUpdateButtonPrice, 100);
             });
+          }
+        });
+      }
+      
+      // Listen for ProductSelect changes and update hidden input
+      if (productSelect && hiddenInput) {
+        productSelect.addEventListener('change', function() {
+          if (this.value) {
+            hiddenInput.value = this.value;
           }
         });
       }
@@ -1024,8 +1087,37 @@
       
       // Listen for jQuery events when variant changes (more reliable)
       if (typeof jQuery !== 'undefined') {
+        // Listen for swatch radio button changes
+        jQuery(document).on('change', '.swatch :radio', function() {
+          // Wait for the variant system to update ProductSelect, then update hidden input
+          setTimeout(function() {
+            const productSelect = document.querySelector('#ProductSelect-{{ product.id }}');
+            const hiddenInput = document.querySelector('input[name="id"].variant-push');
+            if (productSelect && hiddenInput && productSelect.value) {
+              hiddenInput.value = productSelect.value;
+            }
+          }, 150);
+        });
+        
+        // Listen for single-option-selector changes
         jQuery(document).on('change', '.single-option-selector', function() {
+          // Wait for the variant system to update ProductSelect, then update hidden input
+          setTimeout(function() {
+            const productSelect = document.querySelector('#ProductSelect-{{ product.id }}');
+            const hiddenInput = document.querySelector('input[name="id"].variant-push');
+            if (productSelect && hiddenInput && productSelect.value) {
+              hiddenInput.value = productSelect.value;
+            }
+          }, 150);
           setTimeout(callUpdateButtonPrice, 200);
+        });
+        
+        // Also listen for ProductSelect changes (this is the most reliable)
+        jQuery(document).on('change', '#ProductSelect-{{ product.id }}', function() {
+          const hiddenInput = document.querySelector('input[name="id"].variant-push');
+          if (hiddenInput && this.value) {
+            hiddenInput.value = this.value;
+          }
         });
       }
 
@@ -1064,9 +1156,76 @@
       }
 
       // Observe the product form for changes
-      const productForm = document.querySelector('form[data-product-form]');
       if (productForm) {
         observer.observe(productForm, { childList: true, subtree: true });
+      }
+      
+      // Ensure hidden input always has the correct variant ID
+      if (productSelect && hiddenInput) {
+        // Function to sync hidden input with ProductSelect
+        function syncHiddenInput() {
+          if (productSelect.value) {
+            hiddenInput.value = productSelect.value;
+          } else {
+            // If ProductSelect has no value, get the selected option
+            const selectedOption = productSelect.querySelector('option:checked, option[selected]');
+            if (selectedOption && selectedOption.value) {
+              hiddenInput.value = selectedOption.value;
+              productSelect.value = selectedOption.value;
+            } else {
+              // Fallback to first available option
+              const firstOption = productSelect.querySelector('option[value]:not([value=""]):not([value="0"])');
+              if (firstOption && firstOption.value) {
+                hiddenInput.value = firstOption.value;
+                productSelect.value = firstOption.value;
+              }
+            }
+          }
+        }
+        
+        // Sync on page load
+        setTimeout(syncHiddenInput, 100);
+        setTimeout(syncHiddenInput, 500);
+        
+        // Update hidden input when ProductSelect changes
+        productSelect.addEventListener('change', syncHiddenInput);
+        
+        // Also sync before form submission (in capture phase to run first)
+        if (productForm) {
+          productForm.addEventListener('submit', function(e) {
+            // Ensure hidden input exists and is in the form
+            let input = productForm.querySelector('input[name="id"].variant-push');
+            if (!input) {
+              input = document.createElement('input');
+              input.type = 'hidden';
+              input.name = 'id';
+              input.className = 'variant-push';
+              productForm.appendChild(input);
+            }
+            
+            // Sync hidden input with ProductSelect
+            syncHiddenInput();
+            
+            // Double-check the value is set - if still empty, get from first option
+            if (!input.value || input.value === '0' || input.value === '') {
+              const firstOption = productSelect.querySelector('option[value]:not([value=""]):not([value="0"])');
+              if (firstOption && firstOption.value) {
+                input.value = firstOption.value;
+                productSelect.value = firstOption.value;
+              } else {
+                // Last resort: use the first variant ID from the product data
+                input.value = '{{ product.variants[0].id }}';
+              }
+            }
+            
+            // Final verification - log if still empty (for debugging)
+            if (!input.value || input.value === '0' || input.value === '') {
+              console.error('Variant ID is missing! ProductSelect:', productSelect.value, 'Options:', productSelect.querySelectorAll('option').length, 'Form:', productForm);
+            } else {
+              console.log('Variant ID set to:', input.value);
+            }
+          }, true); // Use capture phase to run before other handlers
+        }
       }
     });
   </script>
@@ -1078,12 +1237,72 @@
 
     .product-template-content .product-label, .product-label, .product-template-content label { font-size: 15px !important; }
 
+    /* Fix layout: Make availability and quantity labels inline with their values */
+    .product-attributes.inventory-product-{{section.id}} {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      margin-bottom: 10px !important;
+    }
+    .product-attributes.inventory-product-{{section.id}} .product-label {
+      margin: 0 !important;
+      display: inline-block !important;
+    }
+    .product-attributes.inventory-product-{{section.id}} #variant-inventory {
+      display: inline-block !important;
+    }
+    
+    .product-attributes.dt-sc-qty {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      margin-bottom: 20px !important;
+    }
+    .product-attributes.dt-sc-qty .product-label {
+      margin: 0 !important;
+      display: inline-block !important;
+    }
+    .product-attributes.dt-sc-qty .product-form__item--quantity {
+      display: inline-flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      margin: 0 !important;
+      gap: 0 !important;
+    }
+    .product-attributes.dt-sc-qty .btn-number {
+      display: inline-block !important;
+      margin: 0 !important;
+    }
+    .product-attributes.dt-sc-qty .input-number {
+      display: inline-block !important;
+      margin: 0 !important;
+    }
+
     form[class*=shopify-product] .dt-sc-qty { margin-bottom: 20px !important; }
     form[class*=shopify-product]>div { margin: 0 0 3px !important; font-size: 15px !important; }
 
     .product-description-product-template .product-meta-block>h2.product-title { font-size: 32px; }
 
     .swatch-group>* { margin: 0 10px 3px 0 !important; }
+    
+    /* Ensure swatches are clickable */
+    .swatch .swatch-element {
+      cursor: pointer !important;
+      pointer-events: auto !important;
+    }
+    .swatch .swatch-element input[type="radio"] {
+      cursor: pointer !important;
+    }
+    .swatch .swatch-element label {
+      cursor: pointer !important;
+      pointer-events: auto !important;
+    }
+    .swatch .swatch-element.soldout {
+      opacity: 0.5;
+    }
+    .swatch .swatch-element.soldout label {
+      cursor: not-allowed !important;
+    }
     .product-description-product-template .product-meta-block div.product-price { margin: 0 0 8px !important; }
 
     .paypal-button-container .paypal-button-row .paypal-button { border-radius: 25px !important; padding-left: 3px !important; }
@@ -1148,6 +1367,7 @@
         }
       }
     });
+    
   </script>
 {% endunless %}
 
