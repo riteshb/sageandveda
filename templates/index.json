@@ -558,6 +558,7 @@
       "block_order": [
         "banner_xbmAxi"
       ],
+      "name": "Bestsellers",
       "settings": {
         "full": true,
         "spacing_both_ends": true,
