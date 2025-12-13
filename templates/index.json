@@ -112,6 +112,39 @@
             "slide_content_bg": ""
           }
         },
+        "slider_n3k4zq": {
+          "type": "Slider",
+          "settings": {
+            "image": "shopify://shop_images/Holiday_Shop_2025_Shopify_Banner.svg",
+            "mobile_image": "shopify://shop_images/Holiday_Shop_2025_Shopify_Banner_768_x_900_px.svg",
+            "mobile_bg_clr": "",
+            "text_alignment": "text-start",
+            "content_position": "top-center",
+            "show_image": false,
+            "title_2": "Holiday Glow Starts Here",
+            "subheading_color": "#f3eee7",
+            "subheading_size": "32",
+            "title": "AM. PM. Two moods. Season-long glow.",
+            "heading_color": "#f3eee7",
+            "heading_size": "48",
+            "desc": "Effortless shine, glowing skin, and feel-good moments in two giftable sets.",
+            "desc_color": "#ffffff",
+            "desc_size": "21",
+            "button": "Buy AM Glow set",
+            "link": "shopify://products/am-glow-holiday-gift-set",
+            "btn_bg_color": "#f8c87d",
+            "btn_txt_color": "#344323",
+            "btn_hoverbg_color": "",
+            "btn_hovertxt_color": "",
+            "button_2": "Buy PM Sparkle set",
+            "link_2": "shopify://products/pm-sparkle-holiday-gift-set",
+            "btn_bg_color_2": "#f6f39b",
+            "btn_txt_color_2": "#344323",
+            "btn_hoverbg_color_2": "",
+            "btn_hovertxt_color_2": "",
+            "slide_content_bg": ""
+          }
+        },
         "slider_WC6Xcw": {
           "type": "Slider",
           "disabled": true,
@@ -252,6 +285,7 @@
         "slider_dF8xRN",
         "slider_t6PdBG",
         "slider_7cxJ4A",
+        "slider_n3k4zq",
         "slider_WC6Xcw",
         "slider_tGT96R",
         "slider_yxK4fV",
