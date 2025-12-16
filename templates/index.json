@@ -16,7 +16,7 @@
           "type": "Slider",
           "settings": {
             "image": "shopify://shop_images/30_percent_discount_banner.svg",
-            "mobile_image": "shopify://shop_images/Holiday_Shop_2025_Shopify_Banner_768_x_900_px.svg",
+            "mobile_image": "shopify://shop_images/30_discount_mobile_version.svg",
             "mobile_bg_clr": "",
             "text_alignment": "text-start",
             "content_position": "top-left",
@@ -150,7 +150,7 @@
           "type": "Slider",
           "settings": {
             "image": "shopify://shop_images/30_percent_discount_banner.svg",
-            "mobile_image": "shopify://shop_images/Holiday_Shop_2025_Shopify_Banner_768_x_900_px.svg",
+            "mobile_image": "shopify://shop_images/30_discount_mobile_version.svg",
             "mobile_bg_clr": "",
             "text_alignment": "text-start",
             "content_position": "top-left",
