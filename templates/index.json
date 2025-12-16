@@ -12,6 +12,39 @@
     "slideshow_VBq79B": {
       "type": "slideshow",
       "blocks": {
+        "slider_MEycP3": {
+          "type": "Slider",
+          "settings": {
+            "image": "shopify://shop_images/30_percent_discount_banner.svg",
+            "mobile_image": "shopify://shop_images/Holiday_Shop_2025_Shopify_Banner_768_x_900_px.svg",
+            "mobile_bg_clr": "",
+            "text_alignment": "text-start",
+            "content_position": "top-left",
+            "show_image": false,
+            "title_2": "",
+            "subheading_color": "#f3eee7",
+            "subheading_size": "28",
+            "title": "48 HR FLASH SALE",
+            "heading_color": "#f3eee7",
+            "heading_size": "48",
+            "desc": "30% discount sitewide. Gift a little glow or restock your favorites. \nUse code GLOW30 at checkout.",
+            "desc_color": "#ffffff",
+            "desc_size": "21",
+            "button": "SHOP GIFTS",
+            "link": "shopify://collections/holidayglowgifts",
+            "btn_bg_color": "#344323",
+            "btn_txt_color": "#f3eee7",
+            "btn_hoverbg_color": "",
+            "btn_hovertxt_color": "",
+            "button_2": "restock favorites",
+            "link_2": "",
+            "btn_bg_color_2": "#faf7f3",
+            "btn_txt_color_2": "#344323",
+            "btn_hoverbg_color_2": "",
+            "btn_hovertxt_color_2": "",
+            "slide_content_bg": ""
+          }
+        },
         "slider_dF8xRN": {
           "type": "Slider",
           "settings": {
@@ -81,6 +114,7 @@
         },
         "slider_7cxJ4A": {
           "type": "Slider",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/REVISED_KAFI_Banners_Nov_2025.png",
             "mobile_image": "shopify://shop_images/KAFI_mobile_banners_nov_2025.png",
@@ -107,6 +141,39 @@
             "link_2": "",
             "btn_bg_color_2": "#946f5e",
             "btn_txt_color_2": "#ffffff",
+            "btn_hoverbg_color_2": "",
+            "btn_hovertxt_color_2": "",
+            "slide_content_bg": ""
+          }
+        },
+        "slider_69T6bd": {
+          "type": "Slider",
+          "settings": {
+            "image": "shopify://shop_images/30_percent_discount_banner.svg",
+            "mobile_image": "shopify://shop_images/Holiday_Shop_2025_Shopify_Banner_768_x_900_px.svg",
+            "mobile_bg_clr": "",
+            "text_alignment": "text-start",
+            "content_position": "top-left",
+            "show_image": false,
+            "title_2": "",
+            "subheading_color": "#f3eee7",
+            "subheading_size": "28",
+            "title": "48 HR FLASH SALE - 30% discount",
+            "heading_color": "#f3eee7",
+            "heading_size": "48",
+            "desc": "30% discount sitewide. Gift a little glow or restock your favorites.",
+            "desc_color": "#ffffff",
+            "desc_size": "21",
+            "button": "SHOP GIFTS",
+            "link": "shopify://collections/holidayglowgifts",
+            "btn_bg_color": "#344323",
+            "btn_txt_color": "#f3eee7",
+            "btn_hoverbg_color": "",
+            "btn_hovertxt_color": "",
+            "button_2": "restock favorites",
+            "link_2": "",
+            "btn_bg_color_2": "#faf7f3",
+            "btn_txt_color_2": "#344323",
             "btn_hoverbg_color_2": "",
             "btn_hovertxt_color_2": "",
             "slide_content_bg": ""
@@ -181,6 +248,7 @@
         },
         "slider_tGT96R": {
           "type": "Slider",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/REVISED_KAFI_Banners_Nov_2025.png",
             "mobile_image": "shopify://shop_images/KAFI_mobile_banners_nov_2025.png",
@@ -282,9 +350,11 @@
         }
       },
       "block_order": [
+        "slider_MEycP3",
         "slider_dF8xRN",
         "slider_t6PdBG",
         "slider_7cxJ4A",
+        "slider_69T6bd",
         "slider_n3k4zq",
         "slider_WC6Xcw",
         "slider_tGT96R",
