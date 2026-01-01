@@ -14,6 +14,7 @@
       "blocks": {
         "slider_MEycP3": {
           "type": "Slider",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/30_percent_discount_banner.svg",
             "mobile_image": "shopify://shop_images/30_discount_mobile_version.svg",
@@ -148,6 +149,7 @@
         },
         "slider_69T6bd": {
           "type": "Slider",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/30_percent_discount_banner.svg",
             "mobile_image": "shopify://shop_images/30_discount_mobile_version.svg",
