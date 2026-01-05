@@ -630,6 +630,7 @@
       "block_order": [
         "banner_xbmAxi"
       ],
+      "disabled": true,
       "name": "Holiday Shop",
       "settings": {
         "full": true,
