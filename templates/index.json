@@ -48,6 +48,7 @@
         },
         "slider_dF8xRN": {
           "type": "Slider",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Holiday_Shop_2025_Shopify_Banner.svg",
             "mobile_image": "shopify://shop_images/Holiday_Shop_2025_Shopify_Banner_768_x_900_px.svg",
@@ -107,6 +108,39 @@
             "link_2": "shopify://products/amrit",
             "btn_bg_color_2": "#f3eee7",
             "btn_txt_color_2": "#344323",
+            "btn_hoverbg_color_2": "",
+            "btn_hovertxt_color_2": "",
+            "slide_content_bg": ""
+          }
+        },
+        "slider_teh83i": {
+          "type": "Slider",
+          "settings": {
+            "image": "shopify://shop_images/30_percent_discount_banner.svg",
+            "mobile_image": "shopify://shop_images/30_discount_mobile_version.svg",
+            "mobile_bg_clr": "",
+            "text_alignment": "text-start",
+            "content_position": "top-left",
+            "show_image": false,
+            "title_2": "",
+            "subheading_color": "#f3eee7",
+            "subheading_size": "32",
+            "title": "Scents that shift your mood",
+            "heading_color": "#f3eee7",
+            "heading_size": "48",
+            "desc": "Radiant Gold Roll-Ons designed to energize, ground, or uplift -whenever you need it.",
+            "desc_color": "#ffffff",
+            "desc_size": "21",
+            "button": "Shop Your Mood",
+            "link": "shopify://products/radiant-gold-glow-roll-on",
+            "btn_bg_color": "#344323",
+            "btn_txt_color": "#f3eee7",
+            "btn_hoverbg_color": "",
+            "btn_hovertxt_color": "",
+            "button_2": "",
+            "link_2": "",
+            "btn_bg_color_2": "rgba(0,0,0,0)",
+            "btn_txt_color_2": "rgba(0,0,0,0)",
             "btn_hoverbg_color_2": "",
             "btn_hovertxt_color_2": "",
             "slide_content_bg": ""
@@ -182,6 +216,7 @@
         },
         "slider_n3k4zq": {
           "type": "Slider",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Holiday_Shop_2025_Shopify_Banner.svg",
             "mobile_image": "shopify://shop_images/Holiday_Shop_2025_Shopify_Banner_768_x_900_px.svg",
@@ -252,6 +287,7 @@
         "slider_MEycP3",
         "slider_dF8xRN",
         "slider_VqzdrC",
+        "slider_teh83i",
         "slider_7cxJ4A",
         "slider_69T6bd",
         "slider_n3k4zq",
