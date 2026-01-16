@@ -12,6 +12,39 @@
     "slideshow_VBq79B": {
       "type": "slideshow",
       "blocks": {
+        "slider_teh83i": {
+          "type": "Slider",
+          "settings": {
+            "image": "shopify://shop_images/Bogo_Offer_V_Day_2026.svg",
+            "mobile_image": "shopify://shop_images/Mobile_Banner_Valentine_s_Day_BOGO_offer_2026_768_x_900_px.svg",
+            "mobile_bg_clr": "",
+            "text_alignment": "text-start",
+            "content_position": "top-left",
+            "show_image": false,
+            "title_2": "",
+            "subheading_color": "#f3eee7",
+            "subheading_size": "32",
+            "title": "One for you. One for your favorite person.",
+            "heading_color": "#f3eee7",
+            "heading_size": "48",
+            "desc": "An easy Galentine’s Day gift, made to be shared.",
+            "desc_color": "#ffffff",
+            "desc_size": "21",
+            "button": "Shop the Galentine’s Offer",
+            "link": "shopify://products/radiant-gold-glow-roll-on",
+            "btn_bg_color": "#74070e",
+            "btn_txt_color": "#f3eee7",
+            "btn_hoverbg_color": "",
+            "btn_hovertxt_color": "",
+            "button_2": "",
+            "link_2": "",
+            "btn_bg_color_2": "rgba(0,0,0,0)",
+            "btn_txt_color_2": "rgba(0,0,0,0)",
+            "btn_hoverbg_color_2": "",
+            "btn_hovertxt_color_2": "",
+            "slide_content_bg": ""
+          }
+        },
         "slider_fccPjp": {
           "type": "Slider",
           "settings": {
@@ -40,39 +73,6 @@
             "link_2": "shopify://products/amrit",
             "btn_bg_color_2": "#f3eee7",
             "btn_txt_color_2": "#344323",
-            "btn_hoverbg_color_2": "",
-            "btn_hovertxt_color_2": "",
-            "slide_content_bg": ""
-          }
-        },
-        "slider_teh83i": {
-          "type": "Slider",
-          "settings": {
-            "image": "shopify://shop_images/Shopify_Banner_Valentine_s_Day_BOGO_offer_2026-1.svg",
-            "mobile_image": "shopify://shop_images/Mobile_Banner_Valentine_s_Day_BOGO_offer_2026_768_x_900_px.svg",
-            "mobile_bg_clr": "",
-            "text_alignment": "text-start",
-            "content_position": "top-left",
-            "show_image": false,
-            "title_2": "",
-            "subheading_color": "#f3eee7",
-            "subheading_size": "32",
-            "title": "One for you. One for your favorite person.",
-            "heading_color": "#f3eee7",
-            "heading_size": "48",
-            "desc": "Buy one Radiant Gold Roll-On and we’ll include a second. \n\nAn easy Galentine’s Day gift, made to be shared.",
-            "desc_color": "#ffffff",
-            "desc_size": "21",
-            "button": "Shop the Galentine’s Offer",
-            "link": "shopify://products/radiant-gold-glow-roll-on",
-            "btn_bg_color": "#74070e",
-            "btn_txt_color": "#f3eee7",
-            "btn_hoverbg_color": "",
-            "btn_hovertxt_color": "",
-            "button_2": "",
-            "link_2": "",
-            "btn_bg_color_2": "rgba(0,0,0,0)",
-            "btn_txt_color_2": "rgba(0,0,0,0)",
             "btn_hoverbg_color_2": "",
             "btn_hovertxt_color_2": "",
             "slide_content_bg": ""
@@ -282,8 +282,8 @@
         }
       },
       "block_order": [
-        "slider_fccPjp",
         "slider_teh83i",
+        "slider_fccPjp",
         "slider_ABkdei",
         "slider_VqzdrC",
         "slider_eyHXkN",
