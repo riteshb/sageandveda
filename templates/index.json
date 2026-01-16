@@ -309,7 +309,7 @@
         "dots": true,
         "carousel_pagination_alignment": "center_pagination",
         "carousel_pagination_bottom_alignment": "inside_element",
-        "arrows": true,
+        "arrows": false,
         "nav_arrow_position": "navigation-bottom-center",
         "center_nav_arrow_alignment": "inside_container",
         "navigation_button_color": "",
