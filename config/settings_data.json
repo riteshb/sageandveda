@@ -16,7 +16,7 @@
     "h4_size": 22,
     "h5_size": 20,
     "h6_size": 16,
-    "base_font": "work_sans_n4",
+    "base_font": "dm_sans_n4",
     "type_base_size": 16,
     "heading_line_height": 1.5,
     "body_line_height": 1.5,
@@ -40,7 +40,7 @@
     "primary_color": "#fffdfb",
     "secondary_color": "#8b9e8a",
     "tertiary_color": "rgba(0,0,0,0)",
-    "body_bg_color": "#f3eee7",
+    "body_bg_color": "#f0eee9",
     "body_text_color": "#344323",
     "overlay_color": "#85321a",
     "link_color": "#85321a",
@@ -1612,26 +1612,6 @@
         "type": "shopify://apps/seoon-blog/blocks/avada-seoon-setting/a45c3e67-be9f-4255-a194-b255a24f37c9",
         "disabled": false,
         "settings": {}
-      },
-      "1530068250781986104": {
-        "type": "shopify://apps/fbp-fast-bundle/blocks/fast_bundle/9e87fbe2-9041-4c23-acf5-322413994cef",
-        "disabled": false,
-        "settings": {
-          "home": false
-        }
-      },
-      "16477348613150133823": {
-        "type": "shopify://apps/unlimited-bundles/blocks/script-app-block/d33d0f48-dee0-42a0-b156-2a5dce91814a",
-        "disabled": true,
-        "settings": {
-          "reload_on_line_item_properties": false,
-          "disable_reload_on_cart_update": false,
-          "disable_cart_attribute_tracker": false,
-          "disable_facebook_events": false,
-          "enable_reload_on_bundle_auto_match": false,
-          "use_h2_header": false,
-          "match_cart_discount_title": false
-        }
       },
       "pagefly-page-builder": {
         "type": "shopify://apps/pagefly-page-builder/blocks/app-embed/83e179f7-59a0-4589-8c66-c0dddf959200",
