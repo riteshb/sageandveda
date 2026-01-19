@@ -45,8 +45,43 @@
             "slide_content_bg": ""
           }
         },
+        "slider_nHUrz7": {
+          "type": "Slider",
+          "name": "Free Candle V Day Offer",
+          "settings": {
+            "image": "shopify://shop_images/V_Day_Candle_Offer.svg",
+            "mobile_image": "shopify://shop_images/V_day_candle_offer_Mobile.svg",
+            "mobile_bg_clr": "",
+            "text_alignment": "text-start",
+            "content_position": "top-center",
+            "show_image": false,
+            "title_2": "",
+            "subheading_color": "#f3eee7",
+            "subheading_size": "32",
+            "title": "A little glow, on us.",
+            "heading_color": "#fffdfb",
+            "heading_size": "48",
+            "desc": "Receive a complimentary candle with every order over $65.",
+            "desc_color": "#ffffff",
+            "desc_size": "21",
+            "button": "Shop Now",
+            "link": "shopify://collections/all",
+            "btn_bg_color": "#9F6000",
+            "btn_txt_color": "#f3eee7",
+            "btn_hoverbg_color": "",
+            "btn_hovertxt_color": "",
+            "button_2": "",
+            "link_2": "",
+            "btn_bg_color_2": "rgba(0,0,0,0)",
+            "btn_txt_color_2": "rgba(0,0,0,0)",
+            "btn_hoverbg_color_2": "",
+            "btn_hovertxt_color_2": "",
+            "slide_content_bg": ""
+          }
+        },
         "slider_fccPjp": {
           "type": "Slider",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/banner_Jan.svg",
             "mobile_image": "shopify://shop_images/Amrit_Jan.svg",
@@ -181,6 +216,7 @@
         },
         "slider_VqzdrC": {
           "type": "Slider",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/banner_Jan.svg",
             "mobile_image": "shopify://shop_images/Amrit_Jan.svg",
@@ -317,6 +353,7 @@
       },
       "block_order": [
         "slider_teh83i",
+        "slider_nHUrz7",
         "slider_fccPjp",
         "slider_ABkdei",
         "slider_bKKPkm",
