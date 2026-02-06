@@ -9,60 +9,6 @@
  */
 {
   "sections": {
-    // "1755175328062a2aa0": {
-    //   "type": "_blocks",
-    //   "settings": {}
-    // },
-    // "17551727299c42aa26": {
-    //   "type": "_blocks",
-    //   "blocks": {
-    //     "ai_gen_block_68582cc_tdDaU6": {
-    //       "type": "ai_gen_block_68582cc",
-    //       "settings": {
-    //         "image": "shopify://shop_images/background_rakhi_landing_page.png",
-    //         "image_height": 400,
-    //         "image_height_mobile": 300,
-    //         "border_radius": 0,
-    //         "show_overlay": true,
-    //         "overlay_color": "#000000",
-    //         "overlay_opacity": 30,
-    //         "heading": "Build Your Ritual. Save While You Glow.",
-    //         "subtext": "Create your perfect Sage & Veda bundle—infused with Ayurvedic oils and mood-lifting scents. Choose your favorites for hair, skin, and soul care, and enjoy exclusive savings when you bundle.",
-    //         "content_padding": 40,
-    //         "content_padding_mobile": 20,
-    //         "text_spacing": 15,
-    //         "horizontal_alignment": "center",
-    //         "vertical_alignment": "center",
-    //         "text_alignment": "center",
-    //         "heading_color": "#ffffff",
-    //         "heading_size": 40,
-    //         "heading_size_mobile": 28,
-    //         "heading_weight": "600",
-    //         "text_color": "#ffffff",
-    //         "text_size": 16,
-    //         "text_size_mobile": 14,
-    //         "button_text": "Start Building Your Ritual",
-    //         "button_link": "",
-    //         "button_bg_color": "#ffffff",
-    //         "button_text_color": "#000000",
-    //         "button_hover_bg_color": "#f0f0f0",
-    //         "button_hover_text_color": "#000000",
-    //         "button_border_color": "#ffffff",
-    //         "button_hover_border_color": "#f0f0f0",
-    //         "button_border_width": 1,
-    //         "button_border_radius": 5,
-    //         "button_padding_vertical": 15,
-    //         "button_padding_horizontal": 30,
-    //         "button_text_size": 16
-    //       },
-    //       "blocks": {}
-    //     }
-    //   },
-    //   "block_order": [
-    //     "ai_gen_block_68582cc_tdDaU6"
-    //   ],
-    //   "settings": {}
-    // },
     "main": {
       "type": "main-page",
       "disabled": true,
@@ -70,24 +16,133 @@
     },
     "17551755008acc5da1": {
       "type": "apps",
+      "settings": {}
+    },
+    "home_image_gallery_wBdiyp": {
+      "type": "home-image-gallery",
       "blocks": {
-        "fbp_fast_bundle_bundle_with_ids_8DwJGL": {
-          "type": "shopify://apps/fbp-fast-bundle/blocks/bundle_with_ids/9e87fbe2-9041-4c23-acf5-322413994cef",
+        "image_image_nJUeDD": {
+          "type": "image_image",
           "settings": {
-            "bundle_ids": "ef04a2b1-0542-4c17-bdd3-909fa574ffb2"
+            "block_title_1": "Title",
+            "sub_block_title_1": "Sub Title",
+            "block_title": "Title",
+            "block_description": "Short description",
+            "block_button_text": "",
+            "block_button_link": ""
+          }
+        },
+        "image_image_rPxbcB": {
+          "type": "image_image",
+          "settings": {
+            "block_title_1": "Title",
+            "sub_block_title_1": "Sub Title",
+            "block_title": "Title",
+            "block_description": "Short description",
+            "block_button_text": "",
+            "block_button_link": ""
+          }
+        },
+        "image_image_h6MqiY": {
+          "type": "image_image",
+          "settings": {
+            "block_title_1": "Title",
+            "sub_block_title_1": "Sub Title",
+            "block_title": "Title",
+            "block_description": "Short description",
+            "block_button_text": "",
+            "block_button_link": ""
+          }
+        },
+        "image_image_pEHbz8": {
+          "type": "image_image",
+          "settings": {
+            "block_title_1": "Title",
+            "sub_block_title_1": "Sub Title",
+            "block_title": "Title",
+            "block_description": "Short description",
+            "block_button_text": "",
+            "block_button_link": ""
+          }
+        },
+        "image_image_WrPU77": {
+          "type": "image_image",
+          "settings": {
+            "block_title_1": "Title",
+            "sub_block_title_1": "Sub Title",
+            "block_title": "Title",
+            "block_description": "Short description",
+            "block_button_text": "",
+            "block_button_link": ""
           }
         }
       },
       "block_order": [
-        "fbp_fast_bundle_bundle_with_ids_8DwJGL"
+        "image_image_nJUeDD",
+        "image_image_rPxbcB",
+        "image_image_h6MqiY",
+        "image_image_pEHbz8",
+        "image_image_WrPU77"
       ],
-      "settings": {}
+      "name": "Image list",
+      "settings": {
+        "full": false,
+        "spacing_both_ends": false,
+        "padding": "0,0",
+        "margin": "0,0",
+        "show_background_image": false,
+        "background_style": "default",
+        "enable_overlay": false,
+        "background_color": "",
+        "overlay_transparency": "0.5",
+        "section_heading": "Image list",
+        "section_sub_heading": "Sub Heading",
+        "section_description": "Use this text to share the information which you like!.",
+        "section_button_text": "",
+        "section_button_link": "",
+        "section_heading_color": "",
+        "section_sub_heading_color": "",
+        "section_description_color": "",
+        "section_button_bg_color": "",
+        "section_button_text_color": "",
+        "section_button_hover_bg_color": "",
+        "section_button_hover_text_color": "",
+        "heading_position": "text-center",
+        "grid": "5",
+        "column_gap": "30",
+        "image_list_text": "",
+        "image_list_link": "",
+        "item_height": 450,
+        "item_height_laptop": 400,
+        "item_height_tab": 350,
+        "item_height_mobile": 300,
+        "image_link_bg_color": "",
+        "image_link_text_color": "",
+        "image_link_hover_bg_color": "",
+        "image_link_hover_text_color": "",
+        "enable_slider": false,
+        "remove_button_space": false,
+        "enable_auto_height": true,
+        "items_per_view": 4,
+        "slider_autoplay": 0,
+        "dots": true,
+        "carousel_pagination_alignment": "center_pagination",
+        "arrows": true,
+        "nav_arrow_position": "navigation-bottom-center",
+        "center_nav_arrow_alignment": "outside_container",
+        "navigation_button_color": "",
+        "navigation_button_icon_color": "",
+        "navigation_button_hover_color": "",
+        "navigation_button_hover_icon_color": "",
+        "navigation_dot_color": "",
+        "navigation_dot_active_color": "",
+        "custom_class_name": ""
+      }
     }
   },
   "order": [
-    //"1755175328062a2aa0",
-    //"17551727299c42aa26",
     "main",
-    "17551755008acc5da1"
+    "17551755008acc5da1",
+    "home_image_gallery_wBdiyp"
   ]
 }
