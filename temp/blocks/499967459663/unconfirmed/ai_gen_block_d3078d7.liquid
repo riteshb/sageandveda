@@ -5,323 +5,177 @@
 {% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
 
 {% style %}
-  .ai-footer-{{ ai_gen_id }} {
+  .ai-text-section-{{ ai_gen_id }} {
     display: block;
-    width: 100%;
-    background-color: {{ block.settings.background_color }};
-    border-top: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
-    padding: {{ block.settings.padding_top }}px 0 {{ block.settings.padding_bottom }}px;
-  }
-
-  .ai-footer-container-{{ ai_gen_id }} {
-    max-width: 1230px;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: {{ block.settings.padding_top }}px {{ block.settings.padding_horizontal }}px {{ block.settings.padding_bottom }}px;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
   }
 
-  .ai-footer-content-{{ ai_gen_id }} {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
-    margin-bottom: {{ block.settings.bottom_spacing }}px;
+  .ai-text-content-{{ ai_gen_id }} {
+    text-align: {{ block.settings.text_alignment }};
+    color: {{ block.settings.text_color }};
   }
 
-  .ai-footer-column-{{ ai_gen_id }} {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .ai-footer-heading-{{ ai_gen_id }} {
-    margin: 0;
+  .ai-text-heading-{{ ai_gen_id }} {
+    margin: 0 0 {{ block.settings.heading_spacing }}px;
     color: {{ block.settings.heading_color }};
     font-size: {{ block.settings.heading_size }}px;
-    font-weight: 600;
+    line-height: 1.5;
   }
 
-  .ai-footer-text-{{ ai_gen_id }} {
+  .ai-text-body-{{ ai_gen_id }} {
     margin: 0;
-    color: {{ block.settings.text_color }};
     font-size: {{ block.settings.text_size }}px;
     line-height: 1.5;
   }
 
-  .ai-footer-links-{{ ai_gen_id }} {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  .ai-text-body-{{ ai_gen_id }} p {
+    margin: 0 0 1em;
   }
 
-  .ai-footer-links-{{ ai_gen_id }} a {
-    color: {{ block.settings.link_color }};
-    text-decoration: none;
-    font-size: {{ block.settings.text_size }}px;
-    transition: color 0.3s ease;
-  }
-
-  .ai-footer-links-{{ ai_gen_id }} a:hover {
-    color: {{ block.settings.link_hover_color }};
-  }
-
-  .ai-footer-social-{{ ai_gen_id }} {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-  }
-
-  .ai-footer-social-{{ ai_gen_id }} a {
-    color: {{ block.settings.social_icon_color }};
-    transition: color 0.3s ease;
-  }
-
-  .ai-footer-social-{{ ai_gen_id }} a:hover {
-    color: {{ block.settings.social_icon_hover_color }};
-  }
-
-  .ai-footer-social-{{ ai_gen_id }} svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .ai-footer-bottom-{{ ai_gen_id }} {
-    text-align: center;
-    padding-top: {{ block.settings.bottom_spacing }}px;
-    border-top: 1px solid {{ block.settings.border_color }};
-    color: {{ block.settings.text_color }};
-    font-size: {{ block.settings.text_size | times: 0.9 }}px;
+  .ai-text-body-{{ ai_gen_id }} p:last-child {
+    margin-bottom: 0;
   }
 
   @media screen and (max-width: 749px) {
-    .ai-footer-content-{{ ai_gen_id }} {
-      grid-template-columns: 1fr;
-      gap: 30px;
+    .ai-text-section-{{ ai_gen_id }} {
+      width: 100%;
+      padding: {{ block.settings.padding_top | times: 0.6 }}px {{ block.settings.padding_horizontal | times: 0.6 }}px {{ block.settings.padding_bottom | times: 0.6 }}px;
+    }
+
+    .ai-text-heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.8 }}px;
+    }
+
+    .ai-text-body-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
     }
   }
 {% endstyle %}
 
-<footer-block-{{ ai_gen_id }} class="ai-footer-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
-  <div class="ai-footer-container-{{ ai_gen_id }}">
-    <div class="ai-footer-content-{{ ai_gen_id }}">
-      {% if block.settings.show_column_1 %}
-        <div class="ai-footer-column-{{ ai_gen_id }}">
-          {% if block.settings.column_1_heading != blank %}
-            <h3 class="ai-footer-heading-{{ ai_gen_id }}">{{ block.settings.column_1_heading }}</h3>
-          {% endif %}
-          {% if block.settings.column_1_text != blank %}
-            <div class="ai-footer-text-{{ ai_gen_id }}">{{ block.settings.column_1_text }}</div>
-          {% endif %}
-        </div>
-      {% endif %}
-
-      {% if block.settings.show_column_2 %}
-        <div class="ai-footer-column-{{ ai_gen_id }}">
-          {% if block.settings.column_2_heading != blank %}
-            <h3 class="ai-footer-heading-{{ ai_gen_id }}">{{ block.settings.column_2_heading }}</h3>
-          {% endif %}
-          <ul class="ai-footer-links-{{ ai_gen_id }}">
-            {% if block.settings.link_1_text != blank %}
-              <li><a href="{{ block.settings.link_1_url }}">{{ block.settings.link_1_text }}</a></li>
-            {% endif %}
-            {% if block.settings.link_2_text != blank %}
-              <li><a href="{{ block.settings.link_2_url }}">{{ block.settings.link_2_text }}</a></li>
-            {% endif %}
-            {% if block.settings.link_3_text != blank %}
-              <li><a href="{{ block.settings.link_3_url }}">{{ block.settings.link_3_text }}</a></li>
-            {% endif %}
-            {% if block.settings.link_4_text != blank %}
-              <li><a href="{{ block.settings.link_4_url }}">{{ block.settings.link_4_text }}</a></li>
-            {% endif %}
-          </ul>
-        </div>
-      {% endif %}
-
-      {% if block.settings.show_social %}
-        <div class="ai-footer-column-{{ ai_gen_id }}">
-          {% if block.settings.social_heading != blank %}
-            <h3 class="ai-footer-heading-{{ ai_gen_id }}">{{ block.settings.social_heading }}</h3>
-          {% endif %}
-          <div class="ai-footer-social-{{ ai_gen_id }}">
-            {% if block.settings.facebook_url != blank %}
-              <a href="{{ block.settings.facebook_url }}" aria-label="Facebook">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-              </a>
-            {% endif %}
-            {% if block.settings.instagram_url != blank %}
-              <a href="{{ block.settings.instagram_url }}" aria-label="Instagram">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-              </a>
-            {% endif %}
-            {% if block.settings.twitter_url != blank %}
-              <a href="{{ block.settings.twitter_url }}" aria-label="Twitter">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                </svg>
-              </a>
-            {% endif %}
-          </div>
-        </div>
-      {% endif %}
-    </div>
-
-    {% if block.settings.show_copyright %}
-      <div class="ai-footer-bottom-{{ ai_gen_id }}">
-        <p>{{ block.settings.copyright_text }}</p>
+<text-section-{{ ai_gen_id }} class="ai-text-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-text-content-{{ ai_gen_id }}">
+    {% if block.settings.heading != blank %}
+      <h2 class="ai-text-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+    {% endif %}
+    
+    {% if block.settings.text != blank %}
+      <div class="ai-text-body-{{ ai_gen_id }}">
+        {{ block.settings.text }}
       </div>
     {% endif %}
   </div>
-</footer-block-{{ ai_gen_id }}>
+</text-section-{{ ai_gen_id }}>
 
 <script>
   (function() {
-    class FooterBlock{{ ai_gen_id }} extends HTMLElement {
+    class TextSection{{ ai_gen_id }} extends HTMLElement {
       constructor() {
         super();
       }
     }
-    customElements.define('footer-block-{{ ai_gen_id }}', FooterBlock{{ ai_gen_id }});
+    customElements.define('text-section-{{ ai_gen_id }}', TextSection{{ ai_gen_id }});
   })();
 </script>
 
 {% schema %}
 {
-  "name": "Footer",
+  "name": "Text section",
   "tag": null,
   "settings": [
     {
-      "type": "header",
-      "content": "Column 1"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_column_1",
-      "label": "Show column 1",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "column_1_heading",
+      "type": "inline_richtext",
+      "id": "heading",
       "label": "Heading",
-      "default": "About us"
+      "default": "Text section"
     },
     {
       "type": "richtext",
-      "id": "column_1_text",
+      "id": "text",
       "label": "Text",
-      "default": "<p>Share information about your store with your customers.</p>"
+      "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
     },
     {
       "type": "header",
-      "content": "Column 2"
+      "content": "Layout"
     },
     {
-      "type": "checkbox",
-      "id": "show_column_2",
-      "label": "Show column 2",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "column_2_heading",
-      "label": "Heading",
-      "default": "Quick links"
-    },
-    {
-      "type": "text",
-      "id": "link_1_text",
-      "label": "Link 1 text",
-      "default": "Search"
-    },
-    {
-      "type": "url",
-      "id": "link_1_url",
-      "label": "Link 1 URL"
-    },
-    {
-      "type": "text",
-      "id": "link_2_text",
-      "label": "Link 2 text",
-      "default": "Privacy policy"
-    },
-    {
-      "type": "url",
-      "id": "link_2_url",
-      "label": "Link 2 URL"
-    },
-    {
-      "type": "text",
-      "id": "link_3_text",
-      "label": "Link 3 text",
-      "default": "Refund policy"
-    },
-    {
-      "type": "url",
-      "id": "link_3_url",
-      "label": "Link 3 URL"
-    },
-    {
-      "type": "text",
-      "id": "link_4_text",
-      "label": "Link 4 text",
-      "default": "Terms of service"
-    },
-    {
-      "type": "url",
-      "id": "link_4_url",
-      "label": "Link 4 URL"
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
     },
     {
       "type": "header",
-      "content": "Social media"
+      "content": "Spacing"
     },
     {
-      "type": "checkbox",
-      "id": "show_social",
-      "label": "Show social media",
-      "default": true
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
     },
     {
-      "type": "text",
-      "id": "social_heading",
-      "label": "Heading",
-      "default": "Follow us"
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
     },
     {
-      "type": "url",
-      "id": "facebook_url",
-      "label": "Facebook URL"
+      "type": "range",
+      "id": "padding_horizontal",
+      "label": "Padding horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
     },
     {
-      "type": "url",
-      "id": "instagram_url",
-      "label": "Instagram URL"
-    },
-    {
-      "type": "url",
-      "id": "twitter_url",
-      "label": "Twitter URL"
-    },
-    {
-      "type": "header",
-      "content": "Copyright"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_copyright",
-      "label": "Show copyright",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "copyright_text",
-      "label": "Copyright text",
-      "default": "© 2026 Your Store Name. All rights reserved."
+      "type": "range",
+      "id": "heading_spacing",
+      "label": "Heading spacing",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
     },
     {
       "type": "header",
@@ -346,99 +200,39 @@
       "default": "#344323"
     },
     {
-      "type": "color",
-      "id": "link_color",
-      "label": "Link color",
-      "default": "#85321a"
-    },
-    {
-      "type": "color",
-      "id": "link_hover_color",
-      "label": "Link hover color",
-      "default": "#85321a"
-    },
-    {
-      "type": "color",
-      "id": "social_icon_color",
-      "label": "Social icon color",
-      "default": "#344323"
-    },
-    {
-      "type": "color",
-      "id": "social_icon_hover_color",
-      "label": "Social icon hover color",
-      "default": "#85321a"
-    },
-    {
-      "type": "color",
-      "id": "border_color",
-      "label": "Border color",
-      "default": "#e9e9e9"
-    },
-    {
-      "type": "range",
-      "id": "border_width",
-      "label": "Border width",
-      "min": 0,
-      "max": 5,
-      "step": 1,
-      "unit": "px",
-      "default": 1
-    },
-    {
       "type": "range",
       "id": "heading_size",
       "label": "Heading size",
-      "min": 14,
-      "max": 24,
-      "step": 1,
+      "min": 16,
+      "max": 60,
+      "step": 2,
       "unit": "px",
-      "default": 18
+      "default": 36
     },
     {
       "type": "range",
       "id": "text_size",
       "label": "Text size",
       "min": 12,
-      "max": 18,
+      "max": 24,
       "step": 1,
       "unit": "px",
-      "default": 14
+      "default": 16
     },
     {
       "type": "range",
-      "id": "padding_top",
-      "label": "Padding top",
-      "min": 20,
-      "max": 100,
-      "step": 5,
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
       "unit": "px",
-      "default": 50
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "label": "Padding bottom",
-      "min": 20,
-      "max": 100,
-      "step": 5,
-      "unit": "px",
-      "default": 50
-    },
-    {
-      "type": "range",
-      "id": "bottom_spacing",
-      "label": "Bottom spacing",
-      "min": 10,
-      "max": 50,
-      "step": 5,
-      "unit": "px",
-      "default": 30
+      "default": 4
     }
   ],
   "presets": [
     {
-      "name": "Footer"
+      "name": "Text section"
     }
   ]
 }
