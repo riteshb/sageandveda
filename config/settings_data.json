@@ -1263,6 +1263,15 @@
       "inner-page-content-with-image-section": {
         "type": "inner-page-content-with-image-section",
         "blocks": {
+          "content_XmbmVw": {
+            "type": "content",
+            "settings": {
+              "font_icon": "fa fa-lightbulb-o",
+              "title": "Heading",
+              "text": "Sed vestibulum nulla elementum auctor tincidunt. Aliquam sit amet cursus mauris. Sed vitae mattis ipsum. Vestibulum enim nulla, sollicitudin ac hendrerit nec, tempor quis nisl",
+              "reverse_column": false
+            }
+          },
           "f672b65a-10bf-44a7-b408-14e79abbdee6": {
             "type": "content",
             "disabled": true,
@@ -1276,6 +1285,7 @@
           },
           "content_XtFqHG": {
             "type": "content",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/glass_amrit_5c5e3b9d-1301-4066-afd5-cdaf159f324e.png",
               "font_icon": "",
@@ -1308,6 +1318,7 @@
           },
           "092ecb58-c7b7-4f0d-92b0-1a614b5b80fc": {
             "type": "content",
+            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/About-us_four_cofounders.png",
               "font_icon": "",
@@ -1328,6 +1339,7 @@
           }
         },
         "block_order": [
+          "content_XmbmVw",
           "f672b65a-10bf-44a7-b408-14e79abbdee6",
           "content_XtFqHG",
           "content_JrjqeT",
@@ -1494,6 +1506,17 @@
       "inner-page-team-section": {
         "type": "inner-page-team-section",
         "blocks": {
+          "content_88gdqC": {
+            "type": "content",
+            "settings": {
+              "name": "Name",
+              "designation": "Customer support",
+              "facebook": "#",
+              "twitter": "#",
+              "pinterest": "#",
+              "youtube": "#"
+            }
+          },
           "e6a8a992-1e61-4790-aa5e-6ff05d5bb35e": {
             "type": "content",
             "disabled": true,
@@ -1508,6 +1531,7 @@
           }
         },
         "block_order": [
+          "content_88gdqC",
           "e6a8a992-1e61-4790-aa5e-6ff05d5bb35e"
         ],
         "settings": {
@@ -1561,19 +1585,19 @@
         ],
         "settings": {
           "enable": true,
-          "full": true,
+          "full": false,
           "spacing_both_ends": true,
           "padding": "150,150",
           "margin": "0,0",
-          "background_image": "shopify://shop_images/Maati_sari_about_us_banner.png",
+          "background_image": "shopify://shop_images/Calm_Banner.svg",
           "show_background_image": true,
           "background_style": "default",
           "enable_overlay": false,
           "background_color": "",
           "overlay_transparency": "1",
-          "section_heading": "OUR MISSION",
+          "section_heading": "CALM",
           "section_sub_heading": "",
-          "section_description": "We transform everyday rituals into moments of luxury through thoughtfully crafted, heritage-inspired formulations.",
+          "section_description": "A soothing, skin-first ritual designed to slow things down. For moments when you want softness, ease, and a steady glow that carries into the day.",
           "section_button_text": "",
           "section_button_link": "",
           "section_heading_color": "",
@@ -1583,7 +1607,7 @@
           "section_button_text_color": "",
           "section_button_hover_bg_color": "",
           "section_button_hover_text_color": "",
-          "heading_position": "text-start",
+          "heading_position": "text-center",
           "block_bg": "",
           "block_heading_color": "",
           "block_description_color": "",
