@@ -1566,7 +1566,7 @@
           "margin": "0,0",
           "background_image": "shopify://shop_images/Maati_sari_about_us_banner.png",
           "show_background_image": true,
-          "background_style": "parallax",
+          "background_style": "default",
           "enable_overlay": false,
           "background_color": "",
           "overlay_transparency": "1",
