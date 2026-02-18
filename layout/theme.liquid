@@ -16,7 +16,7 @@
     }
   </style>
 {% endif %}
-  <head>
+  <head><!-- SEOAnt Speed Up Script -->{%- if shop.metafields.seoantAppSiteSpeedUpV2.switch == 1 -%}{% include 'SEOAnt-SpeedUp' %}{%- endif -%}<!-- /SEOAnt Speed Up Script -->
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16990829846"></script>
 <script>
