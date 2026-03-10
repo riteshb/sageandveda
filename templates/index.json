@@ -48,8 +48,8 @@
         "slider_ABkdei": {
           "type": "Slider",
           "settings": {
-            "image": "shopify://shop_images/30_percent_discount_banner.svg",
-            "mobile_image": "shopify://shop_images/30_discount_mobile_version.svg",
+            "image": "shopify://shop_images/Roll-on_banner_shopify.svg",
+            "mobile_image": "shopify://shop_images/Roll-on_banner_shopify_mobile.svg",
             "mobile_bg_clr": "",
             "text_alignment": "text-start",
             "content_position": "top-left",
