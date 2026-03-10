@@ -45,6 +45,39 @@
             "slide_content_bg": ""
           }
         },
+        "slider_ABkdei": {
+          "type": "Slider",
+          "settings": {
+            "image": "shopify://shop_images/30_percent_discount_banner.svg",
+            "mobile_image": "shopify://shop_images/30_discount_mobile_version.svg",
+            "mobile_bg_clr": "",
+            "text_alignment": "text-start",
+            "content_position": "top-left",
+            "show_image": false,
+            "title_2": "",
+            "subheading_color": "#f3eee7",
+            "subheading_size": "32",
+            "title": "For moments when you need a lift.",
+            "heading_color": "#f3eee7",
+            "heading_size": "48",
+            "desc": "Skin-nourishing perfume oil designed to lift your mood wherever the day takes you.",
+            "desc_color": "#ffffff",
+            "desc_size": "21",
+            "button": "Shop Your Mood",
+            "link": "shopify://products/radiant-gold-glow-roll-on",
+            "btn_bg_color": "#344323",
+            "btn_txt_color": "#f3eee7",
+            "btn_hoverbg_color": "",
+            "btn_hovertxt_color": "",
+            "button_2": "",
+            "link_2": "",
+            "btn_bg_color_2": "rgba(0,0,0,0)",
+            "btn_txt_color_2": "rgba(0,0,0,0)",
+            "btn_hoverbg_color_2": "",
+            "btn_hovertxt_color_2": "",
+            "slide_content_bg": ""
+          }
+        },
         "slider_E8kD4r": {
           "type": "Slider",
           "settings": {
@@ -112,40 +145,6 @@
             "slide_content_bg": ""
           }
         },
-        "slider_ABkdei": {
-          "type": "Slider",
-          "disabled": true,
-          "settings": {
-            "image": "shopify://shop_images/30_percent_discount_banner.svg",
-            "mobile_image": "shopify://shop_images/30_discount_mobile_version.svg",
-            "mobile_bg_clr": "",
-            "text_alignment": "text-start",
-            "content_position": "top-left",
-            "show_image": false,
-            "title_2": "",
-            "subheading_color": "#f3eee7",
-            "subheading_size": "32",
-            "title": "For moments when you need a lift.",
-            "heading_color": "#f3eee7",
-            "heading_size": "48",
-            "desc": "Radiant Gold is our skin-nourishing roll-on perfume oil designed to lift your mood wherever the day takes you.",
-            "desc_color": "#ffffff",
-            "desc_size": "21",
-            "button": "Shop Your Mood",
-            "link": "shopify://products/radiant-gold-glow-roll-on",
-            "btn_bg_color": "#344323",
-            "btn_txt_color": "#f3eee7",
-            "btn_hoverbg_color": "",
-            "btn_hovertxt_color": "",
-            "button_2": "",
-            "link_2": "",
-            "btn_bg_color_2": "rgba(0,0,0,0)",
-            "btn_txt_color_2": "rgba(0,0,0,0)",
-            "btn_hoverbg_color_2": "",
-            "btn_hovertxt_color_2": "",
-            "slide_content_bg": ""
-          }
-        },
         "slider_nHUrz7": {
           "type": "Slider",
           "name": "Free Candle V Day Offer",
@@ -184,9 +183,9 @@
       },
       "block_order": [
         "slider_fccPjp",
+        "slider_ABkdei",
         "slider_E8kD4r",
         "slider_teh83i",
-        "slider_ABkdei",
         "slider_nHUrz7"
       ],
       "name": "Slider",
