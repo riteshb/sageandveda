@@ -148,6 +148,39 @@
             "slide_content_bg": ""
           }
         },
+        "slider_E8kD4r": {
+          "type": "Slider",
+          "settings": {
+            "image": "shopify://shop_images/banner_Jan.svg",
+            "mobile_image": "shopify://shop_images/Amrit_Jan.svg",
+            "mobile_bg_clr": "",
+            "text_alignment": "text-start",
+            "content_position": "top-left",
+            "show_image": false,
+            "title_2": "",
+            "subheading_color": "#f3eee7",
+            "subheading_size": "32",
+            "title": "The oil you'll reach for every day.",
+            "heading_color": "#f3eee7",
+            "heading_size": "48",
+            "desc": "Start with Amrit - our everyday face &amp; body oil for soft, nourished skin and a calmer daily rhythm.",
+            "desc_color": "#ffffff",
+            "desc_size": "21",
+            "button": "Buy Value Size",
+            "link": "shopify://products/amrit",
+            "btn_bg_color": "#344323",
+            "btn_txt_color": "#f3eee7",
+            "btn_hoverbg_color": "",
+            "btn_hovertxt_color": "",
+            "button_2": "Buy Starter Size",
+            "link_2": "shopify://products/amrit",
+            "btn_bg_color_2": "#f3eee7",
+            "btn_txt_color_2": "#344323",
+            "btn_hoverbg_color_2": "",
+            "btn_hovertxt_color_2": "",
+            "slide_content_bg": ""
+          }
+        },
         "slider_bKKPkm": {
           "type": "Slider",
           "disabled": true,
@@ -251,39 +284,6 @@
             "slide_content_bg": ""
           }
         },
-        "slider_VqzdrC": {
-          "type": "Slider",
-          "settings": {
-            "image": "shopify://shop_images/banner_Jan.svg",
-            "mobile_image": "shopify://shop_images/Amrit_Jan.svg",
-            "mobile_bg_clr": "",
-            "text_alignment": "text-start",
-            "content_position": "top-left",
-            "show_image": false,
-            "title_2": "",
-            "subheading_color": "#f3eee7",
-            "subheading_size": "32",
-            "title": "Deep hydration for dry, thirsty skin",
-            "heading_color": "#f3eee7",
-            "heading_size": "48",
-            "desc": "A silky, fast-absorbing oil that restores moisture balance and leaves skin soft, smooth, and luminous.",
-            "desc_color": "#ffffff",
-            "desc_size": "21",
-            "button": "Buy Value Size",
-            "link": "shopify://products/amrit",
-            "btn_bg_color": "#344323",
-            "btn_txt_color": "#f3eee7",
-            "btn_hoverbg_color": "",
-            "btn_hovertxt_color": "",
-            "button_2": "Buy Starter Sizer",
-            "link_2": "shopify://products/amrit",
-            "btn_bg_color_2": "#f3eee7",
-            "btn_txt_color_2": "#344323",
-            "btn_hoverbg_color_2": "",
-            "btn_hovertxt_color_2": "",
-            "slide_content_bg": ""
-          }
-        },
         "slider_WCJ9PE": {
           "type": "Slider",
           "disabled": true,
@@ -324,10 +324,10 @@
         "slider_nHUrz7",
         "slider_fccPjp",
         "slider_ABkdei",
+        "slider_E8kD4r",
         "slider_bKKPkm",
         "slider_AkjyPx",
         "slider_CdUbXB",
-        "slider_VqzdrC",
         "slider_WCJ9PE"
       ],
       "name": "Slider",
