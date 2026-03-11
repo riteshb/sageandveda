@@ -48,8 +48,8 @@
         "slider_ABkdei": {
           "type": "Slider",
           "settings": {
-            "image": "shopify://shop_images/Roll-on_banner_shopify.svg",
-            "mobile_image": "shopify://shop_images/Roll-on_banner_shopify_mobile.svg",
+            "image": "shopify://shop_images/New_roll-on_Banner_Shopify.svg",
+            "mobile_image": "shopify://shop_images/Roll-on_shopify_mobile.svg",
             "mobile_bg_clr": "",
             "text_alignment": "text-start",
             "content_position": "top-left",
@@ -111,11 +111,11 @@
             "slide_content_bg": ""
           }
         },
-        "slider_6WqTA9": {
+        "slider_Yabe4b": {
           "type": "Slider",
           "settings": {
-            "image": "shopify://shop_images/Roll-on_banner_shopify.svg",
-            "mobile_image": "shopify://shop_images/Roll-on_banner_shopify_mobile.svg",
+            "image": "shopify://shop_images/New_roll-on_Banner_Shopify.svg",
+            "mobile_image": "shopify://shop_images/Roll-on_shopify_mobile.svg",
             "mobile_bg_clr": "",
             "text_alignment": "text-start",
             "content_position": "top-left",
@@ -218,7 +218,7 @@
         "slider_fccPjp",
         "slider_ABkdei",
         "slider_E8kD4r",
-        "slider_6WqTA9",
+        "slider_Yabe4b",
         "slider_teh83i",
         "slider_nHUrz7"
       ],
