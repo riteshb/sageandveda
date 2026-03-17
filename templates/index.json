@@ -14,6 +14,7 @@
       "blocks": {
         "slider_fccPjp": {
           "type": "Slider",
+          "name": "St Patrick's Day Offer",
           "settings": {
             "image": "shopify://shop_images/St_Patrick_s_Day_Shopify_Banner.svg",
             "mobile_image": "shopify://shop_images/St_Patrick_s_Day_Shopify_Banner_Mobile.svg",
