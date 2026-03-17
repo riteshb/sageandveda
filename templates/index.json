@@ -32,7 +32,7 @@
             "desc_color": "#ffffff",
             "desc_size": "21",
             "button": "",
-            "link": "shopify://collections",
+            "link": "shopify://collections/all",
             "btn_bg_color": "#344323",
             "btn_txt_color": "#f3eee7",
             "btn_hoverbg_color": "",
