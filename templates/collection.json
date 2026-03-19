@@ -82,7 +82,7 @@
         "content_width": "50/50",
         "lap_content_width": "40/60",
         "overlay_style_height": 390,
-        "overlay_style_height_laptop": 500,
+        "overlay_style_height_laptop": 700,
         "overlay_style_height_mobile": 400,
         "custom_class_name": ""
       }
