@@ -50,7 +50,7 @@
       ],
       "settings": {
         "full": true,
-        "spacing_both_ends": false,
+        "spacing_both_ends": true,
         "padding": "160,160",
         "margin": "0,0",
         "show_background_image": true,
