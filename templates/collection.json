@@ -15,7 +15,8 @@
         "1626870276b398a0aa-0": {
           "type": "content",
           "settings": {
-            "show_image": true,
+            "block_image": "shopify://shop_images/Updated_all_collections_St_Patrick_s_Day_Shopify_Banner.svg",
+            "show_image": false,
             "block_title": "",
             "block_sub_title": "",
             "block_description": "",
@@ -54,7 +55,7 @@
         "padding": "160,160",
         "margin": "0,0",
         "show_background_image": true,
-        "background_image": "shopify://shop_images/Updated_all_collections_St_Patrick_s_Day_Shopify_Banner.svg",
+        "background_image": "shopify://shop_images/All_collections_St_Patrick_s_Day_Shopify_Banner_aa4c7191-c022-4c14-91f9-2440acfda03b.svg",
         "background_style": "default",
         "enable_overlay": false,
         "background_color": "",
