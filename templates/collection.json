@@ -55,7 +55,7 @@
         "padding": "160,160",
         "margin": "0,0",
         "show_background_image": true,
-        "background_image": "shopify://shop_images/second_banner_all_collection.svg",
+        "background_image": "shopify://shop_images/second_banner_v3.svg",
         "background_style": "default",
         "enable_overlay": false,
         "background_color": "",
