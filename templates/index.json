@@ -48,6 +48,7 @@
         },
         "slider_MNMWcj": {
           "type": "Slider",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/banner_Jan.svg",
             "mobile_image": "shopify://shop_images/Amrit_Jan.svg",
@@ -112,8 +113,43 @@
             "slide_content_bg": ""
           }
         },
+        "slider_RfDK8P": {
+          "type": "Slider",
+          "name": "St Patrick's Day Offer",
+          "settings": {
+            "image": "shopify://shop_images/St_Patrick_s_Day_Shopify_Banner.svg",
+            "mobile_image": "shopify://shop_images/St_Patrick_s_Day_Shopify_Banner_Mobile.svg",
+            "mobile_bg_clr": "",
+            "text_alignment": "text-start",
+            "content_position": "top-left",
+            "show_image": false,
+            "title_2": "",
+            "subheading_color": "#f3eee7",
+            "subheading_size": "32",
+            "title": "",
+            "heading_color": "#f3eee7",
+            "heading_size": "48",
+            "desc": "",
+            "desc_color": "#ffffff",
+            "desc_size": "21",
+            "button": "",
+            "link": "shopify://collections/all",
+            "btn_bg_color": "#344323",
+            "btn_txt_color": "#f3eee7",
+            "btn_hoverbg_color": "",
+            "btn_hovertxt_color": "",
+            "button_2": "",
+            "link_2": "",
+            "btn_bg_color_2": "#f3eee7",
+            "btn_txt_color_2": "#344323",
+            "btn_hoverbg_color_2": "",
+            "btn_hovertxt_color_2": "",
+            "slide_content_bg": ""
+          }
+        },
         "slider_E8kD4r": {
           "type": "Slider",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/banner_Jan.svg",
             "mobile_image": "shopify://shop_images/Amrit_Jan.svg",
@@ -252,6 +288,7 @@
         "slider_fccPjp",
         "slider_MNMWcj",
         "slider_ABkdei",
+        "slider_RfDK8P",
         "slider_E8kD4r",
         "slider_Yabe4b",
         "slider_teh83i",
