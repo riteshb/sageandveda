@@ -379,9 +379,9 @@
             "type": "custom",
             "settings": {
               "title": "",
-              "text": "<p>© 2025 Sage & Veda. <br/>All Rights Reserved.</p>",
+              "text": "<p>© 2026 Sage & Veda. <br/>All Rights Reserved.</p>",
               "container_width": 20,
-              "column_alignment": "text-center"
+              "column_alignment": "text-start"
             }
           }
         },
