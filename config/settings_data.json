@@ -1263,8 +1263,19 @@
       "inner-page-content-with-image-section": {
         "type": "inner-page-content-with-image-section",
         "blocks": {
+          "092ecb58-c7b7-4f0d-92b0-1a614b5b80fc": {
+            "type": "content",
+            "settings": {
+              "image": "shopify://shop_images/About-us_four_cofounders.png",
+              "font_icon": "",
+              "title": "FOUNDER STORY",
+              "text": "Our story begins with the gentle wisdom and unwavering spirit of Shaku, our beloved grandmother, the Sage in our life. Her deep connection to nature and the ancient practices of Ayurveda instilled in us the importance of mindful rituals and holistic well-being. Through her, we learned to cherish life's subtle luxuries - those quiet moments of beauty we often overlook, yet hold the power to transform our daily existence.\n<br><br>\nToday, we are the living bridge that honors Shaku's legacy while forging new paths of modern luxury. Drawing inspiration from the luscious herbs and botanicals thriving on our family farm nestled in the Koyna river hills, we craft formulations that blend timeless wisdom with contemporary innovation.\n<br><br>\nOur vision was clear from the beginning - to create premium experiences that never compromise between luxury and consciousness. Each product is thoughtfully designed to engage the senses and transform daily routines into moments of pure indulgence, from dawn till dusk. For us, conscious luxury. isn't merely an ideal—it's the foundation of everything we create, a principle that guides every decision, every ingredient, and every ritual we share with you.<br><br>\nWith love and gratitude,<br>\nDr Arundhati, Keya, Dhana, and Amarja<br>\nCo-founders, Sage & Veda",
+              "reverse_column": true
+            }
+          },
           "content_XmbmVw": {
             "type": "content",
+            "disabled": true,
             "settings": {
               "font_icon": "fa fa-lightbulb-o",
               "title": "Heading",
@@ -1272,26 +1283,24 @@
               "reverse_column": false
             }
           },
-          "f672b65a-10bf-44a7-b408-14e79abbdee6": {
-            "type": "content",
-            "disabled": true,
-            "settings": {
-              "image": "shopify://shop_images/aboutus.jpg",
-              "font_icon": "",
-              "title": "OUR MISSION",
-              "text": "<p class=\"abt-desct\">We transform everyday rituals into moments of luxury through thoughtfully crafted, heritage-inspired formulations.</p>",
-              "reverse_column": true
-            }
-          },
           "content_XtFqHG": {
             "type": "content",
-            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/glass_amrit_5c5e3b9d-1301-4066-afd5-cdaf159f324e.png",
               "font_icon": "",
               "title": "Where Heritage Meets Modern Luxury",
               "text": "By combining time-honored traditions with modern innovation, our products transform daily routines into spa-like moments of indulgence, while honoring our commitment to the planet.",
               "reverse_column": false
+            }
+          },
+          "f672b65a-10bf-44a7-b408-14e79abbdee6": {
+            "type": "content",
+            "settings": {
+              "image": "shopify://shop_images/aboutus.jpg",
+              "font_icon": "",
+              "title": "OUR MISSION",
+              "text": "<p class=\"abt-desct\">We transform everyday rituals into moments of luxury through thoughtfully crafted, heritage-inspired formulations.</p>",
+              "reverse_column": true
             }
           },
           "content_JrjqeT": {
@@ -1307,24 +1316,12 @@
           },
           "532384c2-a96d-4a56-96f6-3673233e0b89": {
             "type": "content",
-            "disabled": true,
             "settings": {
               "image": "shopify://shop_images/sageveda.png",
               "font_icon": "",
               "title": "OUR WHY",
               "text": "<strong>You are at the heart of everything we create.</strong>\n<br><br>\nYou are our co-creators in this journey of conscious beauty. What you choose for your wellbeing matters - for yourself and the world around you. Each product is born from community conversations, shaped by your feedback, and refined through your experiences. Together, we're creating more than products; we're crafting moments of luxury that honor both you and our planet.",
               "reverse_column": false
-            }
-          },
-          "092ecb58-c7b7-4f0d-92b0-1a614b5b80fc": {
-            "type": "content",
-            "disabled": true,
-            "settings": {
-              "image": "shopify://shop_images/About-us_four_cofounders.png",
-              "font_icon": "",
-              "title": "FOUNDER STORY",
-              "text": "Our story begins with the gentle wisdom and unwavering spirit of Shaku, our beloved grandmother, the Sage in our life. Her deep connection to nature and the ancient practices of Ayurveda instilled in us the importance of mindful rituals and holistic well-being. Through her, we learned to cherish life's subtle luxuries - those quiet moments of beauty we often overlook, yet hold the power to transform our daily existence.\n<br><br>\nToday, we are the living bridge that honors Shaku's legacy while forging new paths of modern luxury. Drawing inspiration from the luscious herbs and botanicals thriving on our family farm nestled in the Koyna river hills, we craft formulations that blend timeless wisdom with contemporary innovation.\n<br><br>\nOur vision was clear from the beginning - to create premium experiences that never compromise between luxury and consciousness. Each product is thoughtfully designed to engage the senses and transform daily routines into moments of pure indulgence, from dawn till dusk. For us, conscious luxury. isn't merely an ideal—it's the foundation of everything we create, a principle that guides every decision, every ingredient, and every ritual we share with you.<br><br>\nWith love and gratitude,<br>\nDr Arundhati, Keya, Dhana, and Amarja<br>\nCo-founders, Sage & Veda",
-              "reverse_column": true
             }
           },
           "content_8iDXky": {
@@ -1339,12 +1336,12 @@
           }
         },
         "block_order": [
+          "092ecb58-c7b7-4f0d-92b0-1a614b5b80fc",
           "content_XmbmVw",
-          "f672b65a-10bf-44a7-b408-14e79abbdee6",
           "content_XtFqHG",
+          "f672b65a-10bf-44a7-b408-14e79abbdee6",
           "content_JrjqeT",
           "532384c2-a96d-4a56-96f6-3673233e0b89",
-          "092ecb58-c7b7-4f0d-92b0-1a614b5b80fc",
           "content_8iDXky"
         ],
         "custom_css": [
@@ -1355,7 +1352,7 @@
         ],
         "settings": {
           "enable": true,
-          "full": false,
+          "full": true,
           "spacing_both_ends": true,
           "padding": "0,0",
           "margin": "0,0",
@@ -1577,6 +1574,20 @@
       },
       "inner-page-header": {
         "type": "inner-page-header",
+        "blocks": {
+          "content_bDjxeg": {
+            "type": "content",
+            "settings": {
+              "font_icon": "fa fa-lightbulb-o",
+              "title": "Heading",
+              "text": "Sed vestibulum nulla elementum auctor tincidunt. Aliquam sit amet cursus mauris. Sed vitae mattis ipsum. Vestibulum enim nulla, sollicitudin ac hendrerit nec, tempor quis nisl",
+              "reverse_column": false
+            }
+          }
+        },
+        "block_order": [
+          "content_bDjxeg"
+        ],
         "custom_css": [
           ".dt-sc-section-wrapper {padding-left: 5% !important; padding-right: 50% !important; min-height: 450px;}",
           ".dt-sc-heading .dt-sc-main-heading {font-size: 30px; color: #ffffff !important;}",
@@ -1584,20 +1595,20 @@
           "@media (max-width: 767px) {.dt-sc-section-wrapper {padding: 20% 5% 10% 5% !important; }}"
         ],
         "settings": {
-          "enable": true,
+          "enable": false,
           "full": false,
-          "spacing_both_ends": true,
+          "spacing_both_ends": false,
           "padding": "150,150",
           "margin": "0,0",
-          "background_image": "shopify://shop_images/Calm_Banner.svg",
-          "show_background_image": true,
+          "background_image": "shopify://shop_images/4_co-founders_shopify.svg",
+          "show_background_image": false,
           "background_style": "default",
           "enable_overlay": false,
           "background_color": "",
           "overlay_transparency": "1",
-          "section_heading": "CALM",
+          "section_heading": "",
           "section_sub_heading": "",
-          "section_description": "A soothing, skin-first ritual designed to slow things down. For moments when you want softness, ease, and a steady glow that carries into the day.",
+          "section_description": "",
           "section_button_text": "",
           "section_button_link": "",
           "section_heading_color": "",
