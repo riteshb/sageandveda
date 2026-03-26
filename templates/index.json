@@ -15,6 +15,7 @@
         "slider_fccPjp": {
           "type": "Slider",
           "name": "St Patrick's Day Offer",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/St_Patrick_s_Day_Shopify_Banner.svg",
             "mobile_image": "shopify://shop_images/St_Patrick_s_Day_Shopify_Banner_Mobile.svg",
@@ -48,7 +49,6 @@
         },
         "slider_MNMWcj": {
           "type": "Slider",
-          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/banner_Jan.svg",
             "mobile_image": "shopify://shop_images/Amrit_Jan.svg",
@@ -116,6 +116,7 @@
         "slider_RfDK8P": {
           "type": "Slider",
           "name": "St Patrick's Day Offer",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/St_Patrick_s_Day_Shopify_Banner.svg",
             "mobile_image": "shopify://shop_images/St_Patrick_s_Day_Shopify_Banner_Mobile.svg",
@@ -149,7 +150,6 @@
         },
         "slider_E8kD4r": {
           "type": "Slider",
-          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/banner_Jan.svg",
             "mobile_image": "shopify://shop_images/Amrit_Jan.svg",
