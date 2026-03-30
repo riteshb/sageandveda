@@ -91,6 +91,14 @@
     "main": {
       "type": "main-collection-template",
       "blocks": {
+        "carousel_Fm8QkP": {
+          "type": "carousel",
+          "settings": {
+            "title": "",
+            "collection": "giftsets",
+            "limit": 5
+          }
+        },
         "13774c76-41f2-4be4-9f86-d042e71f8e06": {
           "type": "menu",
           "settings": {
@@ -113,6 +121,7 @@
         }
       },
       "block_order": [
+        "carousel_Fm8QkP",
         "13774c76-41f2-4be4-9f86-d042e71f8e06",
         "c46d821f-34df-4d7e-afed-7f3cfe4f37c4",
         "b8b9fac8-f331-4738-a7e9-29aa5671dffe"
@@ -137,7 +146,6 @@
     },
     "home_product_carousel_DHpHxU": {
       "type": "home-product-carousel",
-      "disabled": true,
       "custom_css": [
         ".products .product-detail .grid-link__meta .product_price > span {font-size: 20px; color: #000; margin-left: 0px;}",
         ".products .product-detail .grid-link__title a {color: #000000;}",
