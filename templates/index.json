@@ -367,6 +367,10 @@
         "slider_teh83i",
         "slider_nHUrz7"
       ],
+      "custom_css": [
+        ".hero__title {margin-bottom: 20px;}",
+        ".hero__description {margin-bottom: 30px;}"
+      ],
       "name": "Slider",
       "settings": {
         "full": true,
