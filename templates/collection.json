@@ -44,19 +44,18 @@
       "block_order": [
         "1626870276b398a0aa-0"
       ],
-      "disabled": true,
       "custom_css": [
         ".dt-sc-section-wrapper {padding-left: 40%; padding-right: 5%; background-position: center left !important; min-height: 450px;}",
         "h4.dt-sc-main-heading {font-weight: 700 !important; font-size: 30px;}",
         ".dt-sc-heading-description {font-size: 18px !important;}"
       ],
       "settings": {
-        "full": false,
+        "full": true,
         "spacing_both_ends": true,
         "padding": "160,160",
         "margin": "0,0",
-        "show_background_image": false,
-        "background_image": "shopify://shop_images/second_banner_v3.svg",
+        "show_background_image": true,
+        "background_image": "shopify://shop_images/Landing_Page_Banner_Artemis_II_Brooch.svg",
         "background_style": "default",
         "enable_overlay": false,
         "background_color": "",
