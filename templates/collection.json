@@ -45,14 +45,14 @@
         "1626870276b398a0aa-0"
       ],
       "custom_css": [
-        "h4.dt-sc-main-heading{color:#FAF7F3!important;font-weight:700!important;font-size:30px!important}",
-        ".dt-sc-sub-heading{color:#f9e4b7!important;font-size:24px!important}",
-        ".dt-sc-heading-description{color:#FAF7F3!important;font-size:18px!important}",
-        ".dt-sc-banner-btn a,.dt-sc-banner-btn{background-color:#EDC31B!important;color:#3C3B41!important;border-radius:50px!important}"
+        ".dt-sc-section-wrapper{padding-left:8% !important; padding-right:5% !important; min-height:600px;}",
+        "h4.dt-sc-main-heading{color:#FAF7F3 !important; font-weight:700 !important; font-size:28px !important; margin-bottom:16px !important; max-width:45% !important;}",
+        ".dt-sc-sub-heading{color:#f9e4b7 !important; font-size:22px !important; margin-bottom:12px !important; max-width:45% !important;}",
+        ".dt-sc-heading-description{color:#FAF7F3 !important; font-size:16px !important; max-width:45% !important;}"
       ],
       "settings": {
         "full": true,
-        "spacing_both_ends": false,
+        "spacing_both_ends": true,
         "padding": "160,160",
         "margin": "0,0",
         "show_background_image": true,
@@ -64,15 +64,15 @@
         "section_heading": "While the world looks up at the moon, we're looking back at what human hands have made for centuries.",
         "section_sub_heading": "From one act of human ingenuity to another",
         "section_description": "Get a heritage brooch, complimentary with every $65 purchase. Offer ends April 16. 💛",
-        "section_button_text": "Claim Yours",
+        "section_button_text": "",
         "section_button_link": "shopify://products/amrit",
         "section_heading_color": "#faf7f3",
         "section_sub_heading_color": "#f0eee9",
         "section_description_color": "#faf7f3",
         "section_button_bg_color": "#edc31b",
         "section_button_text_color": "#3c3b41",
-        "section_button_hover_bg_color": "",
-        "section_button_hover_text_color": "",
+        "section_button_hover_bg_color": "#f0eee9",
+        "section_button_hover_text_color": "#f0eee9",
         "heading_position": "text-start",
         "block_banner_style": "list",
         "column_gap": "10",
