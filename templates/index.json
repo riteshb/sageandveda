@@ -51,7 +51,7 @@
           "settings": {
             "image": "shopify://shop_images/banner_Jan.svg",
             "mobile_image": "shopify://shop_images/Amrit_Jan.svg",
-            "mobile_bg_clr": "",
+            "mobile_bg_clr": "rgba(0,0,0,0)",
             "text_alignment": "text-start",
             "content_position": "top-left",
             "show_image": false,
