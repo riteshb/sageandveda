@@ -17,7 +17,7 @@
           "name": "Brooch Offer",
           "settings": {
             "image": "shopify://shop_images/Artemis_II_Brooch.svg",
-            "mobile_image": "shopify://shop_images/revised_mobile_Artemis_II_Brooch.svg",
+            "mobile_image": "shopify://shop_images/Mobile_banner_Artemis_II_Brooch.svg",
             "mobile_bg_clr": "rgba(0,0,0,0)",
             "text_alignment": "text-start",
             "content_position": "center-left",
