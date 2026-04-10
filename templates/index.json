@@ -334,7 +334,10 @@
       ],
       "custom_css": [
         ".hero__title {margin-bottom: 20px;}",
-        ".hero__description {margin-bottom: 30px;}"
+        ".hero__description {margin-bottom: 30px;}",
+        ".hero__title {margin-bottom: 20px;}",
+        ".hero__description {margin-bottom: 30px;}",
+        ".dt-sc-slide-content-wrapper,.dt-sc-slide-content,.slider-content-wrapper,.slide-content-bg {background-color: transparent !important; background: none !important;}"
       ],
       "name": "Slider",
       "settings": {
