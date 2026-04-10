@@ -45,7 +45,7 @@
         "1626870276b398a0aa-0"
       ],
       "custom_css": [
-        ".dt-sc-section-wrapper {padding-left: 40%; padding-right: 5%; background-position: center left !important; min-height: 600px;}",
+        ".dt-sc-section-wrapper {padding-left: 40%; padding-right: 5%; background-position: center left !important; min-height: 700px;}",
         "h4.dt-sc-main-heading {font-weight: 700 !important; font-size: 30px;}",
         ".dt-sc-heading-description {font-size: 18px !important;}"
       ],
