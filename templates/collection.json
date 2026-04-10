@@ -45,12 +45,10 @@
         "1626870276b398a0aa-0"
       ],
       "custom_css": [
-        ".dt-sc-section-wrapper {padding-left: 10%; padding-right: 5%; background-position: center left !important; min-height: 700px;}",
-        "h4.dt-sc-main-heading {font-weight: 700 !important; font-size: 30px;}",
-        ".dt-sc-heading-description {font-size: 18px !important;}",
-        "h4.dt-sc-main-heading {color: #faf7f3 !important; font-weight: 700 !important; font-size: 30px !important;}",
-        ".dt-sc-sub-heading {color: #f0eee9 !important;}",
-        ".dt-sc-heading-description {color: #faf7f3 !important; font-size: 18px !important;}"
+        "h4.dt-sc-main-heading{color:#FAF7F3!important;font-weight:700!important;font-size:30px!important}",
+        ".dt-sc-sub-heading{color:#f9e4b7!important;font-size:24px!important}",
+        ".dt-sc-heading-description{color:#FAF7F3!important;font-size:18px!important}",
+        ".dt-sc-banner-btn a,.dt-sc-banner-btn{background-color:#EDC31B!important;color:#3C3B41!important;border-radius:50px!important}"
       ],
       "settings": {
         "full": true,
