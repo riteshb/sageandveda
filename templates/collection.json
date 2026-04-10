@@ -45,10 +45,10 @@
         "1626870276b398a0aa-0"
       ],
       "custom_css": [
-        ".dt-sc-section-wrapper{padding-left:8% !important; padding-right:5% !important; min-height:600px;}",
-        "h4.dt-sc-main-heading{color:#FAF7F3 !important; font-weight:700 !important; font-size:28px !important; margin-bottom:16px !important; max-width:45% !important;}",
-        ".dt-sc-sub-heading{color:#f9e4b7 !important; font-size:22px !important; margin-bottom:12px !important; max-width:45% !important;}",
-        ".dt-sc-heading-description{color:#FAF7F3 !important; font-size:16px !important; max-width:45% !important;}"
+        ".dt-sc-section-wrapper {padding-left: 8% !important; padding-right: 5% !important; min-height: 600px;}",
+        "h4.dt-sc-main-heading {color: #faf7f3 !important; font-weight: 700 !important; font-size: 24px !important; margin-bottom: 16px !important; max-width: 45% !important;}",
+        ".dt-sc-sub-heading {color: #f9e4b7 !important; font-size: 22px !important; margin-bottom: 12px !important; max-width: 45% !important;}",
+        ".dt-sc-heading-description {color: #faf7f3 !important; font-size: 16px !important; max-width: 45% !important;}"
       ],
       "settings": {
         "full": true,
