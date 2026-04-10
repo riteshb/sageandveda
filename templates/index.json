@@ -20,7 +20,7 @@
             "mobile_image": "shopify://shop_images/revised_mobile_Artemis_II_Brooch.svg",
             "mobile_bg_clr": "rgba(0,0,0,0)",
             "text_alignment": "text-start",
-            "content_position": "top-center",
+            "content_position": "center-left",
             "show_image": false,
             "title_2": "",
             "subheading_color": "#f3eee7",
