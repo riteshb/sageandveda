@@ -11,7 +11,26 @@
   "sections": {
     "pf-9e501bad": {
       "type": "pf-9e501bad",
-      "settings": {}
+      "settings": {
+        "pf_450484d9_value": "For the mom who lights up every room. <br>A face and body oil that works from the moment she wakes up to the moment she winds down, paired with a perfume roll-on that fits in her pocket and goes everywhere she does. A handwritten card with your words. A mystery keepsake. All of it assembled by hand, ready to give.<br>",
+        "pf_3e8d4243_value": "For the mom who deserves to exhale. <br>Two of our most-loved botanically-powered oils, a signature pouch, a handwritten card from you, and a mystery keepsake - all in one beautifully assembled gift that asks nothing of her except five minutes to herself.",
+        "pf_9a945d9b_value": "<br>Five minutes of hers.That's what's inside every box.No noise. No occasion. Just something that actually feels like her.",
+        "pf_74649926_value": "<strong>Handwritten card</strong><br>Your words, written by hand. Personalized at checkout.",
+        "pf_4f45f552_value": "Limited Mother's Day Gift Drop! Get a mystery gift with every gift set.&nbsp;",
+        "pf_d4c74cce_value": "What Makes It Special<em><span style=\"color: rgb(139, 87, 42);\"></span></em>",
+        "pf_d5705ae2_value": "<b>Mystery keepsake</b><br>A little something extra inside every order.<br>",
+        "pf_3204416a_value": "<b>Order by May 4</b><br>To Ensure delivery In Time for Mother's Day.<br>",
+        "pf_471a534a_value": "<b>Built to ordere<br></b>Every gift set assembled With Love, by hand.",
+        "pf_d95b091b_value": "UPLIFTED MOOD GIFT SET",
+        "pf_ac4f30fb_value": "CALM RESET GIFT SET",
+        "pf_30c2c2c0_value": "GIFT UPLIFT",
+        "pf_636530c2_value": "GIFT CALM",
+        "pf_f55249b7_timeData_w_text": "Weeks",
+        "pf_f55249b7_timeData_h_text": "Hours",
+        "pf_f55249b7_timeData_d_text": "Days",
+        "pf_f55249b7_timeData_m_text": "Mins",
+        "pf_f55249b7_timeData_s_text": "Secs"
+      }
     }
   },
   "order": [
