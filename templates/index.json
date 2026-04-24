@@ -15,7 +15,6 @@
         "slider_i3dPfV": {
           "type": "Slider",
           "name": "Mother's Day 2026",
-          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Mother_s_Day_Banner_HP_Shopify_no_text.svg",
             "mobile_image": "shopify://shop_images/Mother_s_Day_Banner_HP_Shopify_no_text_a5704cbc-b623-482b-851f-e273e41fcd9f.svg",
@@ -29,9 +28,9 @@
             "title": "Gift her a mood reset",
             "heading_color": "#5a1818",
             "heading_size": "48",
-            "desc": "Includes a handwritten card + a mystery gift.\n<br>\nOrder by May 4 for guaranteed delivery.",
-            "desc_color": "#ffffff",
-            "desc_size": "18",
+            "desc": "Includes a handwritten card + a mystery gift.\n<br>\n<br>\nOrder by May 4 for guaranteed delivery.",
+            "desc_color": "#3c3b41",
+            "desc_size": "21",
             "button": "Shop Mother's Day Gifts",
             "link": "shopify://collections/all",
             "btn_bg_color": "#4a7b5e",
