@@ -1,0 +1,401 @@
+{%- comment -%}
+  Section 8 — Brand Philosophy + Origin Story
+  Block A: #002816 — Philosophy statement + 3 pillars
+  Block B: #FDFAF4 — Origin story with overlapping image layout
+{%- endcomment -%}
+
+{%- liquid
+  assign phil_eyebrow    = section.settings.phil_eyebrow    | default: '+ OUR PHILOSOPHY'
+  assign phil_headline1  = section.settings.phil_headline1  | default: 'Not all wellness is'
+  assign phil_headline_em = section.settings.phil_headline_em | default: 'ingestible.'
+  assign phil_body       = section.settings.phil_body       | default: 'Some of the most powerful wellness experiences are topical. Touch, scent, and texture directly influence how we feel — and whether we come back to a product.'
+
+  assign p1_name = section.settings.pillar1_name | default: 'Multi-use'
+  assign p1_body = section.settings.pillar1_body | default: 'Designed for the senses, built for performance. Fewer products, deeper experiences — each formula works across face, body, and hair.'
+  assign p2_name = section.settings.pillar2_name | default: 'Accessible Luxury'
+  assign p2_body = section.settings.pillar2_body | default: 'Premium in formulation, thoughtful in price. Quality and design without the markup.'
+  assign p3_name = section.settings.pillar3_name | default: 'Emotionally Intelligent'
+  assign p3_body = section.settings.pillar3_body | default: 'Created to enhance mood, not just appearance. Scent, texture, and touch engage the nervous system — beauty as a state of being.'
+
+  assign origin_eyebrow    = section.settings.origin_eyebrow    | default: '+ ORIGIN STORY'
+  assign origin_headline1  = section.settings.origin_headline1  | default: 'Where'
+  assign origin_headline_em = section.settings.origin_headline_em | default: 'ancient wisdom'
+  assign origin_headline2  = section.settings.origin_headline2  | default: 'meets modern science.'
+  assign origin_body1      = section.settings.origin_body1      | default: 'Our story began on family farms in India — where scent, touch, and nature taught us how the senses shape emotion. Built by three sisters with uncommon expertise: a medical doctor, a tech operator, a growth marketer.'
+  assign origin_body2      = section.settings.origin_body2      | default: "We're defining a new category — topical wellness that is science-driven and sensorially designed for mind, body, and home."
+  assign origin_cta_text   = section.settings.origin_cta_text   | default: 'READ OUR FULL STORY →'
+  assign origin_cta_url    = section.settings.origin_cta_url    | default: '/pages/about'
+-%}
+
+<section class="sv-brand" aria-label="Brand philosophy and origin story">
+
+  <!-- ══ BLOCK A: Philosophy + Pillars ══ -->
+  <div class="sv-brand__philosophy">
+    <div class="sv-brand__phil-inner">
+
+      <!-- Philosophy statement -->
+      <div class="sv-brand__phil-statement fade-up">
+        <p class="sv-brand__eyebrow">{{ phil_eyebrow }}</p>
+        <h2 class="sv-brand__phil-headline">
+          {{ phil_headline1 }} <em>{{ phil_headline_em }}</em>
+        </h2>
+        <p class="sv-brand__phil-body">{{ phil_body }}</p>
+      </div>
+
+      <!-- Divider rule -->
+      <hr class="sv-brand__divider">
+
+      <!-- Three pillars -->
+      <div class="sv-brand__pillars">
+
+        <div class="sv-brand__pillar fade-up" style="transition-delay:0s">
+          <span class="sv-brand__pillar-num">01</span>
+          <hr class="sv-brand__pillar-rule">
+          <h3 class="sv-brand__pillar-name">{{ p1_name }}</h3>
+          <p class="sv-brand__pillar-body">{{ p1_body }}</p>
+        </div>
+
+        <div class="sv-brand__pillar fade-up" style="transition-delay:0.1s">
+          <span class="sv-brand__pillar-num">02</span>
+          <hr class="sv-brand__pillar-rule">
+          <h3 class="sv-brand__pillar-name">{{ p2_name }}</h3>
+          <p class="sv-brand__pillar-body">{{ p2_body }}</p>
+        </div>
+
+        <div class="sv-brand__pillar fade-up" style="transition-delay:0.2s">
+          <span class="sv-brand__pillar-num">03</span>
+          <hr class="sv-brand__pillar-rule">
+          <h3 class="sv-brand__pillar-name">{{ p3_name }}</h3>
+          <p class="sv-brand__pillar-body">{{ p3_body }}</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ BLOCK B: Origin Story ══ -->
+  <div class="sv-brand__origin">
+    <div class="sv-brand__origin-cols">
+
+      <!-- Left: Farm photography (20%) -->
+      <div class="sv-brand__farm">
+        {%- if section.settings.farm_image != blank -%}
+          <img src="{{ section.settings.farm_image | image_url: width: 600 }}"
+               alt="{{ section.settings.farm_image.alt | default: 'Our origins' }}"
+               class="sv-brand__farm-img" loading="lazy">
+        {%- else -%}
+          <img src="https://images.pexels.com/photos/1595104/pexels-photo-1595104.jpeg?auto=compress&cs=tinysrgb&w=600"
+               alt="Our origins" class="sv-brand__farm-img" loading="lazy">
+        {%- endif -%}
+      </div>
+
+      <!-- Center: Ingredient close-up (30%, overlaps left) -->
+      <div class="sv-brand__ingredient">
+        {%- if section.settings.ingredient_image != blank -%}
+          <img src="{{ section.settings.ingredient_image | image_url: width: 700 }}"
+               alt="{{ section.settings.ingredient_image.alt | default: 'Botanical ingredients' }}"
+               class="sv-brand__ingredient-img" loading="lazy">
+        {%- else -%}
+          <img src="https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=700"
+               alt="Botanical ingredients" class="sv-brand__ingredient-img" loading="lazy">
+        {%- endif -%}
+      </div>
+
+      <!-- Right: Text (50%) -->
+      <div class="sv-brand__text fade-up">
+        <p class="sv-brand__eyebrow sv-brand__eyebrow--dark">{{ origin_eyebrow }}</p>
+        <h2 class="sv-brand__origin-headline">{{ origin_headline1 }} <em>{{ origin_headline_em }}</em> {{ origin_headline2 }}</h2>
+        <div class="sv-brand__origin-body">
+          <p>{{ origin_body1 }}</p>
+          <p>{{ origin_body2 }}</p>
+        </div>
+        <a href="{{ origin_cta_url }}" class="sv-brand__origin-cta">{{ origin_cta_text }}</a>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<style>
+/* ══ BLOCK A — PHILOSOPHY ══ */
+.sv-brand__philosophy {
+  background: #002816;
+  padding: 80px 0;
+}
+.sv-brand__phil-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+/* ── Eyebrow — dark bg (#002816): warm cream, ~18:1 contrast ── */
+.sv-brand__eyebrow {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(253, 250, 244, 0.70);
+  margin-bottom: 20px;
+}
+/* Light bg (#FDFAF4): terracotta passes AA here */
+.sv-brand__eyebrow--dark {
+  color: #b6522d;
+  font-size: 13px;
+}
+
+/* ── Philosophy statement ── */
+.sv-brand__phil-statement {
+  max-width: 800px;
+}
+.sv-brand__phil-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 64px; font-weight: 400;
+  color: #FDFAF4; line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.sv-brand__phil-headline em {
+  font-style: italic;
+  color: #b6522d;
+}
+.sv-brand__phil-body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px; font-weight: 400;
+  color: rgba(253, 250, 244, 0.75);
+  max-width: 640px;
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* ── Divider ── */
+.sv-brand__divider {
+  border: none;
+  height: 1px;
+  background: rgba(74, 123, 94, 0.30);
+  margin: 64px 0;
+}
+
+/* ── Three pillars ── */
+.sv-brand__pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.sv-brand__pillar {
+  padding: 0 40px;
+}
+.sv-brand__pillar:first-child {
+  padding-left: 0;
+  border-right: 1px solid rgba(74, 123, 94, 0.20);
+}
+.sv-brand__pillar:nth-child(2) {
+  border-right: 1px solid rgba(74, 123, 94, 0.20);
+}
+.sv-brand__pillar-num {
+  display: block;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: rgba(253, 250, 244, 0.55);
+}
+.sv-brand__pillar-rule {
+  width: 32px; height: 1px;
+  border: none;
+  background: #b6522d;
+  margin: 12px 0;
+}
+.sv-brand__pillar-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px; font-weight: 400;
+  color: #FDFAF4; line-height: 1.2;
+  margin-bottom: 12px;
+}
+.sv-brand__pillar-body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; font-weight: 400;
+  color: rgba(253, 250, 244, 0.70);
+  line-height: 1.7;
+  margin: 0;
+}
+
+
+/* ══ BLOCK B — ORIGIN STORY ══ */
+.sv-brand__origin {
+  background: #FDFAF4;
+  padding: 80px 0;
+}
+.sv-brand__origin-cols {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: flex;
+  align-items: stretch;
+}
+
+/* ── Farm photo (20%) ── */
+.sv-brand__farm {
+  flex: 0 0 20%;
+  position: relative;
+  z-index: 1;
+}
+.sv-brand__farm-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* ── Ingredient close-up (30%, overlaps left) ── */
+.sv-brand__ingredient {
+  flex: 0 0 30%;
+  margin-left: -32px;
+  padding-top: 80px;
+  position: relative;
+  z-index: 2;
+  align-self: flex-start;
+}
+.sv-brand__ingredient-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* ── Text column (50%) ── */
+.sv-brand__text {
+  flex: 0 0 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 48px;
+}
+.sv-brand__origin-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 44px; font-weight: 400;
+  color: #002816; line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 0;
+}
+.sv-brand__origin-headline em {
+  font-style: italic;
+}
+.sv-brand__origin-body {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.sv-brand__origin-body p {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px; font-weight: 400;
+  color: #2A4027; line-height: 1.8;
+  margin: 0;
+}
+.sv-brand__origin-cta {
+  display: inline-block;
+  margin-top: 32px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: #4A7B5E;
+  text-decoration: none;
+  transition: text-decoration 150ms;
+}
+.sv-brand__origin-cta:hover {
+  text-decoration: underline;
+}
+
+
+/* ══ MOBILE ══ */
+@media (max-width: 768px) {
+
+  /* Block A mobile */
+  .sv-brand__philosophy { padding: 56px 0; }
+  .sv-brand__phil-inner { padding: 0 24px; }
+  .sv-brand__phil-headline { font-size: 40px; }
+  .sv-brand__phil-body { max-width: none; font-size: 15px; }
+  .sv-brand__divider { margin: 48px 0; }
+
+  .sv-brand__pillars { grid-template-columns: 1fr; }
+  .sv-brand__pillar {
+    padding: 32px 0 0;
+    border-right: none !important;
+    border-top: 1px solid rgba(74, 123, 94, 0.20);
+  }
+  .sv-brand__pillar:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+  .sv-brand__pillar-name { font-size: 26px; }
+
+  /* Block B mobile */
+  .sv-brand__origin { padding: 56px 0; }
+  .sv-brand__origin-cols {
+    flex-direction: column;
+    padding: 0 24px;
+  }
+  .sv-brand__farm { flex: none; }
+  .sv-brand__farm-img {
+    aspect-ratio: 4 / 3;
+    margin-bottom: 16px;
+  }
+  .sv-brand__ingredient {
+    flex: none;
+    margin-left: 0;
+    padding-top: 0;
+    margin-bottom: 32px;
+    align-self: auto;
+  }
+  .sv-brand__ingredient-img {
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+  }
+  .sv-brand__text {
+    flex: none;
+    padding-left: 0;
+  }
+  .sv-brand__origin-headline { font-size: 32px; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "HP — Brand Philosophy",
+  "settings": [
+    { "type": "header", "content": "Philosophy statement" },
+    { "type": "text",     "id": "phil_eyebrow",     "label": "Eyebrow label",             "default": "+ OUR PHILOSOPHY" },
+    { "type": "text",     "id": "phil_headline1",   "label": "Headline — regular part",   "default": "Not all wellness is" },
+    { "type": "text",     "id": "phil_headline_em", "label": "Headline — italic part",    "default": "ingestible.", "info": "This word or phrase appears in italic terracotta." },
+    { "type": "textarea", "id": "phil_body",        "label": "Body paragraph",            "default": "Some of the most powerful wellness experiences are topical. Touch, scent, and texture directly influence how we feel — and whether we come back to a product." },
+    { "type": "header", "content": "Pillar 1" },
+    { "type": "text",     "id": "pillar1_name", "label": "Name",        "default": "Multi-use" },
+    { "type": "textarea", "id": "pillar1_body", "label": "Description", "default": "Designed for the senses, built for performance. Fewer products, deeper experiences — each formula works across face, body, and hair." },
+    { "type": "header", "content": "Pillar 2" },
+    { "type": "text",     "id": "pillar2_name", "label": "Name",        "default": "Accessible Luxury" },
+    { "type": "textarea", "id": "pillar2_body", "label": "Description", "default": "Premium in formulation, thoughtful in price. Quality and design without the markup." },
+    { "type": "header", "content": "Pillar 3" },
+    { "type": "text",     "id": "pillar3_name", "label": "Name",        "default": "Emotionally Intelligent" },
+    { "type": "textarea", "id": "pillar3_body", "label": "Description", "default": "Created to enhance mood, not just appearance. Scent, texture, and touch engage the nervous system — beauty as a state of being." },
+    { "type": "header", "content": "Origin story text" },
+    { "type": "text",     "id": "origin_eyebrow",     "label": "Eyebrow label",              "default": "+ ORIGIN STORY" },
+    { "type": "text",     "id": "origin_headline1",   "label": "Headline — before italic",   "default": "Where" },
+    { "type": "text",     "id": "origin_headline_em", "label": "Headline — italic part",     "default": "ancient wisdom", "info": "Appears in italic." },
+    { "type": "text",     "id": "origin_headline2",   "label": "Headline — after italic",    "default": "meets modern science." },
+    { "type": "textarea", "id": "origin_body1",       "label": "Body paragraph 1",           "default": "Our story began on family farms in India — where scent, touch, and nature taught us how the senses shape emotion. Built by three sisters with uncommon expertise: a medical doctor, a tech operator, a growth marketer." },
+    { "type": "textarea", "id": "origin_body2",       "label": "Body paragraph 2",           "default": "We're defining a new category — topical wellness that is science-driven and sensorially designed for mind, body, and home." },
+    { "type": "text",     "id": "origin_cta_text",    "label": "CTA button text",            "default": "READ OUR FULL STORY →" },
+    { "type": "url",      "id": "origin_cta_url",     "label": "CTA button link" },
+    { "type": "header", "content": "Origin story images" },
+    { "type": "image_picker", "id": "farm_image",       "label": "Farm photography (portrait, 2:3 ratio — 600 × 900px recommended)" },
+    { "type": "image_picker", "id": "ingredient_image", "label": "Ingredient close-up (square, 1:1 ratio — 700 × 700px recommended)" }
+  ],
+  "presets": [
+    {
+      "name": "HP — Brand Philosophy"
+    }
+  ]
+}
+{% endschema %}
