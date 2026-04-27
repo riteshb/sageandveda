@@ -1,0 +1,898 @@
+{%- comment -%}
+  Section 4 — Real People Reel
+  Same SIA player as PDP. Cards open full-screen player with Amrit ATC.
+  No @user default — handles only shown when set.
+{%- endcomment -%}
+
+{%- liquid
+  assign fp_handle = section.settings.featured_product_handle | default: 'amrit'
+  assign featured  = all_products[fp_handle]
+  if featured == blank
+    assign featured = all_products['amrit']
+  endif
+  assign first_v = featured.selected_or_first_available_variant
+  assign sub_pct = featured.metafields.sageandveda.subscribe_save_pct.value | default: 15
+-%}
+
+<section class="sv-reel" aria-labelledby="sv-reel-heading">
+  <div class="sv-reel__inner">
+
+    <!-- Header -->
+    <div class="sv-reel__header fade-up">
+      <p class="sv-reel__eyebrow">{{ section.settings.ugc_eyebrow | default: '+ REAL PEOPLE. REAL SKIN.' }}</p>
+      <h2 id="sv-reel-heading" class="sv-reel__headline">{{ section.settings.ugc_headline | default: 'What happens after the first drop.' }}</h2>
+    </div>
+
+    <!-- SIA thumbnail grid -->
+    <div class="sv-reel__grid fade-up">
+      {%- for i in (1..5) -%}
+        {%- liquid
+          assign vid_key    = 'reel_' | append: i | append: '_video'
+          assign thumb_key  = 'reel_' | append: i | append: '_thumb'
+          assign handle_key = 'reel_' | append: i | append: '_handle'
+          assign cap_key    = 'reel_' | append: i | append: '_caption'
+          assign vid_file   = section.settings[vid_key]
+          assign thumb_img  = section.settings[thumb_key]
+          assign reel_handle = section.settings[handle_key]
+          assign reel_cap   = section.settings[cap_key]
+          assign idx        = i | minus: 1
+
+          # Extract CDN URL from Shopify-hosted video file (matches PDP v_mf.sources.first.url)
+          assign vid_src = ''
+          if vid_file != blank
+            assign vid_src = vid_file.sources.first.url
+          endif
+          if vid_src == blank
+            assign vid_src = 'sv-reel-' | append: i | append: '.mp4' | asset_url
+          endif
+
+          # Thumbnail: explicit picker → video preview image → theme asset fallback
+          assign thumb_src = ''
+          if thumb_img != blank
+            assign thumb_src = thumb_img | image_url: width: 600
+          elsif vid_file != blank and vid_file.preview_image != blank
+            assign thumb_src = vid_file.preview_image | image_url: width: 600
+          else
+            assign thumb_src = 'sv-reel-' | append: i | append: '-thumb.jpg' | asset_url
+          endif
+        -%}
+
+        <button class="sv-reel__card"
+                type="button"
+                data-sia-card
+                data-sia-index="{{ idx }}"
+                data-sia-src="{{ vid_src | escape }}"
+                data-sia-thumb="{{ thumb_src | escape }}"
+                aria-label="Play video {{ i }}{% if reel_handle != blank %} by {{ reel_handle | escape }}{% endif %}">
+
+          <img src="{{ thumb_src }}"
+               alt="{% if reel_handle != blank %}{{ reel_handle | escape }}{% else %}Real user video {{ i }}{% endif %}"
+               loading="lazy"
+               class="sv-reel__card-thumb">
+
+          <!-- Bottom overlay — only rendered when there's content -->
+          <div class="sv-reel__card-bottom" aria-hidden="true">
+            {%- if reel_handle != blank or reel_cap != blank -%}
+              <div class="sv-reel__card-text">
+                {%- if reel_handle != blank -%}
+                  <p class="sv-reel__card-handle">{{ reel_handle }}</p>
+                {%- endif -%}
+                {%- if reel_cap != blank -%}
+                  <p class="sv-reel__card-caption">{{ reel_cap }}</p>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+            <!-- Play icon — always visible -->
+            <div class="sv-reel__play-icon">
+              <svg width="22" height="26" viewBox="0 0 36 44" fill="none">
+                <path d="M3 2.5l30 19.5L3 41.5V2.5Z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </button>
+      {%- endfor -%}
+    </div>
+
+    <!-- Footer -->
+    <div class="sv-reel__footer fade-up">
+      <a href="{{ section.settings.ig_url | default: 'https://www.instagram.com/sageandveda' }}"
+         class="sv-reel__ig-link" target="_blank" rel="noopener noreferrer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+        </svg>
+        Share your ritual @sageandveda
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Video preloaders — outside player so display:none doesn't block loading ── -->
+<div class="sv-reel__preloaders" aria-hidden="true">
+  {%- for i in (1..2) -%}
+    {%- liquid
+      assign pre_vid_key  = 'reel_' | append: i | append: '_video'
+      assign pre_vid_file = section.settings[pre_vid_key]
+      assign pre_vid_src  = ''
+      if pre_vid_file != blank
+        assign pre_vid_src = pre_vid_file.sources.first.url
+      endif
+      if pre_vid_src == blank
+        assign pre_vid_src = 'sv-reel-' | append: i | append: '.mp4' | asset_url
+      endif
+    -%}
+    <video class="sv-reel__preload-el" src="{{ pre_vid_src }}" preload="auto" muted playsinline></video>
+  {%- endfor -%}
+</div>
+
+<!-- ── Full-screen Shoppable Video Player (mirrors PDP sv-vp) ── -->
+<div class="sv-vp" id="sv-vp-hp" hidden aria-modal="true" role="dialog" aria-label="Video gallery">
+  <div class="sv-vp__backdrop" data-vp-close></div>
+
+  <div class="sv-vp__stage">
+    <!-- Progress bars + close -->
+    <div class="sv-vp__top">
+      <div class="sv-vp__progress" data-vp-progress aria-hidden="true">
+        {%- for slot in (0..4) -%}
+          <div class="sv-vp__progress-bar"><div class="sv-vp__progress-fill"></div></div>
+        {%- endfor -%}
+      </div>
+      <button class="sv-vp__close" data-vp-close type="button" aria-label="Close video">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Video viewport -->
+    <div class="sv-vp__viewport" data-vp-viewport>
+      <video class="sv-vp__video" data-vp-video playsinline preload="auto" muted loop></video>
+      <div class="sv-vp__spinner" data-vp-spinner><div class="sv-vp__spinner-ring"></div></div>
+      <video class="sv-vp__preload" data-vp-preload-next playsinline preload="auto" muted></video>
+      <video class="sv-vp__preload" data-vp-preload-prev playsinline preload="auto" muted></video>
+      <button class="sv-vp__sound" data-vp-sound data-sound-on="0" type="button" aria-label="Toggle sound">
+        <svg class="sv-vp__sound-off" width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+        <svg class="sv-vp__sound-on" width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Nav arrows -->
+    <button class="sv-vp__nav sv-vp__nav--prev" data-vp-prev type="button" aria-label="Previous video">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="sv-vp__nav sv-vp__nav--next" data-vp-next type="button" aria-label="Next video">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <!-- Shoppable card — exact same layout as PDP player -->
+    <div class="sv-vp__shop">
+      <div class="sv-vp__shop-top">
+        {%- if featured != blank and featured.featured_image != blank -%}
+          <img src="{{ featured.featured_image | image_url: width: 120 }}" alt="{{ featured.title | escape }}" class="sv-vp__shop-img" loading="lazy">
+        {%- endif -%}
+        <div class="sv-vp__shop-body">
+          <p class="sv-vp__shop-name">{{ featured.title | default: 'Amrit' | truncate: 28 }}</p>
+          <p class="sv-vp__shop-price" data-vp-price>
+            {%- if first_v != blank -%}{{ first_v.price | money }}{%- else -%}$30.00{%- endif -%}
+          </p>
+        </div>
+        <button class="sv-vp__shop-btn" data-vp-atc type="button" aria-label="Add to cart">
+          <span data-vp-atc-text>Add</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <!-- Size chips -->
+      {%- if featured != blank and featured.variants.size > 1 -%}
+        <div class="sv-vp__chips" data-vp-opts>
+          <div class="sv-vp__chip-group" data-vp-size-group role="radiogroup" aria-label="Size">
+            {%- for variant in featured.variants reversed -%}
+              {%- if variant.available -%}
+                <button type="button"
+                        class="sv-vp__chip{% if variant == first_v %} is-active{% endif %}"
+                        data-vp-size
+                        data-vp-variant-id="{{ variant.id }}"
+                        data-vp-variant-price="{{ variant.price }}"
+                        data-vp-variant-title="{{ variant.title | escape }}">{{ variant.title }}</button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          <span class="sv-vp__chip-sep" aria-hidden="true"></span>
+
+          <div class="sv-vp__chip-group" data-vp-pt-group role="radiogroup" aria-label="Purchase option">
+            <button type="button" class="sv-vp__chip is-active" data-vp-pt="one_time">Once</button>
+            <button type="button" class="sv-vp__chip" data-vp-pt="subscribe">Subscribe · {{ sub_pct }}% off</button>
+          </div>
+        </div>
+
+        <!-- Frequency row (shown when subscribe active) -->
+        <div class="sv-vp__chips sv-vp__chips--freq" data-vp-freq-row hidden>
+          <span class="sv-vp__chip-prefix">Every</span>
+          <div class="sv-vp__chip-group" data-vp-freq-group role="radiogroup" aria-label="Delivery frequency">
+            <button type="button" class="sv-vp__chip is-active" data-vp-freq="30">30 days</button>
+            <button type="button" class="sv-vp__chip" data-vp-freq="60">60 days</button>
+            <button type="button" class="sv-vp__chip" data-vp-freq="90">90 days</button>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+  </div>
+</div>
+
+<style>
+/* ══ SV-VP PLAYER (copied from main-product — not available on homepage) ══ */
+.sv-vp {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  animation: sv-vp-fade 220ms ease both;
+}
+.sv-vp[hidden] { display: none; }
+.sv-vp__backdrop { position: absolute; inset: 0; background: rgba(0,20,10,0.92); }
+.sv-vp__stage {
+  position: relative;
+  width: 100%; height: 100%;
+  max-width: 420px; max-height: 90vh;
+  aspect-ratio: 9/16;
+  border-radius: 20px; overflow: hidden;
+  background: #000;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  animation: sv-vp-zoom 280ms cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes sv-vp-fade { from { opacity:0 } to { opacity:1 } }
+@keyframes sv-vp-zoom { from { transform:scale(0.92);opacity:0 } to { transform:scale(1);opacity:1 } }
+.sv-vp__top {
+  position: absolute; top:0; left:0; right:0;
+  padding: 12px 14px 18px;
+  background: linear-gradient(to bottom,rgba(0,0,0,0.5),transparent);
+  z-index: 3; display:flex; align-items:center; gap:12px;
+}
+.sv-vp__progress { flex:1; display:flex; gap:4px; }
+.sv-vp__progress-bar { flex:1; height:2px; background:rgba(255,255,255,0.3); border-radius:2px; overflow:hidden; }
+.sv-vp__progress-fill { height:100%; background:#fff; width:0%; transition:width 80ms linear; }
+.sv-vp__progress-bar[data-complete] .sv-vp__progress-fill { width:100%; transition:none; }
+.sv-vp__close {
+  width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,0.15); border:none; border-radius:50%;
+  color:#fff; cursor:pointer; flex-shrink:0;
+  backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); transition:background 150ms;
+}
+.sv-vp__close:hover { background:rgba(255,255,255,0.3); }
+.sv-vp__viewport {
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  overflow:hidden; touch-action:pan-y;
+}
+.sv-vp__video {
+  width:100%; height:100%; object-fit:cover; display:block; background:#000;
+  transform:translateZ(0); will-change:transform; backface-visibility:hidden;
+}
+.sv-vp__sound {
+  position:absolute; top:64px; right:14px; z-index:3;
+  width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;
+  background:rgba(0,0,0,0.4); border:none; border-radius:50%;
+  color:#fff; cursor:pointer;
+  backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); transition:background 150ms;
+}
+.sv-vp__sound:hover { background:rgba(0,0,0,0.7); }
+.sv-vp__sound svg { display:none; }
+.sv-vp__sound[data-sound-on="0"] .sv-vp__sound-off { display:block; }
+.sv-vp__sound[data-sound-on="1"] .sv-vp__sound-on  { display:block; }
+.sv-vp__spinner {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  z-index:2; pointer-events:none; display:none;
+}
+.sv-vp__spinner.is-visible { display:block; }
+.sv-vp__spinner-ring {
+  width:48px; height:48px;
+  border:3px solid rgba(255,255,255,0.2); border-top-color:#fff;
+  border-radius:50%; animation:sv-vp-spin 700ms linear infinite;
+}
+@keyframes sv-vp-spin { to { transform:rotate(360deg) } }
+.sv-vp__preload { position:absolute; top:0; left:0; width:1px; height:1px; opacity:0; pointer-events:none; }
+.sv-vp__nav {
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:44px; height:44px; display:inline-flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,0.2); border:none; border-radius:50%;
+  color:#fff; cursor:pointer; z-index:5;
+  backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+  transition:background 150ms, transform 150ms;
+}
+.sv-vp__nav:hover { background:rgba(255,255,255,0.35); transform:translateY(-50%) scale(1.05); }
+.sv-vp__nav--prev { left:16px; }
+.sv-vp__nav--next { right:16px; }
+.sv-vp__nav[disabled] { display:none; }
+.sv-vp__shop {
+  position:absolute; bottom:14px; left:12px; right:12px; z-index:3;
+  padding:10px 10px 8px;
+  background:rgba(255,255,255,0.97); border-radius:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.15);
+}
+.sv-vp__shop-top { display:flex; align-items:center; gap:10px; }
+.sv-vp__shop-img { width:44px; height:44px; border-radius:10px; object-fit:cover; flex-shrink:0; background:#FDFAF4; }
+.sv-vp__shop-body { flex:1; min-width:0; display:flex; flex-direction:column; gap:1px; }
+.sv-vp__shop-name { font-size:13px; font-weight:600; color:#002816; margin:0; line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sv-vp__shop-price { font-size:12px; font-weight:600; color:#002816; margin:0; line-height:1.3; }
+.sv-vp__shop-btn {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:9px 16px; background:#4A7B5E; color:#fff;
+  border:none; border-radius:100px;
+  font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+  cursor:pointer; flex-shrink:0; transition:background 150ms,transform 150ms;
+}
+.sv-vp__shop-btn:hover { background: var(--color-dark-green, #002816); transform:scale(1.02); }
+.sv-vp__shop-btn[data-state="loading"] { opacity:0.7; cursor:wait; }
+.sv-vp__shop-btn[data-state="success"] { background:#2e7d32; }
+.sv-vp__chips {
+  display:flex; align-items:center; gap:6px;
+  margin-top:8px; padding-top:8px;
+  border-top:1px solid rgba(0,40,22,0.08); flex-wrap:wrap;
+}
+.sv-vp__chips[hidden] { display:none; }
+.sv-vp__chips--freq { border-top:none; padding-top:0; margin-top:4px; flex-wrap:nowrap; gap:4px; }
+.sv-vp__chip-prefix { font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#6b6560; flex-shrink:0; padding:0 4px; }
+.sv-vp__chip-group { display:inline-flex; align-items:center; gap:4px; }
+.sv-vp__chip-sep { width:1px; height:14px; background:rgba(0,40,22,0.15); margin:0 4px; }
+.sv-vp__chip {
+  display:inline-flex; align-items:center; padding:4px 10px; border-radius:100px;
+  font-size:11px; font-weight:600; font-family:inherit; letter-spacing:0.02em;
+  cursor:pointer; border:1px solid transparent;
+  background:transparent; color:#6b6560; white-space:nowrap;
+  transition:background 130ms,color 130ms; user-select:none;
+}
+.sv-vp__chip:hover { color: var(--color-dark-green, #002816); }
+.sv-vp__chip.is-active { background:#002816; color:#fff; }
+@media (max-width:640px) {
+  .sv-vp__stage { max-width:100%; max-height:100%; width:100vw; height:100vh; height:100dvh; border-radius:0; aspect-ratio:unset; }
+  .sv-vp__nav { display:flex; width:36px; height:36px; }
+  .sv-vp__nav--prev { left:8px; }
+  .sv-vp__nav--next { right:8px; }
+  .sv-vp__shop { bottom:20px; left:16px; right:16px; }
+}
+body.sv-vp-open { overflow:hidden; }
+
+/* ══ VIDEO PRELOADERS — invisible but active ══ */
+.sv-reel__preloaders {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  top: 0; left: 0;
+}
+.sv-reel__preload-el { width: 1px; height: 1px; }
+
+/* ══ SECTION SHELL ══ */
+.sv-reel {
+  background: #002816;
+  padding: 88px 0 72px;
+}
+.sv-reel__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+/* ══ HEADER ══ */
+.sv-reel__header { text-align: center; margin-bottom: 52px; }
+.sv-reel__eyebrow {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: #b6522d; margin-bottom: 14px;
+}
+.sv-reel__headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(30px, 4vw, 52px);
+  font-weight: 400; color: #FDFAF4;
+  letter-spacing: -0.025em; line-height: 1.05;
+}
+
+/* ══ CARD GRID ══ */
+.sv-reel__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 44px;
+}
+
+/* ── Single card ── */
+.sv-reel__card {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #0a2e1a;
+  border: none; padding: 0;
+  display: block;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.sv-reel__card:hover {
+  transform: scale(1.025);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+}
+
+/* Thumbnail */
+.sv-reel__card-thumb {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 600ms cubic-bezier(0.16,1,0.3,1);
+}
+.sv-reel__card:hover .sv-reel__card-thumb { transform: scale(1.04); }
+
+/* Bottom overlay */
+.sv-reel__card-bottom {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(to bottom, transparent 45%, rgba(0,10,5,0.78) 100%);
+}
+.sv-reel__card-text { padding: 10px 12px 36px; }
+.sv-reel__card-handle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px; font-weight: 700;
+  color: #FDFAF4; margin-bottom: 2px;
+}
+.sv-reel__card-caption {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px;
+  color: rgba(253,250,244,0.72);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Play icon — centered, always visible */
+.sv-reel__play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px; height: 52px;
+  background: rgba(253,250,244,0.18);
+  border: 1.5px solid rgba(253,250,244,0.55);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 220ms, border-color 220ms, transform 220ms;
+  pointer-events: none;
+}
+.sv-reel__card:hover .sv-reel__play-icon {
+  background: rgba(253,250,244,0.30);
+  border-color: #FDFAF4;
+  transform: translate(-50%, -50%) scale(1.08);
+}
+.sv-reel__play-icon svg { margin-left: 3px; }
+
+/* ══ FOOTER ══ */
+.sv-reel__footer { text-align: center; }
+.sv-reel__ig-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+  color: rgba(253,250,244,0.65); text-decoration: none;
+  border: 1.5px solid rgba(253,250,244,0.18);
+  border-radius: 999px; padding: 11px 24px;
+  transition: color 200ms, border-color 200ms, background 200ms;
+}
+.sv-reel__ig-link:hover {
+  color: #FDFAF4;
+  border-color: rgba(253,250,244,0.45);
+  background: rgba(253,250,244,0.06);
+}
+
+/* ══ MOBILE ══ */
+@media (max-width: 768px) {
+  .sv-reel { padding: 56px 0 52px; }
+  .sv-reel__inner { padding: 0 16px; }
+  .sv-reel__header { margin-bottom: 32px; }
+  .sv-reel__headline { font-size: 28px; }
+  .sv-reel__grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 10px;
+    margin-bottom: 28px;
+    padding-bottom: 4px;
+  }
+  .sv-reel__grid::-webkit-scrollbar { display: none; }
+  .sv-reel__card { flex: 0 0 50vw; scroll-snap-align: start; }
+}
+@media (max-width: 480px) {
+  .sv-reel__card { flex: 0 0 62vw; }
+}
+</style>
+
+<script>
+/* ── Homepage SIA Video Player ── */
+(function () {
+  'use strict';
+
+  var cards   = Array.prototype.slice.call(document.querySelectorAll('.sv-reel__grid [data-sia-card]'));
+  var player  = document.getElementById('sv-vp-hp');
+  if (!cards.length || !player) return;
+
+
+  var video       = player.querySelector('[data-vp-video]');
+  var preloadNext = player.querySelector('[data-vp-preload-next]');
+  var preloadPrev = player.querySelector('[data-vp-preload-prev]');
+  var spinner     = player.querySelector('[data-vp-spinner]');
+  var prevBtn     = player.querySelector('[data-vp-prev]');
+  var nextBtn     = player.querySelector('[data-vp-next]');
+  var soundBtn    = player.querySelector('[data-vp-sound]');
+  var closeEls    = player.querySelectorAll('[data-vp-close]');
+  var viewport    = player.querySelector('[data-vp-viewport]');
+  var atcBtn      = player.querySelector('[data-vp-atc]');
+  var atcText     = player.querySelector('[data-vp-atc-text]');
+  var progress    = player.querySelector('[data-vp-progress]');
+  var bars        = progress ? progress.querySelectorAll('.sv-vp__progress-fill') : [];
+  var barEls      = progress ? progress.querySelectorAll('.sv-vp__progress-bar')  : [];
+  var sizeGroup   = player.querySelector('[data-vp-size-group]');
+  var ptGroup     = player.querySelector('[data-vp-pt-group]');
+  var freqGroup   = player.querySelector('[data-vp-freq-group]');
+  var freqRow     = player.querySelector('[data-vp-freq-row]');
+  var priceEl     = player.querySelector('[data-vp-price]');
+
+  /* Spinner — debounced 400ms so brief/instant events never flash it.
+     loadstart removed: it fires on every src= assignment even with cached content. */
+  var spinnerTimer = null;
+  function showSpinner() {
+    if (spinnerTimer) return;
+    spinnerTimer = setTimeout(function () {
+      spinnerTimer = null;
+      if (spinner) spinner.classList.add('is-visible');
+    }, 400);
+  }
+  function hideSpinner() {
+    clearTimeout(spinnerTimer);
+    spinnerTimer = null;
+    if (spinner) spinner.classList.remove('is-visible');
+  }
+  video.addEventListener('waiting',        showSpinner);
+  video.addEventListener('stalled',        showSpinner);
+  video.addEventListener('playing',        hideSpinner);
+  video.addEventListener('canplay',        hideSpinner);
+  video.addEventListener('canplaythrough', hideSpinner);
+  video.addEventListener('seeked',         hideSpinner);
+
+  /* Video source list from cards */
+  var sources = cards.map(function (c) {
+    return { src: c.dataset.siaSrc, poster: c.dataset.siaThumb };
+  });
+
+  var currentIndex = 0;
+  var rafId = null;
+
+  /* ── State ── */
+  function readInitialState() {
+    var activeSize = sizeGroup && sizeGroup.querySelector('[data-vp-size].is-active');
+    var activePt   = ptGroup   && ptGroup.querySelector('[data-vp-pt].is-active');
+    var activeFreq = freqGroup && freqGroup.querySelector('[data-vp-freq].is-active');
+    return {
+      variantId:  activeSize ? activeSize.dataset.vpVariantId    : '',
+      priceCents: activeSize ? parseInt(activeSize.dataset.vpVariantPrice, 10) || 0 : 0,
+      pt:         activePt   ? activePt.dataset.vpPt             : 'one_time',
+      freq:       activeFreq ? activeFreq.dataset.vpFreq         : '30',
+    };
+  }
+  var state = readInitialState();
+  var subPct = {{ sub_pct | default: 15 }};
+
+  function money(cents) {
+    return (cents / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  }
+
+  function refreshShopCard() {
+    if (!priceEl) return;
+    var priceStr = money(state.priceCents);
+    if (state.pt === 'subscribe') {
+      var discounted = Math.round(state.priceCents * (1 - subPct / 100));
+      var subStr = money(discounted);
+      priceEl.innerHTML = subStr +
+        ' <span style="text-decoration:line-through;opacity:0.5;font-weight:400;margin-left:6px;">' + priceStr + '</span>' +
+        ' <span style="display:block;font-size:10px;color:var(--color-deep-green,#4A7B5E);font-weight:600;margin-top:2px;">Subscribe &middot; Every ' + state.freq + ' days</span>';
+    } else {
+      priceEl.textContent = priceStr;
+    }
+  }
+
+  function refreshFreqVisibility() {
+    if (!freqRow) return;
+    if (state.pt === 'subscribe') freqRow.removeAttribute('hidden');
+    else freqRow.setAttribute('hidden', '');
+  }
+
+  /* ── Open / close ── */
+  function openPlayer(index) {
+    currentIndex = Math.max(0, Math.min(sources.length - 1, index));
+    player.hidden = false;
+    document.body.classList.add('sv-vp-open');
+    loadVideo(currentIndex, true);
+    document.addEventListener('keydown', onKey);
+    refreshShopCard();
+    refreshFreqVisibility();
+  }
+
+  function closePlayer() {
+    cancelRaf();
+    video.pause();
+    video.removeAttribute('src');
+    video.load();
+    player.hidden = true;
+    document.body.classList.remove('sv-vp-open');
+    document.removeEventListener('keydown', onKey);
+    resetProgressBars();
+  }
+
+  /* ── Load video ── */
+  function loadVideo(index, userGesture) {
+    currentIndex = index;
+    resetProgressBars();
+    for (var i = 0; i < index; i++) {
+      if (barEls[i]) barEls[i].setAttribute('data-complete', '');
+    }
+    var item = sources[index];
+    if (!item || !item.src) return;
+    hideSpinner(); /* clear any pending timer from previous video */
+    video.poster = item.poster || '';
+    video.src    = item.src;
+    video.muted  = soundBtn.dataset.soundOn === '1' ? false : true;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+    video.preload = 'auto';
+    try { video.load(); } catch (e) {}
+    video.play().catch(function () {});
+    preloadAdjacent(index);
+    if (prevBtn) prevBtn.toggleAttribute('disabled', currentIndex === 0);
+    if (nextBtn) nextBtn.toggleAttribute('disabled', currentIndex === sources.length - 1);
+    startProgress();
+  }
+
+  function preloadAdjacent(index) {
+    var next = sources[index + 1], prev = sources[index - 1];
+    if (preloadNext && next && next.src && preloadNext.src !== next.src) {
+      preloadNext.src = next.src; try { preloadNext.load(); } catch (e) {}
+    }
+    if (preloadPrev && prev && prev.src && preloadPrev.src !== prev.src) {
+      preloadPrev.src = prev.src; try { preloadPrev.load(); } catch (e) {}
+    }
+  }
+
+  function navigate(delta) {
+    var next = currentIndex + delta;
+    if (next < 0 || next >= sources.length) return;
+    loadVideo(next, true);
+  }
+
+  /* ── Progress ── */
+  function resetProgressBars() {
+    bars.forEach(function (b) { b.style.width = '0%'; });
+    barEls.forEach(function (b) { b.removeAttribute('data-complete'); });
+  }
+
+  function startProgress() {
+    cancelRaf();
+    function tick() {
+      if (!video.duration || isNaN(video.duration)) { rafId = requestAnimationFrame(tick); return; }
+      var pct = Math.min(100, (video.currentTime / video.duration) * 100);
+      if (bars[currentIndex]) bars[currentIndex].style.width = pct + '%';
+      if (pct >= 99.5) {
+        if (currentIndex < sources.length - 1) loadVideo(currentIndex + 1, false);
+        else loadVideo(0, false);
+        return;
+      }
+      rafId = requestAnimationFrame(tick);
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+  function cancelRaf() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
+
+  /* ── Sound ── */
+  soundBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var isOn = soundBtn.dataset.soundOn === '1';
+    video.muted = isOn;
+    soundBtn.dataset.soundOn = isOn ? '0' : '1';
+  });
+
+  /* ── Tap viewport ── */
+  viewport.addEventListener('click', function (e) {
+    if (e.target.closest('.sv-vp__sound')) return;
+    if (video.paused) video.play().catch(function () {});
+    else video.pause();
+  });
+
+  /* ── Nav ── */
+  if (prevBtn) prevBtn.addEventListener('click', function () { navigate(-1); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { navigate(1); });
+
+  /* ── Swipe ── */
+  var tStart = null;
+  viewport.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) return;
+    tStart = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() };
+  }, { passive: true });
+  viewport.addEventListener('touchend', function (e) {
+    if (!tStart) return;
+    var tEnd = e.changedTouches[0];
+    var dx = tEnd.clientX - tStart.x, dy = tEnd.clientY - tStart.y;
+    var dt = Date.now() - tStart.t;
+    tStart = null;
+    if (dt > 600) return;
+    if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 60) navigate(dy < 0 ? 1 : -1);
+    else if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 60) navigate(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  /* ── Keyboard ── */
+  function onKey(e) {
+    if (e.key === 'Escape') closePlayer();
+    else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+    else if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   navigate(-1);
+  }
+
+  /* ── Close ── */
+  closeEls.forEach(function (el) { el.addEventListener('click', closePlayer); });
+
+  /* ── Chip handlers ── */
+  function setActivePill(group, clicked) {
+    if (!group) return;
+    group.querySelectorAll('.sv-vp__chip').forEach(function (p) { p.classList.remove('is-active'); });
+    clicked.classList.add('is-active');
+  }
+
+  if (sizeGroup) {
+    sizeGroup.addEventListener('click', function (e) {
+      var pill = e.target.closest('[data-vp-size]');
+      if (!pill) return;
+      setActivePill(sizeGroup, pill);
+      state.variantId  = pill.dataset.vpVariantId;
+      state.priceCents = parseInt(pill.dataset.vpVariantPrice, 10) || 0;
+      refreshShopCard();
+    });
+  }
+  if (ptGroup) {
+    ptGroup.addEventListener('click', function (e) {
+      var pill = e.target.closest('[data-vp-pt]');
+      if (!pill) return;
+      setActivePill(ptGroup, pill);
+      state.pt = pill.dataset.vpPt;
+      refreshFreqVisibility();
+      refreshShopCard();
+    });
+  }
+  if (freqGroup) {
+    freqGroup.addEventListener('click', function (e) {
+      var pill = e.target.closest('[data-vp-freq]');
+      if (!pill) return;
+      setActivePill(freqGroup, pill);
+      state.freq = pill.dataset.vpFreq;
+    });
+  }
+
+  /* ── ATC ── */
+  if (atcBtn) {
+    atcBtn.addEventListener('click', function () {
+      if (!state.variantId) return;
+      atcBtn.dataset.state = 'loading';
+      var payload = { id: state.variantId, quantity: 1 };
+      if (state.pt === 'subscribe') {
+        payload.properties = {
+          'Purchase Type': 'Subscribe & Save',
+          'Delivery Frequency': 'Every ' + state.freq + ' days'
+        };
+      }
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+        body: JSON.stringify(payload)
+      })
+      .then(function (r) { return r.json(); })
+      .then(function () {
+        atcBtn.dataset.state = 'success';
+        if (atcText) atcText.textContent = 'Added ✓';
+        document.dispatchEvent(new CustomEvent('sv:cart:updated'));
+        setTimeout(function () {
+          atcBtn.dataset.state = '';
+          if (atcText) atcText.textContent = 'Add';
+        }, 1800);
+      })
+      .catch(function () {
+        atcBtn.dataset.state = 'error';
+        setTimeout(function () { atcBtn.dataset.state = ''; if (atcText) atcText.textContent = 'Add'; }, 1800);
+      });
+    });
+  }
+
+  /* ── Card clicks ── */
+  cards.forEach(function (card, idx) {
+    card.addEventListener('click', function (e) {
+      e.preventDefault();
+      openPlayer(parseInt(card.dataset.siaIndex || idx, 10));
+    });
+  });
+
+  /* Initialize shop card on load (matches PDP player init) */
+  refreshShopCard();
+  refreshFreqVisibility();
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Video Reel",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Section heading" },
+    {
+      "type": "text",
+      "id": "ugc_eyebrow",
+      "label": "Eyebrow label",
+      "default": "+ REAL PEOPLE. REAL SKIN."
+    },
+    {
+      "type": "text",
+      "id": "ugc_headline",
+      "label": "Section headline",
+      "default": "What happens after the first drop."
+    },
+    { "type": "header", "content": "Videos" },
+    {
+      "type": "paragraph",
+      "content": "Upload MP4 videos directly — they will be served from Shopify CDN for fastest playback. Thumbnail is auto-extracted from the video; upload a separate image to override it."
+    },
+    {
+      "type": "text",
+      "id": "featured_product_handle",
+      "label": "Featured product handle (in video card)",
+      "default": "amrit",
+      "info": "Shopify handle of the product to show in the video shop card."
+    },
+    { "type": "header", "content": "Reel 1" },
+    { "type": "video",        "id": "reel_1_video",   "label": "Video file" },
+    { "type": "image_picker", "id": "reel_1_thumb",   "label": "Thumbnail (optional — auto-extracted if blank)" },
+    { "type": "text",         "id": "reel_1_handle",  "label": "Handle (e.g. @priya.skin)" },
+    { "type": "text",         "id": "reel_1_caption", "label": "Short quote" },
+    { "type": "header", "content": "Reel 2" },
+    { "type": "video",        "id": "reel_2_video",   "label": "Video file" },
+    { "type": "image_picker", "id": "reel_2_thumb",   "label": "Thumbnail (optional — auto-extracted if blank)" },
+    { "type": "text",         "id": "reel_2_handle",  "label": "Handle" },
+    { "type": "text",         "id": "reel_2_caption", "label": "Short quote" },
+    { "type": "header", "content": "Reel 3" },
+    { "type": "video",        "id": "reel_3_video",   "label": "Video file" },
+    { "type": "image_picker", "id": "reel_3_thumb",   "label": "Thumbnail (optional — auto-extracted if blank)" },
+    { "type": "text",         "id": "reel_3_handle",  "label": "Handle" },
+    { "type": "text",         "id": "reel_3_caption", "label": "Short quote" },
+    { "type": "header", "content": "Reel 4" },
+    { "type": "video",        "id": "reel_4_video",   "label": "Video file" },
+    { "type": "image_picker", "id": "reel_4_thumb",   "label": "Thumbnail (optional — auto-extracted if blank)" },
+    { "type": "text",         "id": "reel_4_handle",  "label": "Handle" },
+    { "type": "text",         "id": "reel_4_caption", "label": "Short quote" },
+    { "type": "header", "content": "Reel 5" },
+    { "type": "video",        "id": "reel_5_video",   "label": "Video file" },
+    { "type": "image_picker", "id": "reel_5_thumb",   "label": "Thumbnail (optional — auto-extracted if blank)" },
+    { "type": "text",         "id": "reel_5_handle",  "label": "Handle" },
+    { "type": "text",         "id": "reel_5_caption", "label": "Short quote" },
+    { "type": "header", "content": "Footer" },
+    { "type": "url", "id": "ig_url", "label": "Instagram URL" }
+  ],
+  "presets": [{ "name": "Video Reel" }]
+}
+{% endschema %}

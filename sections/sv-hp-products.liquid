@@ -1,0 +1,887 @@
+{%- comment -%}
+  Section 3 — Product Grid
+  Spec: "+ THE COLLECTION" / "The house of topical wellness." / 4 tiles
+  Modern redesign: 4:5 portrait cards, outline CTA, editorial typography
+{%- endcomment -%}
+
+{%- liquid
+  assign amrit        = all_products['amrit']
+  assign maati        = all_products['maati']
+  assign radiant_gold = all_products['radiant-gold']
+  assign mood_system  = all_products['mood-system']
+
+  assign pg_eyebrow      = section.settings.eyebrow      | default: '+ THE COLLECTION'
+  assign pg_headline1    = section.settings.heading_line1 | default: 'The house of'
+  assign pg_headline_em  = section.settings.heading_em    | default: 'topical wellness.'
+  assign pg_body         = section.settings.header_body   | default: 'From a single drop to care designed for calm, glow, and reset. Formulated to do more than sit on your skin.'
+  assign pg_showall_text = section.settings.showall_text  | default: 'SHOP ALL →'
+  assign pg_showall_url  = section.settings.showall_url   | default: '/collections/all'
+-%}
+
+<section class="sv-pg" aria-labelledby="sv-pg-heading">
+  <div class="sv-pg__inner">
+
+    <!-- ── HEADER ── -->
+    <div class="sv-pg__header fade-up">
+      <div class="sv-pg__header-left">
+        <p class="sv-pg__eyebrow">{{ pg_eyebrow }}</p>
+        <h2 id="sv-pg-heading" class="sv-pg__headline">
+          {{ pg_headline1 }} <em class="sv-pg__headline-em">{{ pg_headline_em }}</em>
+        </h2>
+      </div>
+      <div class="sv-pg__header-right">
+        <p class="sv-pg__header-body">{{ pg_body }}</p>
+        <a href="{{ pg_showall_url }}" class="sv-pg__showall">{{ pg_showall_text }}</a>
+      </div>
+    </div>
+
+    <!-- ── GRID ── -->
+    <div class="sv-pg__grid">
+
+      <!-- TILE 1: AMRIT -->
+      {%- assign p = amrit -%}
+      <article class="sv-pg-tile fade-up" style="transition-delay:0s">
+        <a href="/products/amrit" class="sv-pg-tile__img-link" tabindex="-1" aria-hidden="true">
+          <div class="sv-pg-tile__media">
+            {%- if p != blank and p.featured_image != blank -%}
+              <img src="{{ p.featured_image | image_url: width: 800 }}"
+                srcset="{{ p.featured_image | image_url: width: 500 }} 500w, {{ p.featured_image | image_url: width: 800 }} 800w"
+                sizes="(max-width:640px) 50vw, 25vw"
+                alt="{{ p.featured_image.alt | default: 'Amrit Face & Body Oil' | escape }}"
+                class="sv-pg-tile__img sv-pg-tile__img--primary"
+                loading="lazy" decoding="async">
+            {%- else -%}
+              <div class="sv-pg-tile__placeholder"></div>
+            {%- endif -%}
+            {%- if section.settings.tile_1_hover != blank -%}
+              <img src="{{ section.settings.tile_1_hover | image_url: width: 800 }}" alt="" role="presentation"
+                class="sv-pg-tile__img sv-pg-tile__img--hover" loading="eager">
+            {%- else -%}
+              <img src="https://images.pexels.com/photos/8945928/pexels-photo-8945928.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" role="presentation"
+                class="sv-pg-tile__img sv-pg-tile__img--hover" loading="eager">
+            {%- endif -%}
+            <span class="sv-pg-tile__badge sv-pg-tile__badge--terra">BESTSELLER</span>
+          </div>
+        </a>
+        <div class="sv-pg-tile__body">
+          <div class="sv-pg-tile__meta">
+            <p class="sv-pg-tile__mood">Calm &amp; Radiant</p>
+            <p class="sv-pg-tile__cat">FACE + BODY OIL</p>
+          </div>
+          <a href="/products/amrit" class="sv-pg-tile__name">Amrit</a>
+          <div class="sv-pg-tile__footer">
+            <p class="sv-pg-tile__price">
+              {%- if p != blank -%}From {{ p.price_min | money }}{%- else -%}From $30{%- endif -%}
+            </p>
+            <button class="sv-pg-tile__atc" type="button" data-open-sizes
+              data-product-json="{{ p | json | escape }}"
+              data-tile-price="$30">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- TILE 2: MAATI -->
+      {%- assign p = maati -%}
+      <article class="sv-pg-tile fade-up" style="transition-delay:0.08s">
+        <a href="/products/maati" class="sv-pg-tile__img-link" tabindex="-1" aria-hidden="true">
+          <div class="sv-pg-tile__media">
+            {%- if p != blank and p.featured_image != blank -%}
+              <img src="{{ p.featured_image | image_url: width: 800 }}"
+                srcset="{{ p.featured_image | image_url: width: 500 }} 500w, {{ p.featured_image | image_url: width: 800 }} 800w"
+                sizes="(max-width:640px) 50vw, 25vw"
+                alt="{{ p.featured_image.alt | default: 'Maati Hair Oil' | escape }}"
+                class="sv-pg-tile__img sv-pg-tile__img--primary"
+                loading="lazy" decoding="async">
+            {%- else -%}
+              <div class="sv-pg-tile__placeholder"></div>
+            {%- endif -%}
+            {%- if section.settings.tile_2_hover != blank -%}
+              <img src="{{ section.settings.tile_2_hover | image_url: width: 800 }}" alt="" role="presentation"
+                class="sv-pg-tile__img sv-pg-tile__img--hover" loading="eager">
+            {%- else -%}
+              <img src="https://images.pexels.com/photos/7320783/pexels-photo-7320783.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" role="presentation"
+                class="sv-pg-tile__img sv-pg-tile__img--hover" loading="eager">
+            {%- endif -%}
+          </div>
+        </a>
+        <div class="sv-pg-tile__body">
+          <div class="sv-pg-tile__meta">
+            <p class="sv-pg-tile__mood">Rooted &amp; Strong</p>
+            <p class="sv-pg-tile__cat">HAIR + SCALP OIL</p>
+          </div>
+          <a href="/products/maati" class="sv-pg-tile__name">Maati</a>
+          <div class="sv-pg-tile__footer">
+            <p class="sv-pg-tile__price">
+              {%- if p != blank -%}From {{ p.price_min | money }}{%- else -%}From $30{%- endif -%}
+            </p>
+            <button class="sv-pg-tile__atc" type="button" data-open-sizes
+              data-product-json="{{ p | json | escape }}"
+              data-tile-price="$30">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- TILE 3: RADIANT GOLD -->
+      {%- assign p = radiant_gold -%}
+      {%- assign rg_variant = p.selected_or_first_available_variant -%}
+      <article class="sv-pg-tile fade-up" style="transition-delay:0.16s">
+        <a href="/products/radiant-gold" class="sv-pg-tile__img-link" tabindex="-1" aria-hidden="true">
+          <div class="sv-pg-tile__media">
+            {%- if p != blank and p.featured_image != blank -%}
+              <img src="{{ p.featured_image | image_url: width: 800 }}"
+                srcset="{{ p.featured_image | image_url: width: 500 }} 500w, {{ p.featured_image | image_url: width: 800 }} 800w"
+                sizes="(max-width:640px) 50vw, 25vw"
+                alt="{{ p.featured_image.alt | default: 'Radiant Gold Roll-On' | escape }}"
+                class="sv-pg-tile__img sv-pg-tile__img--primary"
+                loading="lazy" decoding="async">
+            {%- else -%}
+              <div class="sv-pg-tile__placeholder"></div>
+            {%- endif -%}
+            {%- if section.settings.tile_3_hover != blank -%}
+              <img src="{{ section.settings.tile_3_hover | image_url: width: 800 }}" alt="" role="presentation"
+                class="sv-pg-tile__img sv-pg-tile__img--hover" loading="eager">
+            {%- else -%}
+              <img src="https://images.pexels.com/photos/9832103/pexels-photo-9832103.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" role="presentation"
+                class="sv-pg-tile__img sv-pg-tile__img--hover" loading="eager">
+            {%- endif -%}
+          </div>
+        </a>
+        <div class="sv-pg-tile__body">
+          <div class="sv-pg-tile__meta">
+            <p class="sv-pg-tile__mood">Lifted &amp; Luminous</p>
+            <p class="sv-pg-tile__cat">PERFUME ROLL-ON</p>
+          </div>
+          <a href="/products/radiant-gold" class="sv-pg-tile__name">Radiant Gold</a>
+          <div class="sv-pg-tile__footer">
+            <p class="sv-pg-tile__price">
+              {%- if p != blank -%}{{ p.price | money }}{%- else -%}$15{%- endif -%}
+            </p>
+            <button class="sv-pg-tile__atc" type="button" data-atc-direct
+              data-variant-id="{{ rg_variant.id }}">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- TILE 4: MOOD SYSTEM -->
+      {%- assign p = mood_system -%}
+      {%- assign ms_variant = p.selected_or_first_available_variant -%}
+      <article class="sv-pg-tile fade-up" style="transition-delay:0.24s">
+        <a href="/products/mood-system" class="sv-pg-tile__img-link" tabindex="-1" aria-hidden="true">
+          <div class="sv-pg-tile__media">
+            {%- if p != blank and p.featured_image != blank -%}
+              <img src="{{ p.featured_image | image_url: width: 800 }}"
+                srcset="{{ p.featured_image | image_url: width: 500 }} 500w, {{ p.featured_image | image_url: width: 800 }} 800w"
+                sizes="(max-width:640px) 50vw, 25vw"
+                alt="{{ p.featured_image.alt | default: 'The Mood System' | escape }}"
+                class="sv-pg-tile__img sv-pg-tile__img--primary"
+                loading="lazy" decoding="async">
+            {%- else -%}
+              <div class="sv-pg-tile__placeholder"></div>
+            {%- endif -%}
+            {%- if section.settings.tile_4_hover != blank -%}
+              <img src="{{ section.settings.tile_4_hover | image_url: width: 800 }}" alt="" role="presentation"
+                class="sv-pg-tile__img sv-pg-tile__img--hover" loading="eager">
+            {%- else -%}
+              <img src="https://images.pexels.com/photos/34939722/pexels-photo-34939722.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" role="presentation"
+                class="sv-pg-tile__img sv-pg-tile__img--hover" loading="eager">
+            {%- endif -%}
+            <span class="sv-pg-tile__badge sv-pg-tile__badge--green">THE SET</span>
+          </div>
+        </a>
+        <div class="sv-pg-tile__body">
+          <div class="sv-pg-tile__meta">
+            <p class="sv-pg-tile__mood">AM·PM Reset</p>
+            <p class="sv-pg-tile__cat">FACE · BODY · HAIR</p>
+          </div>
+          <a href="/products/mood-system" class="sv-pg-tile__name">Mood System</a>
+          <div class="sv-pg-tile__footer">
+            <p class="sv-pg-tile__price">
+              {%- if p != blank -%}{{ p.price | money }}{%- else -%}$65{%- endif -%}
+            </p>
+            <button class="sv-pg-tile__atc" type="button" data-atc-direct
+              data-variant-id="{{ ms_variant.id }}">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── SIZE SHEET ── -->
+<div class="sv-sizes" id="sv-sizes" role="dialog" aria-modal="true" aria-label="Select size" aria-hidden="true">
+  <div class="sv-sizes__overlay" id="sv-sizes-overlay"></div>
+  <div class="sv-sizes__panel">
+    <div class="sv-sizes__head">
+      <p class="sv-sizes__title" id="sv-sizes-title">Select a size</p>
+      <button class="sv-sizes__close" id="sv-sizes-close" type="button" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <ul class="sv-sizes__list" id="sv-sizes-list" role="list"></ul>
+    <button class="sv-sizes__btn" id="sv-sizes-btn" type="button" disabled>Select a size</button>
+  </div>
+</div>
+
+<!-- ── MINI CART ── -->
+<div class="sv-mc" id="sv-mc" role="dialog" aria-modal="true" aria-label="Your cart" aria-hidden="true">
+  <div class="sv-mc__overlay" id="sv-mc-overlay"></div>
+  <div class="sv-mc__panel">
+    <div class="sv-mc__head">
+      <h2 class="sv-mc__title">Your Bag</h2>
+      <button class="sv-mc__close" id="sv-mc-close" type="button" aria-label="Close cart">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="sv-mc__added" id="sv-mc-added" aria-live="polite">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Added to your bag
+    </div>
+    <div class="sv-mc__items" id="sv-mc-items"></div>
+    <div class="sv-mc__footer">
+      <div class="sv-mc__subtotal">
+        <span>Subtotal</span>
+        <span id="sv-mc-total">—</span>
+      </div>
+      <p class="sv-mc__note">Shipping + taxes calculated at checkout</p>
+      <a href="/checkout" class="sv-mc__checkout">CHECKOUT</a>
+      <button class="sv-mc__continue" id="sv-mc-continue" type="button">CONTINUE SHOPPING</button>
+    </div>
+  </div>
+</div>
+
+<style>
+/* ══ SHELL ══ */
+.sv-pg {
+  background: #FDFAF4;
+  padding: 88px 0;
+}
+.sv-pg__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+/* ══ HEADER ══ */
+.sv-pg__header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: end;
+  margin-bottom: 48px;
+}
+.sv-pg__eyebrow {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #b6522d; margin-bottom: 14px;
+}
+.sv-pg__headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 3.8vw, 52px);
+  font-weight: 400;
+  color: #002816;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+.sv-pg__headline-em { font-style: italic; }
+.sv-pg__header-body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px; color: rgba(42,64,39,0.80);
+  line-height: 1.8; max-width: 380px;
+  margin-bottom: 22px;
+}
+.sv-pg__showall {
+  display: inline-block;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #002816;
+  text-decoration: none;
+  padding-bottom: 3px;
+  border-bottom: 1.5px solid rgba(0,40,22,0.25);
+  transition: letter-spacing 200ms, border-color 200ms;
+}
+.sv-pg__showall:hover {
+  letter-spacing: 0.16em;
+  border-color: #002816;
+}
+
+/* ══ GRID ══ */
+.sv-pg__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* ══ TILE ══ */
+.sv-pg-tile {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Image area */
+.sv-pg-tile__img-link {
+  display: block;
+  text-decoration: none;
+  margin-bottom: 16px;
+}
+.sv-pg-tile__media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #EDE8E0;
+}
+.sv-pg-tile__placeholder {
+  width: 100%; height: 100%;
+  background: linear-gradient(145deg, #E6DFD6, #F5F0E8);
+}
+
+/* Image hover */
+.sv-pg-tile__img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: opacity 480ms ease-in-out, transform 600ms cubic-bezier(0.16,1,0.3,1);
+}
+.sv-pg-tile__img--primary { z-index: 1; opacity: 1; }
+.sv-pg-tile__img--hover   { z-index: 2; opacity: 0; }
+.sv-pg-tile:hover .sv-pg-tile__img--hover   { opacity: 1; }
+.sv-pg-tile:hover .sv-pg-tile__img--primary { transform: scale(1.04); }
+
+/* Badge */
+.sv-pg-tile__badge {
+  position: absolute;
+  top: 14px; left: 14px; z-index: 3;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  padding: 5px 11px; border-radius: 999px;
+}
+.sv-pg-tile__badge--terra { background: #b6522d; color: #FDFAF4; }
+.sv-pg-tile__badge--green { background: #4A7B5E; color: #FDFAF4; }
+
+/* Body */
+.sv-pg-tile__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0 2px;
+}
+
+/* Meta row: mood + category side by side */
+.sv-pg-tile__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  gap: 8px;
+}
+.sv-pg-tile__mood {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: #b6522d;
+  line-height: 1.3;
+}
+.sv-pg-tile__cat {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 0.09em; text-transform: uppercase;
+  color: #4A7B5E;
+  white-space: nowrap;
+}
+
+/* Product name */
+.sv-pg-tile__name {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-weight: 400;
+  color: #002816;
+  text-decoration: none;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
+  transition: color 150ms;
+}
+.sv-pg-tile__name:hover { color: #4A7B5E; }
+
+/* Footer: price + button */
+.sv-pg-tile__footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sv-pg-tile__price {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; font-weight: 500;
+  color: #002816;
+}
+
+/* ATC — outline pill, fills on hover */
+.sv-pg-tile__atc {
+  width: 100%;
+  padding: 13px 20px;
+  background: transparent;
+  color: #002816;
+  border: 1.5px solid rgba(0,40,22,0.30);
+  border-radius: 999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease,
+              color 200ms ease, transform 150ms ease;
+}
+.sv-pg-tile__atc:hover {
+  background: #002816;
+  border-color: #002816;
+  color: #FDFAF4;
+  transform: translateY(-1px);
+}
+.sv-pg-tile__atc.is-loading {
+  opacity: 0.55; pointer-events: none;
+}
+.sv-pg-tile__atc.is-success {
+  background: #4A7B5E; border-color: #4A7B5E;
+  color: #FDFAF4; pointer-events: none;
+}
+
+/* ══ SIZE SHEET ══ */
+.sv-sizes {
+  position: fixed; inset: 0; z-index: 1100;
+  pointer-events: none;
+}
+.sv-sizes.is-open { pointer-events: auto; }
+.sv-sizes__overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.40);
+  opacity: 0; transition: opacity 240ms ease;
+}
+.sv-sizes.is-open .sv-sizes__overlay { opacity: 1; }
+.sv-sizes__panel {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  max-width: 480px; margin: 0 auto;
+  background: #FDFAF4;
+  border-radius: 20px 20px 0 0;
+  padding: 28px 24px 44px;
+  transform: translateY(100%);
+  transition: transform 300ms cubic-bezier(0.33,1,0.68,1);
+}
+.sv-sizes.is-open .sv-sizes__panel { transform: translateY(0); }
+.sv-sizes__head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px;
+}
+.sv-sizes__title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px; color: #002816;
+}
+.sv-sizes__close {
+  background: none; border: none; cursor: pointer;
+  color: #5A6E60; min-width: 44px; min-height: 44px;
+  display: flex; align-items: center; justify-content: center;
+}
+.sv-sizes__list {
+  list-style: none; margin: 0 0 20px; padding: 0;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.sv-sizes__opt {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 15px 18px;
+  border: 1.5px solid rgba(0,40,22,0.15);
+  border-radius: 10px; cursor: pointer;
+  transition: border-color 150ms, background 150ms;
+}
+.sv-sizes__opt:hover { border-color: #002816; }
+.sv-sizes__opt.is-sel { border-color: #002816; background: rgba(0,40,22,0.04); }
+.sv-sizes__opt-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; color: #2A4027;
+}
+.sv-sizes__opt-price {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; font-weight: 500; color: #002816;
+}
+.sv-sizes__btn {
+  width: 100%; padding: 15px;
+  background: #002816; color: #FDFAF4;
+  border: none; border-radius: 999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: pointer; transition: background 160ms;
+}
+.sv-sizes__btn:disabled { background: rgba(0,40,22,0.25); cursor: default; }
+.sv-sizes__btn:not(:disabled):hover { background: #003d22; }
+.sv-sizes__btn.is-success { background: #4A7B5E; }
+
+/* ══ MINI CART ══ */
+.sv-mc { position: fixed; inset: 0; z-index: 1100; pointer-events: none; }
+.sv-mc.is-open { pointer-events: auto; }
+.sv-mc__overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.38);
+  opacity: 0; transition: opacity 240ms ease;
+}
+.sv-mc.is-open .sv-mc__overlay { opacity: 1; }
+.sv-mc__panel {
+  position: absolute; top: 0; right: 0; bottom: 0;
+  width: min(400px, 92vw); background: #FDFAF4;
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 300ms cubic-bezier(0.33,1,0.68,1);
+}
+.sv-mc.is-open .sv-mc__panel { transform: translateX(0); }
+.sv-mc__head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid #E6DFD6; flex-shrink: 0;
+}
+.sv-mc__title { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: #002816; }
+.sv-mc__close {
+  background: none; border: none; cursor: pointer;
+  color: #5A6E60; min-width: 44px; min-height: 44px;
+  display: flex; align-items: center; justify-content: center;
+}
+.sv-mc__added {
+  display: flex; align-items: center; gap: 8px;
+  background: #4A7B5E; color: #FDFAF4;
+  padding: 10px 20px;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px;
+  flex-shrink: 0; opacity: 0; transition: opacity 280ms;
+}
+.sv-mc__added.is-visible { opacity: 1; }
+.sv-mc__items { flex: 1; overflow-y: auto; padding: 16px 20px; }
+.sv-mc-item { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid #E6DFD6; }
+.sv-mc-item:last-child { border-bottom: none; }
+.sv-mc-item__img { width: 72px; height: 72px; object-fit: cover; border-radius: 8px; background: #E6DFD6; flex-shrink: 0; }
+.sv-mc-item__name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 500; color: #002816; margin-bottom: 3px; }
+.sv-mc-item__variant { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; color: #5A6E60; margin-bottom: 6px; }
+.sv-mc-item__price { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 500; color: #002816; }
+.sv-mc__footer { padding: 16px 20px 28px; border-top: 1px solid #E6DFD6; flex-shrink: 0; }
+.sv-mc__subtotal { display: flex; justify-content: space-between; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 600; color: #002816; margin-bottom: 6px; }
+.sv-mc__note { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; color: #5A6E60; margin-bottom: 16px; text-align: center; }
+.sv-mc__checkout {
+  display: block; width: 100%; padding: 15px; text-align: center;
+  background: #002816; color: #FDFAF4; text-decoration: none;
+  border-radius: 999px; font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 10px; transition: background 160ms;
+}
+.sv-mc__checkout:hover { background: #003d22; }
+.sv-mc__continue {
+  display: block; width: 100%; padding: 13px; text-align: center;
+  background: transparent; color: #2A4027;
+  border: 1.5px solid rgba(0,40,22,0.20); border-radius: 999px;
+  cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  transition: border-color 150ms;
+}
+.sv-mc__continue:hover { border-color: #002816; }
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 1024px) {
+  .sv-pg__inner { padding: 0 32px; }
+  .sv-pg__header { gap: 40px; }
+}
+@media (max-width: 768px) {
+  .sv-pg { padding: 56px 0; }
+  .sv-pg__inner { padding: 0 16px; }
+  .sv-pg__header {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  .sv-pg__header-body { display: none; }
+  .sv-pg__showall {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 10px;
+  }
+  .sv-pg__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .sv-pg-tile__media { border-radius: 10px; }
+  .sv-pg-tile__meta { flex-direction: column; gap: 2px; }
+  .sv-pg-tile__mood { font-size: 13px; }
+  .sv-pg-tile__cat { font-size: 8px; }
+  .sv-pg-tile__name { font-size: 20px; margin-bottom: 10px; }
+  .sv-pg-tile__price { font-size: 13px; }
+  .sv-pg-tile__atc {
+    font-size: 9px;
+    padding: 12px 8px;
+    letter-spacing: 0.06em;
+  }
+  .sv-pg-tile__badge { font-size: 8px; padding: 4px 8px; top: 10px; left: 10px; }
+}
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  function money(cents) {
+    return '$' + (cents / 100).toFixed(2).replace(/\.00$/, '');
+  }
+
+  /* SIZE SHEET */
+  var ss      = document.getElementById('sv-sizes');
+  var ssList  = document.getElementById('sv-sizes-list');
+  var ssBtn   = document.getElementById('sv-sizes-btn');
+  var ssTitle = document.getElementById('sv-sizes-title');
+  var ssClose = document.getElementById('sv-sizes-close');
+  var ssOvl   = document.getElementById('sv-sizes-overlay');
+  var selVarId = null;
+
+  /* size sheet — event delegation: single listener on the list, not per-item */
+  var variantPriceMap = {};
+
+  ssList.addEventListener('click', function (e) {
+    var opt = e.target.closest('.sv-sizes__opt');
+    if (!opt) return;
+    ssList.querySelectorAll('.sv-sizes__opt').forEach(function (el) { el.classList.remove('is-sel'); });
+    opt.classList.add('is-sel');
+    selVarId = parseInt(opt.getAttribute('data-variant-id'), 10);
+    var price = variantPriceMap[selVarId] || 0;
+    ssBtn.disabled = false;
+    ssBtn.textContent = 'ADD TO CART — ' + money(price);
+  });
+  ssList.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      var opt = e.target.closest('.sv-sizes__opt');
+      if (opt) { e.preventDefault(); opt.click(); }
+    }
+  });
+
+  function openSheet(productJson) {
+    var p = JSON.parse(decodeURIComponent(productJson.replace(/&amp;/g,'&')));
+    ssTitle.textContent = p.title;
+    selVarId = null;
+    variantPriceMap = {};
+    ssBtn.disabled = true;
+    ssBtn.textContent = 'Select a size';
+    ssList.innerHTML = '';
+    p.variants.forEach(function (v) {
+      if (!v.available) return;
+      variantPriceMap[v.id] = v.price;
+      var li = document.createElement('li');
+      li.className = 'sv-sizes__opt';
+      li.setAttribute('role', 'button'); li.setAttribute('tabindex', '0');
+      li.setAttribute('data-variant-id', v.id);
+      li.innerHTML = '<span class="sv-sizes__opt-name">' + v.title + '</span><span class="sv-sizes__opt-price">' + money(v.price) + '</span>';
+      ssList.appendChild(li);
+    });
+    ss.setAttribute('aria-hidden','false');
+    ss.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSheet() {
+    ss && ss.classList.remove('is-open');
+    ss && ss.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    selVarId = null;
+  }
+
+  if (ssClose) ssClose.addEventListener('click', closeSheet);
+  if (ssOvl)   ssOvl.addEventListener('click', closeSheet);
+
+  document.querySelectorAll('[data-open-sizes]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var raw = btn.getAttribute('data-product-json');
+      if (raw) openSheet(raw);
+    });
+  });
+
+  if (ssBtn) ssBtn.addEventListener('click', function () {
+    if (!selVarId) return;
+    addToCart(selVarId, ssBtn, function () {
+      ssBtn.textContent = 'Added ✓';
+      ssBtn.classList.add('is-success');
+      setTimeout(function () { closeSheet(); ssBtn.classList.remove('is-success'); }, 900);
+    });
+  });
+
+  /* DIRECT ATC */
+  document.querySelectorAll('[data-atc-direct]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      addToCart(btn.getAttribute('data-variant-id'), btn, null);
+    });
+  });
+
+  /* CORE ATC */
+  function addToCart(variantId, btn, onSuccess) {
+    btn.classList.add('is-loading');
+    btn.textContent = 'Adding…';
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ id: variantId, quantity: 1 })
+    })
+    .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
+    .then(function () {
+      btn.classList.remove('is-loading');
+      btn.classList.add('is-success');
+      btn.textContent = 'Added ✓';
+      _cartDirty = true;
+      document.dispatchEvent(new CustomEvent('sv:cart:updated'));
+      openCart();
+      if (onSuccess) { onSuccess(); return; }
+      setTimeout(function () { btn.classList.remove('is-success'); btn.textContent = 'ADD TO CART'; }, 2200);
+    })
+    .catch(function () {
+      btn.classList.remove('is-loading');
+      btn.textContent = 'Try again';
+      setTimeout(function () { btn.textContent = 'ADD TO CART'; }, 2000);
+    });
+  }
+
+  /* MINI CART */
+  var mc      = document.getElementById('sv-mc');
+  var mcItems = document.getElementById('sv-mc-items');
+  var mcTotal = document.getElementById('sv-mc-total');
+  var mcClose = document.getElementById('sv-mc-close');
+  var mcOvl   = document.getElementById('sv-mc-overlay');
+  var mcAdded = document.getElementById('sv-mc-added');
+  var mcCont  = document.getElementById('sv-mc-continue');
+
+  /* Cart cache — only re-fetch after successful ATC, not on every open */
+  var _cartCache = null;
+  var _cartDirty = true;
+
+  function openCart() {
+    if (_cartCache && !_cartDirty) {
+      _showCart(_cartCache);
+      return;
+    }
+    fetch('/cart.js', { headers: { 'Accept': 'application/json' } })
+    .then(function (r) { return r.json(); })
+    .then(function (cart) {
+      _cartCache = cart;
+      _cartDirty = false;
+      _showCart(cart);
+    });
+  }
+
+  function _showCart(cart) {
+    renderCart(cart);
+    mc.setAttribute('aria-hidden','false');
+    mc.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    if (mcAdded) { mcAdded.classList.add('is-visible'); setTimeout(function () { mcAdded.classList.remove('is-visible'); }, 2500); }
+  }
+
+  function closeCart() {
+    mc && mc.classList.remove('is-open');
+    mc && mc.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+
+  function renderCart(cart) {
+    if (mcTotal) mcTotal.textContent = money(cart.total_price);
+    if (!mcItems) return;
+    if (!cart.item_count) {
+      mcItems.innerHTML = '<p style="text-align:center;padding:40px 0;color:#5A6E60;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:14px;">Your bag is empty.</p>';
+      return;
+    }
+    mcItems.innerHTML = cart.items.map(function (it) {
+      var img = it.image ? it.image.replace(/(\.\w+)(\?|$)/,'_72x72_crop_center$1$2') : '';
+      var variant = (it.variant_title && it.variant_title !== 'Default Title') ? it.variant_title + ' · ' : '';
+      return '<div class="sv-mc-item">' +
+        (img ? '<img class="sv-mc-item__img" src="'+img+'" alt="" loading="lazy">' : '<div class="sv-mc-item__img"></div>') +
+        '<div class="sv-mc-item__info"><p class="sv-mc-item__name">'+it.product_title+'</p><p class="sv-mc-item__variant">'+variant+'Qty '+it.quantity+'</p><p class="sv-mc-item__price">'+money(it.line_price)+'</p></div></div>';
+    }).join('');
+  }
+
+  if (mcClose) mcClose.addEventListener('click', closeCart);
+  if (mcOvl)   mcOvl.addEventListener('click', closeCart);
+  if (mcCont)  mcCont.addEventListener('click', closeCart);
+  document.addEventListener('keydown', function (e) { if (e.key==='Escape') { closeSheet(); closeCart(); } });
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Product Grid",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Section header" },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "+ THE COLLECTION"
+    },
+    {
+      "type": "text",
+      "id": "heading_line1",
+      "label": "Headline — first part",
+      "default": "The house of",
+      "info": "Appears before the italic words."
+    },
+    {
+      "type": "text",
+      "id": "heading_em",
+      "label": "Headline — italic part",
+      "default": "topical wellness.",
+      "info": "This phrase appears in italic."
+    },
+    {
+      "type": "textarea",
+      "id": "header_body",
+      "label": "Header body text",
+      "default": "From a single drop to care designed for calm, glow, and reset. Formulated to do more than sit on your skin."
+    },
+    {
+      "type": "text",
+      "id": "showall_text",
+      "label": "Shop all button text",
+      "default": "SHOP ALL →"
+    },
+    {
+      "type": "url",
+      "id": "showall_url",
+      "label": "Shop all button link"
+    },
+    { "type": "header", "content": "Hover lifestyle images" },
+    {
+      "type": "paragraph",
+      "content": "Upload a lifestyle or in-use image for each product tile. This appears on hover. Recommended: 800 × 1000px (4:5), under 500 KB."
+    },
+    {
+      "type": "image_picker",
+      "id": "tile_1_hover",
+      "label": "Tile 1 (Amrit) — hover lifestyle image"
+    },
+    {
+      "type": "image_picker",
+      "id": "tile_2_hover",
+      "label": "Tile 2 (Maati) — hover lifestyle image"
+    },
+    {
+      "type": "image_picker",
+      "id": "tile_3_hover",
+      "label": "Tile 3 (Radiant Gold) — hover lifestyle image"
+    },
+    {
+      "type": "image_picker",
+      "id": "tile_4_hover",
+      "label": "Tile 4 (Mood System) — hover lifestyle image"
+    }
+  ],
+  "presets": [{ "name": "Product Grid" }]
+}
+{% endschema %}

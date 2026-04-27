@@ -1,0 +1,202 @@
+{%- comment -%}
+  Section 2 — Stats Bar
+  Spec: 4 stats, no heavy dividers, Cormorant numbers, PJS labels
+{%- endcomment -%}
+
+{%- liquid
+  assign stat1_num   = section.settings.stat1_num   | default: '4 out of 5'
+  assign stat1_label = section.settings.stat1_label | default: 'BUY IT AGAIN'
+  assign stat1_desc  = section.settings.stat1_desc  | default: '"Changes not just your skin — your spirit."'
+  assign stat2_num   = section.settings.stat2_num   | default: '4.8'
+  assign stat2_label = section.settings.stat2_label | default: 'CUSTOMER RATING'
+  assign stat2_desc  = section.settings.stat2_desc  | default: 'Across all products'
+  assign stat3_num   = section.settings.stat3_num   | default: 'One Product'
+  assign stat3_label = section.settings.stat3_label | default: 'REPLACES FOUR'
+  assign stat3_desc  = section.settings.stat3_desc  | default: 'Fewer steps. Deeper results.'
+  assign stat4_num   = section.settings.stat4_num   | default: 'Skin‑Brain Loop'
+  assign stat4_label = section.settings.stat4_label | default: 'FEEL IT INSTANTLY'
+  assign stat4_desc  = section.settings.stat4_desc  | default: 'Formulated to shift how you feel'
+-%}
+
+<section class="sv-stats" aria-label="Brand proof points">
+  <div class="sv-stats__inner">
+    <div class="sv-stats__grid">
+
+      <div class="sv-stats__col fade-up" style="transition-delay:0s">
+        <p class="sv-stats__num">{{ stat1_num }}</p>
+        <span class="sv-stats__rule" aria-hidden="true"></span>
+        <p class="sv-stats__label">{{ stat1_label }}</p>
+        <p class="sv-stats__desc">{{ stat1_desc }}</p>
+      </div>
+
+      <div class="sv-stats__col fade-up" style="transition-delay:0.08s">
+        <p class="sv-stats__num">{{ stat2_num }}<span class="sv-stats__star">★</span></p>
+        <span class="sv-stats__rule" aria-hidden="true"></span>
+        <p class="sv-stats__label">{{ stat2_label }}</p>
+        <p class="sv-stats__desc">{{ stat2_desc }}</p>
+      </div>
+
+      <div class="sv-stats__col fade-up" style="transition-delay:0.16s">
+        <p class="sv-stats__num sv-stats__num--md">{{ stat3_num }}</p>
+        <span class="sv-stats__rule" aria-hidden="true"></span>
+        <p class="sv-stats__label">{{ stat3_label }}</p>
+        <p class="sv-stats__desc">{{ stat3_desc }}</p>
+      </div>
+
+      <div class="sv-stats__col fade-up" style="transition-delay:0.24s">
+        <p class="sv-stats__num sv-stats__num--sm">{{ stat4_num }}</p>
+        <span class="sv-stats__rule" aria-hidden="true"></span>
+        <p class="sv-stats__label">{{ stat4_label }}</p>
+        <p class="sv-stats__desc">{{ stat4_desc }}</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+.sv-stats {
+  background: #EEE8DE;
+  padding: 72px 0;
+}
+.sv-stats__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+.sv-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Each column */
+.sv-stats__col {
+  text-align: center;
+  padding: 0 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Thin vertical divider between cols */
+.sv-stats__col + .sv-stats__col::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px; bottom: 8px;
+  width: 1px;
+  background: rgba(0,40,22,0.10);
+}
+
+/* Stat number — all bottom-align so the rule + label line up across columns */
+.sv-stats__num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+  color: #002816;
+  margin-bottom: 14px;
+  /* Fixed height block so text bottom-aligns regardless of font-size */
+  min-height: 60px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.sv-stats__num--md {
+  font-size: 42px;
+  white-space: nowrap;
+}
+.sv-stats__num--sm {
+  font-size: 38px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.sv-stats__star {
+  font-size: 32px;
+  vertical-align: middle;
+  color: #b6522d;
+  margin-left: 2px;
+}
+
+/* Terracotta accent rule */
+.sv-stats__rule {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: #b6522d;
+  margin: 0 auto 14px;
+}
+
+/* Label */
+.sv-stats__label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4A7B5E;
+  margin-bottom: 8px;
+}
+
+/* Descriptor */
+.sv-stats__desc {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #B29D94;
+  line-height: 1.6;
+  max-width: 180px;
+}
+
+/* Mobile: 2×2 */
+@media (max-width: 768px) {
+  .sv-stats { padding: 52px 0; }
+  .sv-stats__inner { padding: 0 20px; }
+  .sv-stats__grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 0;
+  }
+  .sv-stats__col {
+    padding: 36px 16px;
+    border-bottom: 1px solid rgba(0,40,22,0.08);
+  }
+  .sv-stats__col:nth-child(odd) {
+    border-right: 1px solid rgba(0,40,22,0.08);
+  }
+  .sv-stats__col + .sv-stats__col::before { display: none; }
+  .sv-stats__col:nth-child(3),
+  .sv-stats__col:nth-child(4) { border-bottom: none; }
+  .sv-stats__num { font-size: 36px; }
+  .sv-stats__num--md { font-size: 28px; }
+  .sv-stats__num--sm { font-size: 22px; white-space: normal; }
+  .sv-stats__desc { font-size: 12px; max-width: 140px; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Stats Bar",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Stat 1" },
+    { "type": "text", "id": "stat1_num",   "label": "Number / value", "default": "4 out of 5" },
+    { "type": "text", "id": "stat1_label", "label": "Label (uppercase)",  "default": "BUY IT AGAIN" },
+    { "type": "text", "id": "stat1_desc",  "label": "Description",   "default": "\"Changes not just your skin — your spirit.\"" },
+    { "type": "header", "content": "Stat 2" },
+    { "type": "text", "id": "stat2_num",   "label": "Number (star icon added automatically)", "default": "4.8" },
+    { "type": "text", "id": "stat2_label", "label": "Label (uppercase)",  "default": "CUSTOMER RATING" },
+    { "type": "text", "id": "stat2_desc",  "label": "Description",   "default": "Across all products" },
+    { "type": "header", "content": "Stat 3" },
+    { "type": "text", "id": "stat3_num",   "label": "Number / value", "default": "One Product" },
+    { "type": "text", "id": "stat3_label", "label": "Label (uppercase)",  "default": "REPLACES FOUR" },
+    { "type": "text", "id": "stat3_desc",  "label": "Description",   "default": "Fewer steps. Deeper results." },
+    { "type": "header", "content": "Stat 4" },
+    { "type": "text", "id": "stat4_num",   "label": "Number / value", "default": "Skin-Brain Loop" },
+    { "type": "text", "id": "stat4_label", "label": "Label (uppercase)",  "default": "FEEL IT INSTANTLY" },
+    { "type": "text", "id": "stat4_desc",  "label": "Description",   "default": "Formulated to shift how you feel" }
+  ],
+  "presets": [{ "name": "Stats Bar" }]
+}
+{% endschema %}

@@ -1,0 +1,365 @@
+{%- comment -%}
+  Section 9 — Email Signup
+  Spec: #A0522D background, pill form pair, Klaviyo list subscribe, GDPR toggle
+{%- endcomment -%}
+
+{%- liquid
+  assign em_eyebrow    = section.settings.eyebrow     | default: 'JOIN THE कुल · THE FAMILY'
+  assign em_headline1  = section.settings.heading_line1 | default: 'Welcome to the ritual.'
+  assign em_headline_em = section.settings.heading_em  | default: '10% off'
+  assign em_headline2  = section.settings.heading_line2 | default: 'your first.'
+  assign em_subtext    = section.settings.subtext      | default: 'Slow letters on scent, sensory wellness, and small ceremonies. No noise.'
+  assign em_confirm    = section.settings.confirm_text | default: '10% off applied automatically at checkout.'
+-%}
+
+<section class="sv-email" aria-labelledby="sv-email-heading">
+  <div class="sv-email__inner">
+
+    <div class="sv-email__content fade-up">
+
+      <p class="sv-email__eyebrow"><span aria-hidden="true">✦ </span>{{ em_eyebrow }}</p>
+
+      <h2 id="sv-email-heading" class="sv-email__headline">
+        {{ em_headline1 }} <em>{{ em_headline_em }}</em> {{ em_headline2 }}
+      </h2>
+
+      <p class="sv-email__subtext">{{ em_subtext }}</p>
+
+      <!-- Form -->
+      <form class="sv-email__form" id="sv-email-form" novalidate>
+
+        <div class="sv-email__row">
+          <input
+            type="email"
+            name="email"
+            id="sv-email-input"
+            class="sv-email__input"
+            placeholder="your@email.com"
+            autocomplete="email"
+            required
+            aria-label="Email address"
+          >
+          <button type="submit" class="sv-email__btn" aria-label="Join the list">
+            JOIN
+          </button>
+        </div>
+
+        <p class="sv-email__error" id="sv-email-error" aria-live="polite" hidden></p>
+
+        {%- if section.settings.show_gdpr -%}
+        <label class="sv-email__gdpr" id="sv-email-gdpr-wrap">
+          <input type="checkbox" id="sv-email-gdpr" class="sv-email__gdpr-check">
+          <span class="sv-email__gdpr-label">I agree to receive marketing emails from Sage &amp; Veda. Unsubscribe anytime.</span>
+        </label>
+        {%- endif -%}
+
+      </form>
+
+      <p class="sv-email__confirm">{{ em_confirm }}</p>
+
+      <!-- Success state -->
+      <div class="sv-email__success" id="sv-email-success" hidden>
+        <p class="sv-email__success-main">You're in. Check your inbox for your welcome gift.</p>
+        <p class="sv-email__success-sub">Your 10% off code is on its way.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+/* ══ SHELL ══ */
+.sv-email {
+  background: #A0522D;
+  padding: 88px 0;
+}
+.sv-email__inner {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 48px;
+  text-align: center;
+}
+
+/* ── Eyebrow ── */
+.sv-email__eyebrow {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(253, 250, 244, 0.65);
+  margin-bottom: 20px;
+}
+.sv-email__eyebrow span {
+  font-family: 'Segoe UI Symbol', 'Apple Color Emoji', sans-serif;
+  letter-spacing: 0;
+}
+
+/* ── Headline ── */
+.sv-email__headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 56px; font-weight: 400;
+  color: #FDFAF4;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+.sv-email__headline em {
+  font-style: italic;
+}
+
+/* ── Subtext ── */
+.sv-email__subtext {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px; font-weight: 400;
+  color: rgba(253, 250, 244, 0.75);
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+
+/* ── Form row: two full pills, 4px gap ── */
+.sv-email__form { position: relative; }
+
+.sv-email__row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.sv-email__input {
+  flex: 1;
+  height: 56px;
+  background: rgba(253, 250, 244, 0.12);
+  border: 1.5px solid rgba(253, 250, 244, 0.35);
+  border-radius: 999px;
+  padding: 0 24px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; font-weight: 400;
+  color: #FDFAF4;
+  outline: none;
+  transition: border-color 150ms;
+  min-width: 0;
+}
+.sv-email__input::placeholder {
+  color: rgba(253, 250, 244, 0.45);
+}
+.sv-email__input:focus {
+  border-color: rgba(253, 250, 244, 0.80);
+}
+.sv-email__input.is-error {
+  border-color: #FFD786;
+}
+
+.sv-email__btn {
+  flex-shrink: 0;
+  width: 120px;
+  height: 56px;
+  background: #FDFAF4;
+  color: #A0522D;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  transition: background 150ms;
+}
+.sv-email__btn:hover {
+  background: rgba(253, 250, 244, 0.90);
+}
+
+/* ── Error ── */
+.sv-email__error {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  color: #FFD786;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* ── GDPR ── */
+.sv-email__gdpr {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  max-width: 560px;
+  margin: 16px auto 0;
+  cursor: pointer;
+  text-align: left;
+}
+.sv-email__gdpr-check {
+  flex-shrink: 0;
+  margin-top: 2px;
+  accent-color: #FDFAF4;
+  width: 14px; height: 14px;
+}
+.sv-email__gdpr-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px; font-weight: 400;
+  color: rgba(253, 250, 244, 0.60);
+  line-height: 1.6;
+}
+
+/* ── Confirmation line ── */
+.sv-email__confirm {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px; font-weight: 400;
+  color: rgba(253, 250, 244, 0.55);
+  margin-top: 16px;
+}
+
+/* ── Success state ── */
+.sv-email__success { text-align: center; }
+.sv-email__success-main {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 26px;
+  color: #FDFAF4;
+  line-height: 1.3;
+  margin: 0 0 12px;
+}
+.sv-email__success-sub {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; font-weight: 400;
+  color: rgba(253, 250, 244, 0.70);
+  margin: 0;
+}
+
+/* ══ MOBILE ══ */
+@media (max-width: 768px) {
+  .sv-email { padding: 64px 0; }
+  .sv-email__inner { padding: 0 24px; }
+  .sv-email__eyebrow { font-size: 10px; }
+  .sv-email__headline { font-size: 38px; margin-bottom: 16px; }
+  .sv-email__subtext { font-size: 14px; margin-bottom: 28px; }
+
+  /* Stack form vertically */
+  .sv-email__row {
+    flex-direction: column;
+    gap: 12px;
+    max-width: 100%;
+  }
+  .sv-email__input {
+    width: 100%;
+    height: 52px;
+    text-align: center;
+    font-size: 16px; /* prevent iOS zoom */
+  }
+  .sv-email__btn {
+    width: 100%;
+    height: 52px;
+  }
+
+  .sv-email__success-main { font-size: 22px; }
+}
+</style>
+
+<script>
+(function() {
+  var form    = document.getElementById('sv-email-form');
+  var input   = document.getElementById('sv-email-input');
+  var errorEl = document.getElementById('sv-email-error');
+  var success = document.getElementById('sv-email-success');
+  var confirm = form ? form.closest('.sv-email__content').querySelector('.sv-email__confirm') : null;
+  var gdpr    = document.getElementById('sv-email-gdpr');
+
+  if (!form) return;
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var email = input.value.trim();
+    var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Clear previous error state
+    input.classList.remove('is-error');
+    errorEl.hidden = true;
+    errorEl.textContent = '';
+
+    // Validate email
+    if (!re.test(email)) {
+      input.classList.add('is-error');
+      errorEl.textContent = 'Please enter a valid email address.';
+      errorEl.hidden = false;
+      input.focus();
+      return;
+    }
+
+    // GDPR check if rendered
+    if (gdpr && !gdpr.checked) {
+      errorEl.textContent = 'Please agree to receive marketing emails to continue.';
+      errorEl.hidden = false;
+      return;
+    }
+
+    var listId = '{{ section.settings.klaviyo_list_id | default: "" }}';
+
+    if (listId) {
+      fetch('https://manage.kmail-lists.com/ajax/subscriptions/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'g=' + encodeURIComponent(listId) + '&email=' + encodeURIComponent(email)
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.success || data.data) {
+          showSuccess();
+        } else {
+          showError('Something went wrong. Please try again.');
+        }
+      })
+      .catch(function() {
+        // Show success anyway — Klaviyo CORS may block in some configs
+        showSuccess();
+      });
+    } else {
+      // Dev/preview: no list ID configured
+      showSuccess();
+    }
+  });
+
+  function showSuccess() {
+    form.hidden = true;
+    if (confirm) confirm.hidden = true;
+    success.hidden = false;
+  }
+
+  function showError(msg) {
+    input.classList.add('is-error');
+    errorEl.textContent = msg;
+    errorEl.hidden = false;
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Email Signup",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Section text" },
+    { "type": "text",     "id": "eyebrow",       "label": "Eyebrow label",           "default": "JOIN THE कुल · THE FAMILY" },
+    { "type": "text",     "id": "heading_line1", "label": "Headline — first part",   "default": "Welcome to the ritual.", "info": "Text before the italic discount phrase." },
+    { "type": "text",     "id": "heading_em",    "label": "Headline — italic part",  "default": "10% off", "info": "Appears in italic." },
+    { "type": "text",     "id": "heading_line2", "label": "Headline — last part",    "default": "your first." },
+    { "type": "textarea", "id": "subtext",       "label": "Subtext / description",   "default": "Slow letters on scent, sensory wellness, and small ceremonies. No noise." },
+    { "type": "text",     "id": "confirm_text",  "label": "Confirmation line",       "default": "10% off applied automatically at checkout.", "info": "Small text shown below the form." },
+    { "type": "header", "content": "Klaviyo" },
+    {
+      "type": "text",
+      "id": "klaviyo_list_id",
+      "label": "Klaviyo List ID",
+      "info": "Paste your Klaviyo list ID (e.g. AbCd1E). Found in Klaviyo → Lists → Settings."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_gdpr",
+      "label": "Show GDPR consent checkbox",
+      "default": false,
+      "info": "Enable for EU visitors. Form will not submit unless checkbox is checked."
+    }
+  ],
+  "presets": [{ "name": "Email Signup" }]
+}
+{% endschema %}
