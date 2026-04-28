@@ -1,0 +1,338 @@
+{%- comment -%}
+  Gifts Product Grid — Section 3
+  Same tile format as Shop All but NO filter bar.
+  Products are already filtered by the collection itself ("Gift" tagged).
+  Curated order is controlled via Shopify Admin product sort within the collection.
+{%- endcomment -%}
+
+{%- assign products_per_page = 12 -%}
+
+<section class="sv-gg" id="sv-gifts-grid" aria-label="Gift products">
+  <div class="sv-gg__inner">
+
+    {%- paginate collection.products by products_per_page -%}
+
+    {%- if collection.products.size > 0 -%}
+
+      <ul class="sv-gg__grid" role="list">
+        {%- for product in collection.products -%}
+          {%- assign mood_label = product.metafields.sageandveda.feeling_state | default: product.product_type -%}
+          {%- assign category_label = product.product_type | upcase -%}
+          {%- assign has_second_img = false -%}
+          {%- if product.images.size > 1 -%}
+            {%- assign has_second_img = true -%}
+          {%- endif -%}
+
+          <li class="sv-gg-tile">
+
+            <!-- Image block -->
+            <a href="{{ product.url }}" class="sv-gg-tile__img-wrap" tabindex="-1" aria-hidden="true">
+              <div class="sv-gg-tile__media">
+                {%- if product.featured_image -%}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 600 }}"
+                    srcset="{{ product.featured_image | image_url: width: 400 }} 400w,
+                            {{ product.featured_image | image_url: width: 600 }} 600w,
+                            {{ product.featured_image | image_url: width: 800 }} 800w"
+                    sizes="(max-width:600px) 90vw, (max-width:1024px) 44vw, 28vw"
+                    alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                    loading="lazy"
+                    width="600" height="600"
+                    class="sv-gg-tile__img sv-gg-tile__img--primary">
+                  {%- if has_second_img -%}
+                    <img
+                      src="{{ product.images[1] | image_url: width: 600 }}"
+                      srcset="{{ product.images[1] | image_url: width: 400 }} 400w,
+                              {{ product.images[1] | image_url: width: 600 }} 600w"
+                      sizes="(max-width:600px) 90vw, (max-width:1024px) 44vw, 28vw"
+                      alt="{{ product.title | escape }} — lifestyle"
+                      loading="lazy"
+                      width="600" height="600"
+                      class="sv-gg-tile__img sv-gg-tile__img--hover"
+                      aria-hidden="true">
+                  {%- endif -%}
+                {%- else -%}
+                  <div class="sv-gg-tile__placeholder" aria-hidden="true"></div>
+                {%- endif -%}
+
+                <!-- Badge -->
+                {%- if product.compare_at_price > product.price -%}
+                  {%- assign save_pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+                  <span class="sv-gg-tile__badge sv-gg-tile__badge--sale">–{{ save_pct }}%</span>
+                {%- elsif product.tags contains 'bestseller' or product.tags contains 'best-seller' -%}
+                  <span class="sv-gg-tile__badge sv-gg-tile__badge--best">Bestseller</span>
+                {%- elsif product.tags contains 'the set' or product.tags contains 'set' -%}
+                  <span class="sv-gg-tile__badge sv-gg-tile__badge--set">The Set</span>
+                {%- endif -%}
+              </div>
+            </a>
+
+            <!-- Product info -->
+            <div class="sv-gg-tile__body">
+              {%- if mood_label != blank -%}
+                <p class="sv-gg-tile__mood">{{ mood_label }}</p>
+              {%- endif -%}
+              <h2 class="sv-gg-tile__name">
+                <a href="{{ product.url }}">{{ product.title }}</a>
+              </h2>
+              {%- if category_label != blank -%}
+                <p class="sv-gg-tile__category">{{ category_label }}</p>
+              {%- endif -%}
+              <div class="sv-gg-tile__rating">
+                {% render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', jm_style: '', concierge_install: true, product: product %}
+              </div>
+              <p class="sv-gg-tile__price">
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="sv-gg-tile__price-compare">{{ product.compare_at_price | money }}</span>
+                {%- endif -%}
+                <span class="sv-gg-tile__price-current">
+                  {%- if product.price_varies -%}From {% endif -%}{{ product.price_min | money }}
+                </span>
+              </p>
+              <button
+                class="sv-gg-tile__atc"
+                type="button"
+                data-variant-id="{{ product.first_available_variant.id }}"
+                data-variant-count="{{ product.variants.size }}"
+                data-product-url="{{ product.url | escape }}"
+                onclick="svGiftATC(this)"
+                aria-label="Add {{ product.title | escape }} to cart">
+                <span class="sv-gg-tile__atc-text">
+                  ADD TO CART
+                  {%- if product.price_varies %} — FROM {{ product.price_min | money }}
+                  {%- else %} — {{ product.price_min | money }}
+                  {%- endif -%}
+                </span>
+              </button>
+              <a href="{{ product.url }}" class="sv-gg-tile__view">View product &rarr;</a>
+            </div>
+
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if paginate.pages > 1 -%}
+        <nav class="sv-gg__pagination" aria-label="Products pagination">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" class="sv-gg__page-btn" rel="prev">&larr; Previous</a>
+          {%- endif -%}
+          <span class="sv-gg__page-info">Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" class="sv-gg__page-btn" rel="next">Next &rarr;</a>
+          {%- endif -%}
+        </nav>
+      {%- endif -%}
+
+    {%- else -%}
+      <div class="sv-gg__empty" role="alert">
+        <p class="sv-gg__empty-title">Gifts are on their way.</p>
+        <p class="sv-gg__empty-body">Check back soon or browse everything we make.</p>
+        <a href="/collections/all" class="sv-gg__empty-cta">Shop all products &rarr;</a>
+      </div>
+    {%- endif -%}
+
+    {%- endpaginate -%}
+
+  </div>
+</section>
+
+<style>
+/* ═══ GIFTS GRID ═══ */
+.sv-gg {
+  background: #FDFAF4;
+  padding: 72px 0 80px;
+}
+.sv-gg__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+.sv-gg__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Tile */
+.sv-gg-tile { display: flex; flex-direction: column; }
+.sv-gg-tile__img-wrap { display: block; text-decoration: none; margin-bottom: 16px; }
+.sv-gg-tile__media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #F0EDE6;
+}
+.sv-gg-tile__img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: opacity 300ms ease, transform 400ms ease;
+  display: block;
+}
+.sv-gg-tile__img--primary { opacity: 1; z-index: 1; }
+.sv-gg-tile__img--hover   { opacity: 0; z-index: 2; }
+.sv-gg-tile__img-wrap:hover .sv-gg-tile__img--hover   { opacity: 1; }
+.sv-gg-tile__img-wrap:hover .sv-gg-tile__img--primary { opacity: 0; }
+.sv-gg-tile__img-wrap:hover .sv-gg-tile__img { transform: scale(1.02); }
+.sv-gg-tile__placeholder {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #E8E0D6 0%, #D5C8BA 100%);
+}
+.sv-gg-tile__badge {
+  position: absolute; top: 10px; left: 10px; z-index: 10;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 9px; font-weight: 800;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 999px;
+}
+.sv-gg-tile__badge--sale { background: #b6522d; color: #FDFAF4; }
+.sv-gg-tile__badge--best { background: #FFD786; color: #002816; }
+.sv-gg-tile__badge--set  { background: #002816; color: #FFD786; }
+
+.sv-gg-tile__body { display: flex; flex-direction: column; flex: 1; }
+.sv-gg-tile__mood {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px; font-style: italic; font-weight: 400;
+  color: #b6522d; margin: 0 0 4px;
+}
+.sv-gg-tile__name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px; font-weight: 600;
+  color: #002816; margin: 0 0 6px; line-height: 1.25;
+}
+.sv-gg-tile__name a { text-decoration: none; color: inherit; transition: color 150ms; }
+.sv-gg-tile__name a:hover { color: #4A7B5E; }
+.sv-gg-tile__category {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: #4A7B5E; margin: 0 0 8px;
+}
+.sv-gg-tile__rating { margin: 0 0 8px; font-size: 12px; min-height: 20px; }
+.sv-gg-tile__price {
+  display: flex; align-items: baseline; gap: 8px;
+  margin: 0 0 14px;
+}
+.sv-gg-tile__price-compare {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px; font-weight: 400;
+  color: #B29D94; text-decoration: line-through;
+}
+.sv-gg-tile__price-current {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px; font-weight: 400; color: #2A4027;
+}
+.sv-gg-tile__atc {
+  display: block; width: 100%; height: 48px;
+  background: #002816; color: #FDFAF4; border: none;
+  border-radius: 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: pointer; margin-bottom: 10px;
+  transition: background 150ms ease;
+}
+.sv-gg-tile__atc:hover { background: #4A7B5E; }
+.sv-gg-tile__atc.is-loading { opacity: 0.7; pointer-events: none; }
+.sv-gg-tile__atc.is-added   { background: #4A7B5E; pointer-events: none; }
+.sv-gg-tile__view {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px; color: #4A7B5E;
+  text-decoration: none; text-align: center; display: block;
+  transition: color 150ms;
+}
+.sv-gg-tile__view:hover { color: #002816; }
+
+/* Pagination */
+.sv-gg__pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: 24px; margin-top: 64px; flex-wrap: wrap;
+}
+.sv-gg__page-btn {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: #4A7B5E; text-decoration: none;
+  padding: 12px 28px;
+  border: 1.5px solid rgba(74,123,94,0.30);
+  border-radius: 999px;
+  transition: background 150ms, border-color 150ms, color 150ms;
+}
+.sv-gg__page-btn:hover { background: #4A7B5E; border-color: #4A7B5E; color: #FDFAF4; }
+.sv-gg__page-info { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; color: #B29D94; }
+
+/* Empty */
+.sv-gg__empty { text-align: center; padding: 80px 24px; }
+.sv-gg__empty-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; font-style: italic; color: #B29D94; margin: 0 0 12px;
+}
+.sv-gg__empty-body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; color: #B29D94; margin: 0 0 24px;
+}
+.sv-gg__empty-cta {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px; font-weight: 600; color: #4A7B5E; text-decoration: none;
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 900px) {
+  .sv-gg__inner { padding: 0 24px; }
+  .sv-gg__grid { grid-template-columns: repeat(2, 1fr); gap: 40px 16px; }
+}
+@media (max-width: 600px) {
+  .sv-gg { padding: 40px 0 64px; }
+  .sv-gg__inner { padding: 0 16px; }
+  .sv-gg__grid { grid-template-columns: repeat(2, 1fr); gap: 28px 12px; }
+  .sv-gg-tile__name { font-size: 15px; }
+  .sv-gg-tile__atc { height: 52px; font-size: 10px; }
+}
+</style>
+
+<script>
+function svGiftATC(btn) {
+  var variantCount = parseInt(btn.dataset.variantCount || '1', 10);
+  if (variantCount > 1) { window.location.href = btn.dataset.productUrl; return; }
+  var variantId = btn.dataset.variantId;
+  var textEl    = btn.querySelector('.sv-gg-tile__atc-text');
+  var original  = textEl ? textEl.textContent : btn.textContent;
+  btn.classList.add('is-loading');
+  btn.disabled = true;
+  if (textEl) textEl.textContent = 'Adding...';
+  fetch('/cart/add.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: parseInt(variantId, 10), quantity: 1 })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function() {
+    btn.classList.remove('is-loading');
+    btn.classList.add('is-added');
+    if (textEl) textEl.textContent = 'Added ✓';
+    document.dispatchEvent(new CustomEvent('sv:cart:updated'));
+    setTimeout(function() {
+      btn.classList.remove('is-added');
+      btn.disabled = false;
+      if (textEl) textEl.textContent = original;
+    }, 2200);
+  })
+  .catch(function() {
+    btn.classList.remove('is-loading');
+    btn.disabled = false;
+    if (textEl) textEl.textContent = original;
+  });
+}
+</script>
+
+{% schema %}
+{
+  "name": "Gifts Product Grid",
+  "settings": [],
+  "presets": [{ "name": "Gifts Product Grid" }]
+}
+{% endschema %}

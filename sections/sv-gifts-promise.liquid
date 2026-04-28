@@ -1,0 +1,71 @@
+{%- comment -%}
+  Gifts Free Gift Promise — Section 5 (permanent trust band)
+  Dark green background. No CTA. Pure trust signal.
+{%- endcomment -%}
+
+<section class="sv-gp" aria-label="Free gift promise">
+  <div class="sv-gp__inner">
+    <span class="sv-gp__icon" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 12v10H4V12"/>
+        <path d="M22 7H2v5h20V7z"/>
+        <path d="M12 22V7"/>
+        <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+        <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+      </svg>
+    </span>
+    <p class="sv-gp__text">{{ section.settings.promise_text | default: 'Every order over $75 includes a complimentary gift.' }}</p>
+  </div>
+</section>
+
+<style>
+/* ═══ GIFTS PROMISE BAND ═══ */
+.sv-gp {
+  background: #002816;
+  padding: 36px 0;
+}
+.sv-gp__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.sv-gp__icon {
+  color: #FFD786;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+.sv-gp__text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: #FDFAF4;
+  margin: 0;
+  text-align: center;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .sv-gp__inner { padding: 0 20px; gap: 10px; }
+  .sv-gp__text { font-size: 13px; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Gifts Promise Band",
+  "settings": [
+    {
+      "type": "text",
+      "id": "promise_text",
+      "label": "Promise text",
+      "default": "Every order over $75 includes a complimentary gift."
+    }
+  ],
+  "presets": [{ "name": "Gifts Promise Band" }]
+}
+{% endschema %}

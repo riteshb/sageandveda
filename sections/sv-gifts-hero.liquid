@@ -1,0 +1,175 @@
+{%- comment -%}
+  Gifts Hero — Section 1
+  Full-bleed occasion hero banner. Entirely metafield-driven.
+  Namespace: gifts  (collection.metafields.gifts.*)
+  Swapping occasions (Mother's Day → Diwali) = 5 metafield updates, zero code.
+{%- endcomment -%}
+
+{%- liquid
+  assign mf = collection.metafields.gifts
+  assign hero_image      = mf.hero_image
+  assign occasion_name   = mf.occasion_name   | default: section.settings.occasion_name
+  assign hero_headline   = mf.hero_headline   | default: section.settings.hero_headline
+  assign hero_subtext    = mf.hero_subtext    | default: section.settings.hero_subtext
+  assign hero_cta_text   = mf.hero_cta_text   | default: section.settings.hero_cta_text | default: 'Shop Gifts'
+  assign hero_cta_url    = mf.hero_cta_url    | default: '#sv-gifts-grid'
+  assign occasion_color  = mf.occasion_color  | default: section.settings.occasion_color | default: '#A8C5A0'
+-%}
+
+<section class="sv-gh" aria-label="{{ occasion_name | default: 'Gifts' }} hero">
+
+  {%- if hero_image != blank -%}
+    <div class="sv-gh__bg" aria-hidden="true">
+      <img
+        src="{% render 'mf-image-url', img: hero_image, width: 1600 %}"
+        srcset="{% render 'mf-image-url', img: hero_image, width: 800 %} 800w,
+                {% render 'mf-image-url', img: hero_image, width: 1200 %} 1200w,
+                {% render 'mf-image-url', img: hero_image, width: 1600 %} 1600w"
+        sizes="100vw"
+        alt="{{ hero_headline | escape }}"
+        loading="eager"
+        fetchpriority="high"
+        width="1600" height="640"
+        class="sv-gh__img">
+      <div class="sv-gh__overlay" aria-hidden="true"></div>
+    </div>
+  {%- else -%}
+    <div class="sv-gh__bg sv-gh__bg--fallback" style="background: {{ occasion_color }};" aria-hidden="true">
+      <div class="sv-gh__overlay sv-gh__overlay--light" aria-hidden="true"></div>
+    </div>
+  {%- endif -%}
+
+  <div class="sv-gh__content">
+    {%- if occasion_name != blank -%}
+      <p class="sv-gh__eyebrow">{{ occasion_name | upcase }}</p>
+    {%- endif -%}
+    {%- if hero_headline != blank -%}
+      <h1 class="sv-gh__headline">{{ hero_headline }}</h1>
+    {%- endif -%}
+    {%- if hero_subtext != blank -%}
+      <p class="sv-gh__subtext">{{ hero_subtext }}</p>
+    {%- endif -%}
+    <a href="{{ hero_cta_url }}" class="sv-gh__cta">{{ hero_cta_text }}</a>
+  </div>
+
+</section>
+
+<style>
+/* ═══ GIFTS HERO ═══ */
+.sv-gh {
+  position: relative;
+  height: 480px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+.sv-gh__bg {
+  position: absolute;
+  inset: 0;
+}
+.sv-gh__bg--fallback {
+  opacity: 0.85;
+}
+.sv-gh__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.sv-gh__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 40, 22, 0.75) 0%,
+    rgba(0, 40, 22, 0.30) 55%,
+    rgba(0, 40, 22, 0.10) 100%
+  );
+}
+.sv-gh__overlay--light {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.10) 100%
+  );
+}
+
+/* Content */
+.sv-gh__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 48px 52px;
+}
+.sv-gh__eyebrow {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(253, 250, 244, 0.70);
+  margin: 0 0 14px;
+}
+.sv-gh__headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 4.5vw, 60px);
+  font-weight: 400;
+  color: #FDFAF4;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0 0 16px;
+  max-width: 680px;
+}
+.sv-gh__subtext {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(253, 250, 244, 0.78);
+  line-height: 1.6;
+  max-width: 480px;
+  margin: 0 0 28px;
+}
+.sv-gh__cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 13px 30px;
+  border: 1.5px solid #FDFAF4;
+  border-radius: 999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: #FDFAF4;
+  text-decoration: none;
+  transition: background 200ms ease, color 200ms ease;
+}
+.sv-gh__cta:hover {
+  background: #FDFAF4;
+  color: #002816;
+}
+
+@media (max-width: 768px) {
+  .sv-gh { height: 380px; }
+  .sv-gh__content { padding: 0 20px 36px; }
+  .sv-gh__headline { font-size: 32px; }
+  .sv-gh__subtext { font-size: 14px; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Gifts Hero",
+  "settings": [
+    { "type": "text", "id": "occasion_name", "label": "Occasion name", "default": "Mother's Day" },
+    { "type": "text", "id": "hero_headline", "label": "Headline", "default": "For the mother who does everything." },
+    { "type": "text", "id": "hero_subtext",  "label": "Subtext", "default": "Give her five minutes that are entirely hers." },
+    { "type": "text", "id": "hero_cta_text", "label": "CTA label", "default": "Shop Mother's Day Gifts" },
+    { "type": "text", "id": "occasion_color","label": "Fallback bg color (hex)", "default": "#A8C5A0" }
+  ],
+  "presets": [{ "name": "Gifts Hero" }]
+}
+{% endschema %}

@@ -1,0 +1,163 @@
+{%- comment -%}
+  Gifts Occasion Message — Section 2
+  Two column: editorial photo left, copy block right.
+  All metafield-driven. Falls back to evergreen content when no occasion is set.
+{%- endcomment -%}
+
+{%- liquid
+  assign mf             = collection.metafields.gifts
+  assign msg_image      = mf.message_image
+  assign msg_heading    = mf.message_heading   | default: section.settings.msg_heading   | default: 'The gift that stays.'
+  assign msg_body       = mf.message_body      | default: section.settings.msg_body
+  assign msg_quote      = mf.message_quote     | default: section.settings.msg_quote
+-%}
+
+<section class="sv-gm" aria-labelledby="sv-gm-heading">
+  <div class="sv-gm__inner">
+
+    <!-- Left: editorial photography -->
+    <div class="sv-gm__img-col">
+      {%- if msg_image != blank -%}
+        <div class="sv-gm__img-wrap">
+          <img
+            src="{% render 'mf-image-url', img: msg_image, width: 900 %}"
+            srcset="{% render 'mf-image-url', img: msg_image, width: 600 %} 600w,
+                    {% render 'mf-image-url', img: msg_image, width: 900 %} 900w"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            alt="{{ msg_heading | escape }}"
+            loading="lazy"
+            width="900" height="1200"
+            class="sv-gm__img">
+        </div>
+      {%- else -%}
+        <div class="sv-gm__img-placeholder" aria-hidden="true"></div>
+      {%- endif -%}
+    </div>
+
+    <!-- Right: copy block -->
+    <div class="sv-gm__copy-col">
+      <div class="sv-gm__copy-inner">
+        <h2 id="sv-gm-heading" class="sv-gm__heading">{{ msg_heading }}</h2>
+
+        {%- if msg_body != blank -%}
+          <div class="sv-gm__body">{{ msg_body }}</div>
+        {%- endif -%}
+
+        {%- if msg_quote != blank -%}
+          <blockquote class="sv-gm__quote">
+            <p>"{{ msg_quote }}"</p>
+          </blockquote>
+        {%- endif -%}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* ═══ GIFTS OCCASION MESSAGE ═══ */
+.sv-gm {
+  background: #FDFAF4;
+  padding: 0;
+}
+.sv-gm__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 520px;
+}
+
+/* Image col */
+.sv-gm__img-col {
+  overflow: hidden;
+}
+.sv-gm__img-wrap {
+  height: 100%;
+  min-height: 520px;
+}
+.sv-gm__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.sv-gm__img-wrap:hover .sv-gm__img {
+  transform: scale(1.03);
+}
+.sv-gm__img-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  background: linear-gradient(135deg, #E8E0D6 0%, #D5C8BA 100%);
+}
+
+/* Copy col */
+.sv-gm__copy-col {
+  display: flex;
+  align-items: center;
+  padding: 72px 64px;
+  background: #FDFAF4;
+}
+.sv-gm__copy-inner {
+  max-width: 440px;
+}
+.sv-gm__heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 3.5vw, 48px);
+  font-weight: 400;
+  color: #002816;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  margin: 0 0 24px;
+}
+.sv-gm__body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: #2A4027;
+  line-height: 1.8;
+  margin: 0 0 28px;
+}
+.sv-gm__body p { margin: 0 0 12px; }
+.sv-gm__body p:last-child { margin: 0; }
+
+.sv-gm__quote {
+  border-left: 2px solid #b6522d;
+  padding-left: 20px;
+  margin: 0;
+}
+.sv-gm__quote p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 400;
+  color: #b6522d;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .sv-gm__inner {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .sv-gm__img-wrap { min-height: 300px; height: 60vw; }
+  .sv-gm__img-placeholder { min-height: 300px; }
+  .sv-gm__copy-col { padding: 48px 24px; }
+  .sv-gm__copy-inner { max-width: 100%; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Gifts Occasion Message",
+  "settings": [
+    { "type": "text",     "id": "msg_heading", "label": "Heading (fallback)", "default": "The gift that stays." },
+    { "type": "richtext", "id": "msg_body",    "label": "Body copy (fallback)" },
+    { "type": "text",     "id": "msg_quote",   "label": "Pull quote (optional fallback)" }
+  ],
+  "presets": [{ "name": "Gifts Occasion Message" }]
+}
+{% endschema %}

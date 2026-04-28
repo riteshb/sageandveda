@@ -1,0 +1,305 @@
+{%- comment -%}
+  Gifts Mood Guide — Section 4 (permanent, never changes per occasion)
+  Three columns: Calm / Confident / Lifted
+  Each shows a product + mood copy. Pronouns are metafield-driven.
+  Products are set via section settings (product pickers).
+{%- endcomment -%}
+
+{%- liquid
+  assign mf      = collection.metafields.gifts
+  assign pronoun = mf.pronoun | default: section.settings.pronoun | default: 'her'
+-%}
+
+<section class="sv-gmg" aria-labelledby="sv-gmg-heading">
+  <div class="sv-gmg__inner">
+
+    <!-- Header -->
+    <header class="sv-gmg__header">
+      <p class="sv-gmg__eyebrow">+ GIFT BY MOOD</p>
+      <h2 id="sv-gmg-heading" class="sv-gmg__heading">Not sure which one? Let the mood decide.</h2>
+    </header>
+
+    <!-- Three mood columns -->
+    <div class="sv-gmg__cols">
+
+      {%- assign moods = 'calm,confident,lifted' | split: ',' -%}
+      {%- assign mood_labels = 'CALM,CONFIDENT,LIFTED' | split: ',' -%}
+      {%- assign mood_descs_template = 'quiet mornings and glowing skin.,hair that moves like {{ pronoun }} does.,an instant shift, anywhere {{ pronoun }} goes.' | split: ',' -%}
+      {%- assign mood_for_labels = 'For calm skin and a quieter mind.,For strong, nourished hair.,For an instant lift wherever you are.' | split: ',' -%}
+      {%- assign product_setting_keys = 'mood1_product,mood2_product,mood3_product' | split: ',' -%}
+
+      {%- for mood in moods -%}
+        {%- assign mood_product = nil -%}
+        {%- if forloop.index == 1 and section.settings.mood1_product != blank -%}
+          {%- assign mood_product = all_products[section.settings.mood1_product] -%}
+        {%- elsif forloop.index == 2 and section.settings.mood2_product != blank -%}
+          {%- assign mood_product = all_products[section.settings.mood2_product] -%}
+        {%- elsif forloop.index == 3 and section.settings.mood3_product != blank -%}
+          {%- assign mood_product = all_products[section.settings.mood3_product] -%}
+        {%- endif -%}
+
+        <div class="sv-gmg__col">
+
+          <!-- Mood tag -->
+          <p class="sv-gmg__mood-tag">{{ mood_labels[forloop.index0] }}</p>
+
+          <!-- For copy -->
+          <p class="sv-gmg__for-line">For {{ pronoun }}: {{ mood_for_labels[forloop.index0] }}</p>
+
+          {%- if mood_product != nil -%}
+
+            <!-- Product image -->
+            <a href="{{ mood_product.url }}" class="sv-gmg__product-img-link" tabindex="-1" aria-hidden="true">
+              <div class="sv-gmg__product-media">
+                {%- if mood_product.featured_image -%}
+                  <img
+                    src="{{ mood_product.featured_image | image_url: width: 500 }}"
+                    alt="{{ mood_product.featured_image.alt | default: mood_product.title | escape }}"
+                    loading="lazy"
+                    width="500" height="500"
+                    class="sv-gmg__product-img">
+                {%- else -%}
+                  <div class="sv-gmg__product-placeholder" aria-hidden="true"></div>
+                {%- endif -%}
+              </div>
+            </a>
+
+            <!-- Product info -->
+            <div class="sv-gmg__product-info">
+              <h3 class="sv-gmg__product-name">
+                <a href="{{ mood_product.url }}">{{ mood_product.title }}</a>
+              </h3>
+              <p class="sv-gmg__product-price">
+                {%- if mood_product.price_varies -%}From {% endif -%}{{ mood_product.price_min | money }}
+              </p>
+              <button
+                class="sv-gmg__atc"
+                type="button"
+                data-variant-id="{{ mood_product.first_available_variant.id }}"
+                data-variant-count="{{ mood_product.variants.size }}"
+                data-product-url="{{ mood_product.url | escape }}"
+                onclick="svGiftATC(this)"
+                aria-label="Add {{ mood_product.title | escape }} to cart">
+                ADD TO CART
+              </button>
+            </div>
+
+          {%- else -%}
+            <!-- Placeholder when no product is set -->
+            <div class="sv-gmg__product-placeholder-block" aria-hidden="true"></div>
+            <p class="sv-gmg__no-product">Product coming soon</p>
+          {%- endif -%}
+
+        </div>
+      {%- endfor -%}
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* ═══ GIFTS MOOD GUIDE ═══ */
+.sv-gmg {
+  background: #F0EDE6;
+  padding: 80px 0;
+}
+.sv-gmg__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+/* Header */
+.sv-gmg__header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+.sv-gmg__eyebrow {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #b6522d;
+  margin: 0 0 12px;
+}
+.sv-gmg__heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400;
+  color: #002816;
+  margin: 0;
+  line-height: 1.15;
+}
+
+/* Columns */
+.sv-gmg__cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+.sv-gmg__col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mood tag */
+.sv-gmg__mood-tag {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #4A7B5E;
+  margin: 0 0 6px;
+}
+
+/* For copy */
+.sv-gmg__for-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  color: #002816;
+  line-height: 1.4;
+  margin: 0 0 20px;
+}
+
+/* Product image */
+.sv-gmg__product-img-link {
+  display: block;
+  text-decoration: none;
+  margin-bottom: 16px;
+}
+.sv-gmg__product-media {
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #FDFAF4;
+}
+.sv-gmg__product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 400ms ease;
+  display: block;
+}
+.sv-gmg__product-img-link:hover .sv-gmg__product-img {
+  transform: scale(1.03);
+}
+.sv-gmg__product-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #E8E0D6 0%, #D5C8BA 100%);
+}
+
+/* Product info */
+.sv-gmg__product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.sv-gmg__product-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #002816;
+  margin: 0;
+  line-height: 1.3;
+}
+.sv-gmg__product-name a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 150ms;
+}
+.sv-gmg__product-name a:hover { color: #4A7B5E; }
+.sv-gmg__product-price {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #2A4027;
+  margin: 0;
+}
+.sv-gmg__atc {
+  display: block;
+  width: 100%;
+  height: 44px;
+  margin-top: auto;
+  background: #002816;
+  color: #FDFAF4;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+.sv-gmg__atc:hover { background: #4A7B5E; }
+.sv-gmg__atc.is-loading { opacity: 0.7; pointer-events: none; }
+.sv-gmg__atc.is-added   { background: #4A7B5E; pointer-events: none; }
+
+/* Placeholder */
+.sv-gmg__product-placeholder-block {
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #E8E0D6 0%, #D5C8BA 100%);
+  margin-bottom: 16px;
+}
+.sv-gmg__no-product {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  color: #B29D94;
+  font-style: italic;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .sv-gmg__inner { padding: 0 24px; }
+  .sv-gmg__cols { grid-template-columns: 1fr 1fr; gap: 32px 20px; }
+}
+@media (max-width: 560px) {
+  .sv-gmg { padding: 56px 0; }
+  .sv-gmg__inner { padding: 0 16px; }
+  .sv-gmg__cols { grid-template-columns: 1fr; gap: 40px; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Gifts Mood Guide",
+  "settings": [
+    {
+      "type": "product",
+      "id": "mood1_product",
+      "label": "CALM — Product (e.g. Amrit)"
+    },
+    {
+      "type": "product",
+      "id": "mood2_product",
+      "label": "CONFIDENT — Product (e.g. Maati)"
+    },
+    {
+      "type": "product",
+      "id": "mood3_product",
+      "label": "LIFTED — Product (e.g. Radiant Gold)"
+    },
+    {
+      "type": "select",
+      "id": "pronoun",
+      "label": "Pronoun (occasion-specific)",
+      "options": [
+        { "value": "her",  "label": "her (Mother's Day)" },
+        { "value": "them", "label": "them (gender-neutral)" },
+        { "value": "him",  "label": "him" }
+      ],
+      "default": "her"
+    }
+  ],
+  "presets": [{ "name": "Gifts Mood Guide" }]
+}
+{% endschema %}

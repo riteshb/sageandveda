@@ -1,0 +1,54 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "gifts-hero": {
+      "type": "sv-gifts-hero",
+      "settings": {
+        "occasion_name": "Mother's Day",
+        "hero_headline": "For the mother who does everything.",
+        "hero_subtext": "Give her five minutes that are entirely hers.",
+        "hero_cta_text": "Shop Mother's Day Gifts",
+        "occasion_color": "#A8C5A0"
+      }
+    },
+    "gifts-message": {
+      "type": "sv-gifts-message",
+      "settings": {
+        "msg_heading": "She doesn't ask for much.",
+        "msg_body": "<p>She gets up before everyone else. She's the last one to sit down. She puts in the work without asking for recognition.<\/p><p>Five minutes with Sage &amp; Veda is for her. Just her.<\/p>",
+        "msg_quote": "The oil that makes her feel like herself again."
+      }
+    },
+    "gifts-grid": {
+      "type": "sv-gifts-grid",
+      "settings": {}
+    },
+    "gifts-mood-guide": {
+      "type": "sv-gifts-mood-guide",
+      "settings": {
+        "pronoun": "her"
+      }
+    },
+    "gifts-promise": {
+      "type": "sv-gifts-promise",
+      "settings": {
+        "promise_text": "Every order over $75 includes a complimentary gift."
+      }
+    }
+  },
+  "order": [
+    "gifts-hero",
+    "gifts-message",
+    "gifts-grid",
+    "gifts-mood-guide",
+    "gifts-promise"
+  ]
+}
