@@ -5,11 +5,12 @@
 {%- endcomment -%}
 
 {%- liquid
-  assign mf             = collection.metafields.gifts
-  assign msg_image      = mf.message_image
-  assign msg_heading    = mf.message_heading   | default: section.settings.msg_heading   | default: 'The gift that stays.'
-  assign msg_body       = mf.message_body      | default: section.settings.msg_body
-  assign msg_quote      = mf.message_quote     | default: section.settings.msg_quote
+  assign mf                  = collection.metafields.gifts
+  assign msg_image           = mf.message_image
+  assign msg_image_setting   = section.settings.msg_image
+  assign msg_heading         = mf.message_heading   | default: section.settings.msg_heading   | default: 'The gift that stays.'
+  assign msg_body            = mf.message_body      | default: section.settings.msg_body
+  assign msg_quote           = mf.message_quote     | default: section.settings.msg_quote
 -%}
 
 <section class="sv-gm" aria-labelledby="sv-gm-heading">
@@ -23,6 +24,18 @@
             src="{% render 'mf-image-url', img: msg_image, width: 900 %}"
             srcset="{% render 'mf-image-url', img: msg_image, width: 600 %} 600w,
                     {% render 'mf-image-url', img: msg_image, width: 900 %} 900w"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            alt="{{ msg_heading | escape }}"
+            loading="lazy"
+            width="900" height="1200"
+            class="sv-gm__img">
+        </div>
+      {%- elsif msg_image_setting != blank -%}
+        <div class="sv-gm__img-wrap">
+          <img
+            src="{{ msg_image_setting | image_url: width: 900 }}"
+            srcset="{{ msg_image_setting | image_url: width: 600 }} 600w,
+                    {{ msg_image_setting | image_url: width: 900 }} 900w"
             sizes="(max-width: 768px) 100vw, 50vw"
             alt="{{ msg_heading | escape }}"
             loading="lazy"
@@ -154,9 +167,10 @@
 {
   "name": "Gifts Occasion Message",
   "settings": [
-    { "type": "text",     "id": "msg_heading", "label": "Heading (fallback)", "default": "The gift that stays." },
-    { "type": "richtext", "id": "msg_body",    "label": "Body copy (fallback)" },
-    { "type": "text",     "id": "msg_quote",   "label": "Pull quote (optional fallback)" }
+    { "type": "image_picker", "id": "msg_image",    "label": "Editorial photo (fallback if no metafield set)" },
+    { "type": "text",         "id": "msg_heading",  "label": "Heading (fallback)", "default": "The gift that stays." },
+    { "type": "richtext",     "id": "msg_body",     "label": "Body copy (fallback)" },
+    { "type": "text",         "id": "msg_quote",    "label": "Pull quote (optional fallback)" }
   ],
   "presets": [{ "name": "Gifts Occasion Message" }]
 }

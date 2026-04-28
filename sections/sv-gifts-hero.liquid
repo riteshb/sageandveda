@@ -14,6 +14,7 @@
   assign hero_cta_text   = mf.hero_cta_text   | default: section.settings.hero_cta_text | default: 'Shop Gifts'
   assign hero_cta_url    = mf.hero_cta_url    | default: '#sv-gifts-grid'
   assign occasion_color  = mf.occasion_color  | default: section.settings.occasion_color | default: '#A8C5A0'
+  assign hero_image_setting = section.settings.hero_image_url
 -%}
 
 <section class="sv-gh" aria-label="{{ occasion_name | default: 'Gifts' }} hero">
@@ -25,6 +26,21 @@
         srcset="{% render 'mf-image-url', img: hero_image, width: 800 %} 800w,
                 {% render 'mf-image-url', img: hero_image, width: 1200 %} 1200w,
                 {% render 'mf-image-url', img: hero_image, width: 1600 %} 1600w"
+        sizes="100vw"
+        alt="{{ hero_headline | escape }}"
+        loading="eager"
+        fetchpriority="high"
+        width="1600" height="640"
+        class="sv-gh__img">
+      <div class="sv-gh__overlay" aria-hidden="true"></div>
+    </div>
+  {%- elsif hero_image_setting != blank -%}
+    <div class="sv-gh__bg" aria-hidden="true">
+      <img
+        src="{{ hero_image_setting | image_url: width: 1600 }}"
+        srcset="{{ hero_image_setting | image_url: width: 800 }} 800w,
+                {{ hero_image_setting | image_url: width: 1200 }} 1200w,
+                {{ hero_image_setting | image_url: width: 1600 }} 1600w"
         sizes="100vw"
         alt="{{ hero_headline | escape }}"
         loading="eager"
@@ -164,6 +180,7 @@
 {
   "name": "Gifts Hero",
   "settings": [
+    { "type": "image_picker", "id": "hero_image_url", "label": "Hero image (fallback if no metafield set)" },
     { "type": "text", "id": "occasion_name", "label": "Occasion name", "default": "Mother's Day" },
     { "type": "text", "id": "hero_headline", "label": "Headline", "default": "For the mother who does everything." },
     { "type": "text", "id": "hero_subtext",  "label": "Subtext", "default": "Give her five minutes that are entirely hers." },
