@@ -43,7 +43,14 @@
             class="sv-gm__img">
         </div>
       {%- else -%}
-        <div class="sv-gm__img-placeholder" aria-hidden="true"></div>
+        <div class="sv-gm__img-wrap">
+          <img
+            src="{{ 'gifts-message-sample.jpg' | asset_url }}"
+            alt="{{ msg_heading | escape }}"
+            loading="lazy"
+            width="900" height="1100"
+            class="sv-gm__img">
+        </div>
       {%- endif -%}
     </div>
 
@@ -167,7 +174,7 @@
 {
   "name": "Gifts Occasion Message",
   "settings": [
-    { "type": "image_picker", "id": "msg_image",    "label": "Editorial photo (fallback if no metafield set)" },
+    { "type": "image_picker", "id": "msg_image",    "label": "Editorial photo (overrides sample)" },
     { "type": "text",         "id": "msg_heading",  "label": "Heading (fallback)", "default": "The gift that stays." },
     { "type": "richtext",     "id": "msg_body",     "label": "Body copy (fallback)" },
     { "type": "text",         "id": "msg_quote",    "label": "Pull quote (optional fallback)" }

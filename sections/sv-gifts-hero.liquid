@@ -50,8 +50,15 @@
       <div class="sv-gh__overlay" aria-hidden="true"></div>
     </div>
   {%- else -%}
-    <div class="sv-gh__bg sv-gh__bg--fallback" style="background: {{ occasion_color }};" aria-hidden="true">
-      <div class="sv-gh__overlay sv-gh__overlay--light" aria-hidden="true"></div>
+    <div class="sv-gh__bg" aria-hidden="true">
+      <img
+        src="{{ 'gifts-hero-sample.jpg' | asset_url }}"
+        alt="{{ hero_headline | escape }}"
+        loading="eager"
+        fetchpriority="high"
+        width="1600" height="640"
+        class="sv-gh__img">
+      <div class="sv-gh__overlay" aria-hidden="true"></div>
     </div>
   {%- endif -%}
 
@@ -180,7 +187,7 @@
 {
   "name": "Gifts Hero",
   "settings": [
-    { "type": "image_picker", "id": "hero_image_url", "label": "Hero image (fallback if no metafield set)" },
+    { "type": "image_picker", "id": "hero_image_url", "label": "Hero image (overrides sample)" },
     { "type": "text", "id": "occasion_name", "label": "Occasion name", "default": "Mother's Day" },
     { "type": "text", "id": "hero_headline", "label": "Headline", "default": "For the mother who does everything." },
     { "type": "text", "id": "hero_subtext",  "label": "Subtext", "default": "Give her five minutes that are entirely hers." },
