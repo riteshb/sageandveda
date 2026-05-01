@@ -1,0 +1,1418 @@
+{% comment %} sv-mood-main.liquid — Sage & Veda Mood Main Page {% endcomment %}
+
+<style>
+  /* ── Reset & shared ── */
+  .sv-mood * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── SECTION 1: HERO ── */
+  .sv-mood-hero {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    overflow: hidden;
+  }
+  .sv-mood-hero__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .sv-mood-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+  }
+  .sv-mood-hero__text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 24px;
+    gap: 16px;
+  }
+  .sv-mood-hero__eyebrow {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #FFD786;
+  }
+  .sv-mood-hero__headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1.15;
+    color: #FDFAF4;
+  }
+
+  @media (min-width: 768px) {
+    .sv-mood-hero { height: 90vh; }
+    .sv-mood-hero__headline { font-size: 64px; }
+  }
+
+  /* ── SECTION 2: EDITORIAL SPACER ── */
+  .sv-mood-spacer {
+    background: #FDFAF4;
+    padding: 56px 24px;
+    text-align: center;
+  }
+  .sv-mood-spacer__inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .sv-mood-spacer__eyebrow {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #b6522d;
+    margin-bottom: 20px;
+  }
+  .sv-mood-spacer__statement {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: #002816;
+  }
+
+  @media (min-width: 768px) {
+    .sv-mood-spacer { padding: 80px 48px; }
+    .sv-mood-spacer__statement { font-size: 42px; }
+  }
+
+  /* ── SECTION 3: MOOD CARDS ── */
+  .sv-mood-cards {
+    background: #FDFAF4;
+    padding: 0 24px 80px;
+  }
+  .sv-mood-cards__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .sv-mood-card {
+    text-decoration: none;
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+  .sv-mood-card__img-wrap {
+    position: relative;
+    width: 100%;
+    padding-top: 125%; /* 4/5 ratio */
+    overflow: hidden;
+    border-radius: 12px;
+  }
+  .sv-mood-card__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: transform 0.5s ease;
+  }
+  .sv-mood-card:hover .sv-mood-card__img {
+    transform: scale(1.04);
+  }
+  .sv-mood-card__dark-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    border-radius: 12px;
+    transition: background 0.3s ease;
+    pointer-events: none;
+  }
+  .sv-mood-card:hover .sv-mood-card__dark-overlay {
+    background: rgba(0,0,0,0.35);
+  }
+  .sv-mood-card__pill {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    color: #002816;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+  }
+  .sv-mood-card:hover .sv-mood-card__pill {
+    opacity: 0;
+  }
+  .sv-mood-card__plus {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(253,250,244,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    color: #002816;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+  }
+  .sv-mood-card:hover .sv-mood-card__plus {
+    opacity: 0;
+  }
+  .sv-mood-card__hover-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .sv-mood-card:hover .sv-mood-card__hover-content {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .sv-mood-card__hover-name {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #FDFAF4;
+    margin-bottom: 10px;
+  }
+  .sv-mood-card__hover-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: #FDFAF4;
+    margin-bottom: 14px;
+  }
+  .sv-mood-card__hover-link {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #FDFAF4;
+    text-decoration: underline;
+    pointer-events: auto;
+  }
+
+  @media (min-width: 768px) {
+    .sv-mood-cards { padding: 0 48px 80px; }
+    .sv-mood-cards__grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* ── SECTION 4: MOOD CUES ── */
+  .sv-mood-cues {
+    background: #002816;
+    padding: 56px 24px;
+  }
+  .sv-mood-cues__header {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 48px;
+  }
+  .sv-mood-cues__eyebrow {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #FFD786;
+    margin-bottom: 16px;
+  }
+  .sv-mood-cues__headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    color: #FDFAF4;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .sv-mood-cues__subtext {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    color: rgba(253,250,244,0.7);
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .sv-mood-cues__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .sv-mood-cue-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 32px;
+  }
+  .sv-mood-cue-card__tag {
+    display: inline-block;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 999px;
+  }
+  .sv-mood-cue-card__tag--calm {
+    background: #A8C5A0;
+    color: #002816;
+  }
+  .sv-mood-cue-card__tag--confident {
+    background: #b6522d;
+    color: #FDFAF4;
+  }
+  .sv-mood-cue-card__tag--lifted {
+    background: #FFD786;
+    color: #002816;
+  }
+  .sv-mood-cue-card__name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    color: #FDFAF4;
+    margin-top: 16px;
+    line-height: 1.2;
+  }
+  .sv-mood-cue-card__duration {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    font-style: italic;
+    color: rgba(253,250,244,0.6);
+    margin-top: 6px;
+  }
+  .sv-mood-cue-card__desc {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    color: rgba(253,250,244,0.75);
+    line-height: 1.7;
+    margin-top: 14px;
+  }
+  .sv-mood-cue-card__pairs {
+    margin-top: 16px;
+  }
+  .sv-mood-cue-card__pairs-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #FFD786;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .sv-mood-cue-card__pairs-product {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    color: #FDFAF4;
+  }
+  .sv-mood-cue-card__link {
+    display: inline-block;
+    margin-top: 20px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    color: rgba(253,250,244,0.8);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  .sv-mood-cue-card__link:hover {
+    border-color: rgba(253,250,244,0.8);
+  }
+
+  @media (min-width: 768px) {
+    .sv-mood-cues { padding: 80px 48px; }
+    .sv-mood-cues__headline { font-size: 42px; }
+    .sv-mood-cues__grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* ── SECTION 5: THE SCIENCE ── */
+  .sv-mood-science {
+    background: #FDFAF4;
+    padding: 56px 24px;
+  }
+  .sv-mood-science__header {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 56px;
+  }
+  .sv-mood-science__eyebrow {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #b6522d;
+    margin-bottom: 16px;
+  }
+  .sv-mood-science__headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    color: #002816;
+    line-height: 1.2;
+  }
+  .sv-mood-science__block {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    max-width: 1280px;
+    margin: 0 auto 48px;
+    align-items: center;
+  }
+  .sv-mood-science__block:last-child {
+    margin-bottom: 0;
+  }
+  .sv-mood-science__img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+  }
+  .sv-mood-science__text-eyebrow {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #b6522d;
+    margin-bottom: 14px;
+  }
+  .sv-mood-science__text-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    color: #002816;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .sv-mood-science__text-body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    color: #4A7B5E;
+    line-height: 1.8;
+  }
+
+  @media (min-width: 768px) {
+    .sv-mood-science { padding: 80px 48px; }
+    .sv-mood-science__headline { font-size: 42px; }
+    .sv-mood-science__block {
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+    }
+    .sv-mood-science__block--reverse .sv-mood-science__img-col {
+      order: 2;
+    }
+    .sv-mood-science__block--reverse .sv-mood-science__text-col {
+      order: 1;
+    }
+  }
+
+  /* ── SECTION 6: WHAT TO EXPECT ── */
+  .sv-mood-expect {
+    background: #FDFAF4;
+    padding: 56px 24px;
+  }
+  .sv-mood-expect__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    max-width: 1280px;
+    margin: 0 auto;
+    align-items: stretch;
+  }
+  .sv-mood-expect__eyebrow {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #b6522d;
+    margin-bottom: 14px;
+  }
+  .sv-mood-expect__headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    color: #002816;
+    line-height: 1.2;
+    margin-bottom: 32px;
+  }
+  .sv-mood-expect__block-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #002816;
+    margin-bottom: 10px;
+  }
+  .sv-mood-expect__block-body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    color: #4A7B5E;
+    line-height: 1.8;
+  }
+  .sv-mood-expect__divider {
+    border: none;
+    border-top: 1px solid rgba(74,123,94,0.2);
+    margin: 24px 0;
+  }
+  .sv-mood-expect__img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+  }
+
+  @media (min-width: 768px) {
+    .sv-mood-expect { padding: 80px 48px; }
+    .sv-mood-expect__grid { grid-template-columns: 1fr 1fr; }
+    .sv-mood-expect__img { height: 100%; min-height: 500px; }
+  }
+
+  /* ── SECTION 7: SHOP CTA BANNER ── */
+  .sv-mood-cta {
+    background: #002816;
+    padding: 56px 24px;
+    text-align: center;
+  }
+  .sv-mood-cta__eyebrow {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #FFD786;
+    margin-bottom: 20px;
+  }
+  .sv-mood-cta__headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 34px;
+    color: #FDFAF4;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .sv-mood-cta__subline {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    color: rgba(253,250,244,0.7);
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto 36px;
+  }
+  .sv-mood-cta__btn {
+    display: inline-block;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #FDFAF4;
+    background: transparent;
+    border: 1.5px solid #FDFAF4;
+    padding: 14px 36px;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+  .sv-mood-cta__btn:hover {
+    background: #FDFAF4;
+    color: #002816;
+  }
+
+  @media (min-width: 768px) {
+    .sv-mood-cta { padding: 80px 48px; }
+    .sv-mood-cta__headline { font-size: 48px; }
+  }
+
+  /* ── SECTION 8: FAQ ── */
+  .sv-mood-faq {
+    background: #FDFAF4;
+    padding: 56px 24px;
+  }
+  .sv-mood-faq__inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .sv-mood-faq__header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .sv-mood-faq__eyebrow {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #b6522d;
+    margin-bottom: 16px;
+  }
+  .sv-mood-faq__headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    color: #002816;
+    line-height: 1.2;
+  }
+  .sv-mood-faq__item {
+    border-top: 1px solid rgba(0,40,22,0.15);
+  }
+  .sv-mood-faq__item:last-child {
+    border-bottom: 1px solid rgba(0,40,22,0.15);
+  }
+  .sv-mood-faq__trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    gap: 16px;
+  }
+  .sv-mood-faq__question {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #002816;
+    line-height: 1.5;
+  }
+  .sv-mood-faq__icon {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    color: #002816;
+    flex-shrink: 0;
+    line-height: 1;
+    transition: transform 0.2s ease;
+    user-select: none;
+  }
+  .sv-mood-faq__answer-wrap {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease;
+  }
+  .sv-mood-faq__answer-wrap.is-open {
+    max-height: 600px;
+  }
+  .sv-mood-faq__answer {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    color: #4A7B5E;
+    line-height: 1.8;
+    padding-bottom: 20px;
+  }
+
+  @media (min-width: 768px) {
+    .sv-mood-faq { padding: 80px 48px; }
+  }
+</style>
+
+<div class="sv-mood">
+
+  {%- comment -%} ── SECTION 1: HERO ── {%- endcomment -%}
+  <section class="sv-mood-hero">
+    {%- if section.settings.hero_image != blank -%}
+      <img
+        class="sv-mood-hero__img"
+        src="{{ section.settings.hero_image | image_url: width: 1600 }}"
+        alt="{{ section.settings.hero_image.alt | escape }}"
+        loading="eager"
+        width="1600"
+      >
+    {%- else -%}
+      <img
+        class="sv-mood-hero__img"
+        src="https://images.pexels.com/photos/3765150/pexels-photo-3765150.jpeg?auto=compress&cs=tinysrgb&w=1600"
+        alt="Mood hero"
+        loading="eager"
+        width="1600"
+      >
+    {%- endif -%}
+    <div class="sv-mood-hero__overlay"></div>
+    <div class="sv-mood-hero__text">
+      <p class="sv-mood-hero__eyebrow">{{ section.settings.hero_eyebrow }}</p>
+      <h1 class="sv-mood-hero__headline">{{ section.settings.hero_headline }}</h1>
+    </div>
+  </section>
+
+  {%- comment -%} ── SECTION 2: EDITORIAL SPACER ── {%- endcomment -%}
+  <section class="sv-mood-spacer">
+    <div class="sv-mood-spacer__inner">
+      <p class="sv-mood-spacer__eyebrow">{{ section.settings.spacer_eyebrow }}</p>
+      <p class="sv-mood-spacer__statement">{{ section.settings.spacer_statement }}</p>
+    </div>
+  </section>
+
+  {%- comment -%} ── SECTION 3: THREE MOOD CARDS ── {%- endcomment -%}
+  <section class="sv-mood-cards">
+    <div class="sv-mood-cards__grid">
+
+      {%- assign mood_keys = "1,2,3" | split: "," -%}
+      {%- assign mood_defaults_name = "Calm,Confident,Lifted" | split: "," -%}
+      {%- assign mood_defaults_desc = "Radiant skin. Quiet mind.,Rooted. Strong. Present.,An instant shift. Luminous." | split: "," -%}
+      {%- assign mood_defaults_link = "/pages/mood-calm,/pages/mood-confident,/pages/mood-lifted" | split: "," -%}
+      {%- assign mood_defaults_color = "#A8C5A0,#b6522d,#FFD786" | split: "," -%}
+      {%- assign mood_pexels = "https://images.pexels.com/photos/6153350/pexels-photo-6153350.jpeg?auto=compress&cs=tinysrgb&w=800,https://images.pexels.com/photos/3373716/pexels-photo-3373716.jpeg?auto=compress&cs=tinysrgb&w=800,https://images.pexels.com/photos/5240678/pexels-photo-5240678.jpeg?auto=compress&cs=tinysrgb&w=800" | split: "," -%}
+
+      {%- for i in (1..3) -%}
+        {%- assign idx = forloop.index0 -%}
+        {%- assign img_key = "mood" | append: i | append: "_image" -%}
+        {%- assign name_key = "mood" | append: i | append: "_name" -%}
+        {%- assign desc_key = "mood" | append: i | append: "_descriptor" -%}
+        {%- assign link_key = "mood" | append: i | append: "_link" -%}
+        {%- assign color_key = "mood" | append: i | append: "_color" -%}
+        {%- assign card_name = section.settings[name_key] | default: mood_defaults_name[idx] -%}
+        {%- assign card_desc = section.settings[desc_key] | default: mood_defaults_desc[idx] -%}
+        {%- assign card_link = section.settings[link_key] | default: mood_defaults_link[idx] -%}
+        {%- assign card_color = section.settings[color_key] | default: mood_defaults_color[idx] -%}
+
+        <a class="sv-mood-card" href="{{ card_link }}">
+          <div class="sv-mood-card__img-wrap">
+            {%- if section.settings[img_key] != blank -%}
+              <img
+                class="sv-mood-card__img"
+                src="{{ section.settings[img_key] | image_url: width: 800 }}"
+                alt="{{ card_name }}"
+                loading="lazy"
+                width="800"
+              >
+            {%- else -%}
+              <img
+                class="sv-mood-card__img"
+                src="{{ mood_pexels[idx] }}"
+                alt="{{ card_name }}"
+                loading="lazy"
+                width="800"
+              >
+            {%- endif -%}
+            <div class="sv-mood-card__dark-overlay"></div>
+            <span class="sv-mood-card__pill" style="background-color: {{ card_color }};">{{ card_name }}</span>
+            <span class="sv-mood-card__plus" aria-hidden="true">+</span>
+            <div class="sv-mood-card__hover-content">
+              <span class="sv-mood-card__hover-name">{{ card_name }}</span>
+              <span class="sv-mood-card__hover-desc">{{ card_desc }}</span>
+              <span class="sv-mood-card__hover-link">Shop {{ card_name }} &rarr;</span>
+            </div>
+          </div>
+        </a>
+      {%- endfor -%}
+
+    </div>
+  </section>
+
+  {%- comment -%} ── SECTION 4: MOOD CUES ── {%- endcomment -%}
+  <section class="sv-mood-cues">
+    <div class="sv-mood-cues__header">
+      <p class="sv-mood-cues__eyebrow">MOOD CUES</p>
+      <h2 class="sv-mood-cues__headline">{{ section.settings.cues_headline }}</h2>
+      <p class="sv-mood-cues__subtext">{{ section.settings.cues_subtext }}</p>
+    </div>
+    <div class="sv-mood-cues__grid">
+
+      {%- assign cue_default_moods = "Calm,Confident,Lifted" | split: "," -%}
+      {%- assign cue_default_durations = "< 2 min · Touch,< 3 min · Breath,< 2 min · Movement" | split: "," -%}
+
+      {%- for i in (1..3) -%}
+        {%- assign idx = forloop.index0 -%}
+        {%- assign cue_name_key = "cue" | append: i | append: "_name" -%}
+        {%- assign cue_dur_key = "cue" | append: i | append: "_duration" -%}
+        {%- assign cue_desc_key = "cue" | append: i | append: "_desc" -%}
+        {%- assign cue_product_key = "cue" | append: i | append: "_product" -%}
+        {%- assign cue_link_key = "cue" | append: i | append: "_link" -%}
+        {%- assign cue_mood_key = "cue" | append: i | append: "_mood" -%}
+        {%- assign cue_mood_val = section.settings[cue_mood_key] | default: cue_default_moods[idx] | downcase -%}
+
+        <div class="sv-mood-cue-card">
+          <span class="sv-mood-cue-card__tag sv-mood-cue-card__tag--{{ cue_mood_val }}">
+            {{ section.settings[cue_mood_key] | default: cue_default_moods[idx] }}
+          </span>
+          <h3 class="sv-mood-cue-card__name">{{ section.settings[cue_name_key] | default: "Mood Cue " | append: i }}</h3>
+          <p class="sv-mood-cue-card__duration">{{ section.settings[cue_dur_key] | default: cue_default_durations[idx] }}</p>
+          {%- if section.settings[cue_desc_key] != blank -%}
+            <p class="sv-mood-cue-card__desc">{{ section.settings[cue_desc_key] }}</p>
+          {%- endif -%}
+          {%- if section.settings[cue_product_key] != blank -%}
+            <div class="sv-mood-cue-card__pairs">
+              <span class="sv-mood-cue-card__pairs-label">Pairs with</span>
+              <span class="sv-mood-cue-card__pairs-product">{{ section.settings[cue_product_key] }}</span>
+            </div>
+          {%- endif -%}
+          {%- if section.settings[cue_link_key] != blank -%}
+            <a class="sv-mood-cue-card__link" href="{{ section.settings[cue_link_key] }}">Read the full Mood Cue &rarr;</a>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+
+    </div>
+  </section>
+
+  {%- comment -%} ── SECTION 5: THE SCIENCE ── {%- endcomment -%}
+  <section class="sv-mood-science">
+    <div class="sv-mood-science__header">
+      <p class="sv-mood-science__eyebrow">THE SCIENCE</p>
+      <h2 class="sv-mood-science__headline">{{ section.settings.science_headline }}</h2>
+    </div>
+
+    {%- assign sci_default_eyebrows = "THE SKIN-BRAIN LOOP,SCENT + THE LIMBIC SYSTEM,ADAPTOGENS, APPLIED TOPICALLY" | split: "," -%}
+    {%- assign sci_pexels = "https://images.pexels.com/photos/3735657/pexels-photo-3735657.jpeg?auto=compress&cs=tinysrgb&w=800,https://images.pexels.com/photos/6621461/pexels-photo-6621461.jpeg?auto=compress&cs=tinysrgb&w=800,https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=800" | split: "," -%}
+
+    {%- for i in (1..3) -%}
+      {%- assign idx = forloop.index0 -%}
+      {%- assign sci_img_key = "sci" | append: i | append: "_image" -%}
+      {%- assign sci_eye_key = "sci" | append: i | append: "_eyebrow" -%}
+      {%- assign sci_hl_key = "sci" | append: i | append: "_headline" -%}
+      {%- assign sci_body_key = "sci" | append: i | append: "_body" -%}
+      {%- assign sci_reverse = "" -%}
+      {%- if i == 2 -%}{%- assign sci_reverse = " sv-mood-science__block--reverse" -%}{%- endif -%}
+
+      <div class="sv-mood-science__block{{ sci_reverse }}">
+        <div class="sv-mood-science__img-col">
+          {%- if section.settings[sci_img_key] != blank -%}
+            <img
+              class="sv-mood-science__img"
+              src="{{ section.settings[sci_img_key] | image_url: width: 800 }}"
+              alt="{{ section.settings[sci_eye_key] | default: sci_default_eyebrows[idx] }}"
+              loading="lazy"
+              width="800"
+            >
+          {%- else -%}
+            <img
+              class="sv-mood-science__img"
+              src="{{ sci_pexels[idx] }}"
+              alt="{{ sci_default_eyebrows[idx] }}"
+              loading="lazy"
+              width="800"
+            >
+          {%- endif -%}
+        </div>
+        <div class="sv-mood-science__text-col">
+          <p class="sv-mood-science__text-eyebrow">{{ section.settings[sci_eye_key] | default: sci_default_eyebrows[idx] }}</p>
+          {%- if section.settings[sci_hl_key] != blank -%}
+            <h3 class="sv-mood-science__text-headline">{{ section.settings[sci_hl_key] }}</h3>
+          {%- endif -%}
+          {%- if section.settings[sci_body_key] != blank -%}
+            <div class="sv-mood-science__text-body">{{ section.settings[sci_body_key] | newline_to_br }}</div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+
+  </section>
+
+  {%- comment -%} ── SECTION 6: WHAT TO EXPECT ── {%- endcomment -%}
+  <section class="sv-mood-expect">
+    <div class="sv-mood-expect__grid">
+      <div class="sv-mood-expect__text-col">
+        <p class="sv-mood-expect__eyebrow">WHAT TO EXPECT</p>
+        <h2 class="sv-mood-expect__headline">{{ section.settings.expect_headline }}</h2>
+        <p class="sv-mood-expect__block-label">What our products do</p>
+        {%- if section.settings.expect_do_body != blank -%}
+          <div class="sv-mood-expect__block-body">{{ section.settings.expect_do_body | newline_to_br }}</div>
+        {%- endif -%}
+        <hr class="sv-mood-expect__divider">
+        <p class="sv-mood-expect__block-label">What they don&rsquo;t do</p>
+        {%- if section.settings.expect_dont_body != blank -%}
+          <div class="sv-mood-expect__block-body">{{ section.settings.expect_dont_body | newline_to_br }}</div>
+        {%- endif -%}
+      </div>
+      <div class="sv-mood-expect__img-col">
+        {%- if section.settings.expect_image != blank -%}
+          <img
+            class="sv-mood-expect__img"
+            src="{{ section.settings.expect_image | image_url: width: 800 }}"
+            alt="{{ section.settings.expect_image.alt | escape }}"
+            loading="lazy"
+            width="800"
+          >
+        {%- else -%}
+          <img
+            class="sv-mood-expect__img"
+            src="https://images.pexels.com/photos/3762876/pexels-photo-3762876.jpeg?auto=compress&cs=tinysrgb&w=800"
+            alt="What to expect"
+            loading="lazy"
+            width="800"
+          >
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ── SECTION 7: SHOP CTA BANNER ── {%- endcomment -%}
+  <section class="sv-mood-cta">
+    <p class="sv-mood-cta__eyebrow">FIND YOUR FEELING</p>
+    <h2 class="sv-mood-cta__headline">{{ section.settings.cta_headline }}</h2>
+    <p class="sv-mood-cta__subline">{{ section.settings.cta_subline }}</p>
+    <a class="sv-mood-cta__btn" href="/collections/all">Shop the collection</a>
+  </section>
+
+  {%- comment -%} ── SECTION 8: FAQ ── {%- endcomment -%}
+  <section class="sv-mood-faq">
+    <div class="sv-mood-faq__inner">
+      <div class="sv-mood-faq__header">
+        <p class="sv-mood-faq__eyebrow">QUESTIONS</p>
+        <h2 class="sv-mood-faq__headline">Everything you want to know.</h2>
+      </div>
+
+      {%- assign faq_default_qs = "How quickly will I notice a difference?|Can I use products from more than one mood?|Which mood is right for me?|Are these products suitable for all skin types?|How do Mood Cues work with the products?|What makes Sage & Veda different from other oils?" | split: "|" -%}
+
+      {%- for i in (1..6) -%}
+        {%- assign idx = forloop.index0 -%}
+        {%- assign faq_q_key = "faq" | append: i | append: "_q" -%}
+        {%- assign faq_a_key = "faq" | append: i | append: "_a" -%}
+        {%- assign faq_q_val = section.settings[faq_q_key] | default: faq_default_qs[idx] -%}
+        {%- assign is_first = "" -%}
+        {%- if i == 1 -%}{%- assign is_first = " is-open" -%}{%- endif -%}
+
+        <div class="sv-mood-faq__item" data-faq="{{ i }}">
+          <button
+            class="sv-mood-faq__trigger"
+            aria-expanded="{%- if i == 1 -%}true{%- else -%}false{%- endif -%}"
+            aria-controls="faq-answer-{{ section.id }}-{{ i }}"
+          >
+            <span class="sv-mood-faq__question">{{ faq_q_val }}</span>
+            <span class="sv-mood-faq__icon" aria-hidden="true">{%- if i == 1 -%}&times;{%- else -%}+{%- endif -%}</span>
+          </button>
+          <div
+            id="faq-answer-{{ section.id }}-{{ i }}"
+            class="sv-mood-faq__answer-wrap{{ is_first }}"
+          >
+            {%- if section.settings[faq_a_key] != blank -%}
+              <p class="sv-mood-faq__answer">{{ section.settings[faq_a_key] }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+
+    </div>
+  </section>
+
+</div>
+
+<script>
+  (function () {
+    var section = document.querySelector('.sv-mood-faq');
+    if (!section) return;
+
+    var items = section.querySelectorAll('.sv-mood-faq__item');
+
+    items.forEach(function (item) {
+      var trigger = item.querySelector('.sv-mood-faq__trigger');
+      var answerWrap = item.querySelector('.sv-mood-faq__answer-wrap');
+      var icon = item.querySelector('.sv-mood-faq__icon');
+
+      trigger.addEventListener('click', function () {
+        var isOpen = answerWrap.classList.contains('is-open');
+
+        // Close all
+        items.forEach(function (otherItem) {
+          var otherWrap = otherItem.querySelector('.sv-mood-faq__answer-wrap');
+          var otherIcon = otherItem.querySelector('.sv-mood-faq__icon');
+          var otherTrigger = otherItem.querySelector('.sv-mood-faq__trigger');
+          otherWrap.classList.remove('is-open');
+          otherIcon.innerHTML = '+';
+          otherTrigger.setAttribute('aria-expanded', 'false');
+        });
+
+        // Open clicked if it was closed
+        if (!isOpen) {
+          answerWrap.classList.add('is-open');
+          icon.innerHTML = '&times;';
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Mood — Main Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "1 — Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "hero_eyebrow",
+      "label": "Eyebrow",
+      "default": "THREE MOODS. ONE SYSTEM."
+    },
+    {
+      "type": "text",
+      "id": "hero_headline",
+      "label": "Headline",
+      "default": "How do you want to feel today?"
+    },
+    {
+      "type": "header",
+      "content": "2 — Editorial Spacer"
+    },
+    {
+      "type": "text",
+      "id": "spacer_eyebrow",
+      "label": "Eyebrow",
+      "default": "ROOTED IN SCIENCE"
+    },
+    {
+      "type": "text",
+      "id": "spacer_statement",
+      "label": "Statement",
+      "default": "Your skin, your scent, your nervous system. All connected."
+    },
+    {
+      "type": "header",
+      "content": "3 — Mood Card 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "mood1_image",
+      "label": "Mood 1 image"
+    },
+    {
+      "type": "text",
+      "id": "mood1_name",
+      "label": "Mood 1 name",
+      "default": "Calm"
+    },
+    {
+      "type": "text",
+      "id": "mood1_descriptor",
+      "label": "Mood 1 descriptor",
+      "default": "Radiant skin. Quiet mind."
+    },
+    {
+      "type": "url",
+      "id": "mood1_link",
+      "label": "Mood 1 link"
+    },
+    {
+      "type": "color",
+      "id": "mood1_color",
+      "label": "Mood 1 pill color",
+      "default": "#A8C5A0"
+    },
+    {
+      "type": "header",
+      "content": "3 — Mood Card 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "mood2_image",
+      "label": "Mood 2 image"
+    },
+    {
+      "type": "text",
+      "id": "mood2_name",
+      "label": "Mood 2 name",
+      "default": "Confident"
+    },
+    {
+      "type": "text",
+      "id": "mood2_descriptor",
+      "label": "Mood 2 descriptor",
+      "default": "Rooted. Strong. Present."
+    },
+    {
+      "type": "url",
+      "id": "mood2_link",
+      "label": "Mood 2 link"
+    },
+    {
+      "type": "color",
+      "id": "mood2_color",
+      "label": "Mood 2 pill color",
+      "default": "#b6522d"
+    },
+    {
+      "type": "header",
+      "content": "3 — Mood Card 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "mood3_image",
+      "label": "Mood 3 image"
+    },
+    {
+      "type": "text",
+      "id": "mood3_name",
+      "label": "Mood 3 name",
+      "default": "Lifted"
+    },
+    {
+      "type": "text",
+      "id": "mood3_descriptor",
+      "label": "Mood 3 descriptor",
+      "default": "An instant shift. Luminous."
+    },
+    {
+      "type": "url",
+      "id": "mood3_link",
+      "label": "Mood 3 link"
+    },
+    {
+      "type": "color",
+      "id": "mood3_color",
+      "label": "Mood 3 pill color",
+      "default": "#FFD786"
+    },
+    {
+      "type": "header",
+      "content": "4 — Mood Cues Header"
+    },
+    {
+      "type": "text",
+      "id": "cues_headline",
+      "label": "Headline",
+      "default": "A few minutes. A real shift."
+    },
+    {
+      "type": "textarea",
+      "id": "cues_subtext",
+      "label": "Subtext",
+      "default": "Short, science-backed practices that pair with your products. One for each mood."
+    },
+    {
+      "type": "header",
+      "content": "4 — Mood Cue 1"
+    },
+    {
+      "type": "text",
+      "id": "cue1_name",
+      "label": "Cue 1 name"
+    },
+    {
+      "type": "text",
+      "id": "cue1_duration",
+      "label": "Cue 1 duration",
+      "default": "< 2 min · Touch"
+    },
+    {
+      "type": "textarea",
+      "id": "cue1_desc",
+      "label": "Cue 1 description"
+    },
+    {
+      "type": "text",
+      "id": "cue1_product",
+      "label": "Cue 1 paired product name"
+    },
+    {
+      "type": "url",
+      "id": "cue1_link",
+      "label": "Cue 1 link"
+    },
+    {
+      "type": "select",
+      "id": "cue1_mood",
+      "label": "Cue 1 mood",
+      "default": "Calm",
+      "options": [
+        { "value": "Calm", "label": "Calm" },
+        { "value": "Confident", "label": "Confident" },
+        { "value": "Lifted", "label": "Lifted" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "4 — Mood Cue 2"
+    },
+    {
+      "type": "text",
+      "id": "cue2_name",
+      "label": "Cue 2 name"
+    },
+    {
+      "type": "text",
+      "id": "cue2_duration",
+      "label": "Cue 2 duration",
+      "default": "< 3 min · Breath"
+    },
+    {
+      "type": "textarea",
+      "id": "cue2_desc",
+      "label": "Cue 2 description"
+    },
+    {
+      "type": "text",
+      "id": "cue2_product",
+      "label": "Cue 2 paired product name"
+    },
+    {
+      "type": "url",
+      "id": "cue2_link",
+      "label": "Cue 2 link"
+    },
+    {
+      "type": "select",
+      "id": "cue2_mood",
+      "label": "Cue 2 mood",
+      "default": "Confident",
+      "options": [
+        { "value": "Calm", "label": "Calm" },
+        { "value": "Confident", "label": "Confident" },
+        { "value": "Lifted", "label": "Lifted" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "4 — Mood Cue 3"
+    },
+    {
+      "type": "text",
+      "id": "cue3_name",
+      "label": "Cue 3 name"
+    },
+    {
+      "type": "text",
+      "id": "cue3_duration",
+      "label": "Cue 3 duration",
+      "default": "< 2 min · Movement"
+    },
+    {
+      "type": "textarea",
+      "id": "cue3_desc",
+      "label": "Cue 3 description"
+    },
+    {
+      "type": "text",
+      "id": "cue3_product",
+      "label": "Cue 3 paired product name"
+    },
+    {
+      "type": "url",
+      "id": "cue3_link",
+      "label": "Cue 3 link"
+    },
+    {
+      "type": "select",
+      "id": "cue3_mood",
+      "label": "Cue 3 mood",
+      "default": "Lifted",
+      "options": [
+        { "value": "Calm", "label": "Calm" },
+        { "value": "Confident", "label": "Confident" },
+        { "value": "Lifted", "label": "Lifted" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "5 — The Science"
+    },
+    {
+      "type": "text",
+      "id": "science_headline",
+      "label": "Science headline",
+      "default": "Why feeling is the point."
+    },
+    {
+      "type": "image_picker",
+      "id": "sci1_image",
+      "label": "Block 1 image"
+    },
+    {
+      "type": "text",
+      "id": "sci1_eyebrow",
+      "label": "Block 1 eyebrow",
+      "default": "THE SKIN-BRAIN LOOP"
+    },
+    {
+      "type": "text",
+      "id": "sci1_headline",
+      "label": "Block 1 headline"
+    },
+    {
+      "type": "textarea",
+      "id": "sci1_body",
+      "label": "Block 1 body"
+    },
+    {
+      "type": "image_picker",
+      "id": "sci2_image",
+      "label": "Block 2 image"
+    },
+    {
+      "type": "text",
+      "id": "sci2_eyebrow",
+      "label": "Block 2 eyebrow",
+      "default": "SCENT + THE LIMBIC SYSTEM"
+    },
+    {
+      "type": "text",
+      "id": "sci2_headline",
+      "label": "Block 2 headline"
+    },
+    {
+      "type": "textarea",
+      "id": "sci2_body",
+      "label": "Block 2 body"
+    },
+    {
+      "type": "image_picker",
+      "id": "sci3_image",
+      "label": "Block 3 image"
+    },
+    {
+      "type": "text",
+      "id": "sci3_eyebrow",
+      "label": "Block 3 eyebrow",
+      "default": "ADAPTOGENS, APPLIED TOPICALLY"
+    },
+    {
+      "type": "text",
+      "id": "sci3_headline",
+      "label": "Block 3 headline"
+    },
+    {
+      "type": "textarea",
+      "id": "sci3_body",
+      "label": "Block 3 body"
+    },
+    {
+      "type": "header",
+      "content": "6 — What to Expect"
+    },
+    {
+      "type": "text",
+      "id": "expect_headline",
+      "label": "Headline",
+      "default": "Honest about what these products do."
+    },
+    {
+      "type": "textarea",
+      "id": "expect_do_body",
+      "label": "What our products do"
+    },
+    {
+      "type": "textarea",
+      "id": "expect_dont_body",
+      "label": "What they don't do"
+    },
+    {
+      "type": "image_picker",
+      "id": "expect_image",
+      "label": "Right column image"
+    },
+    {
+      "type": "header",
+      "content": "7 — Shop CTA Banner"
+    },
+    {
+      "type": "text",
+      "id": "cta_headline",
+      "label": "Headline",
+      "default": "The right oil is waiting."
+    },
+    {
+      "type": "text",
+      "id": "cta_subline",
+      "label": "Subline",
+      "default": "Three moods. Three formulas. One for wherever you are today."
+    },
+    {
+      "type": "header",
+      "content": "8 — FAQ"
+    },
+    {
+      "type": "text",
+      "id": "faq1_q",
+      "label": "FAQ 1 question",
+      "default": "How quickly will I notice a difference?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq1_a",
+      "label": "FAQ 1 answer"
+    },
+    {
+      "type": "text",
+      "id": "faq2_q",
+      "label": "FAQ 2 question",
+      "default": "Can I use products from more than one mood?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq2_a",
+      "label": "FAQ 2 answer"
+    },
+    {
+      "type": "text",
+      "id": "faq3_q",
+      "label": "FAQ 3 question",
+      "default": "Which mood is right for me?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq3_a",
+      "label": "FAQ 3 answer"
+    },
+    {
+      "type": "text",
+      "id": "faq4_q",
+      "label": "FAQ 4 question",
+      "default": "Are these products suitable for all skin types?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq4_a",
+      "label": "FAQ 4 answer"
+    },
+    {
+      "type": "text",
+      "id": "faq5_q",
+      "label": "FAQ 5 question",
+      "default": "How do Mood Cues work with the products?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq5_a",
+      "label": "FAQ 5 answer"
+    },
+    {
+      "type": "text",
+      "id": "faq6_q",
+      "label": "FAQ 6 question",
+      "default": "What makes Sage & Veda different from other oils?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq6_a",
+      "label": "FAQ 6 answer"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mood — Main Page"
+    }
+  ]
+}
+{% endschema %}

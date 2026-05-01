@@ -1,0 +1,1654 @@
+<style>
+  /* ── Reset / Base ──────────────────────────────────────── */
+  .sv-mood * { box-sizing: border-box; margin: 0; padding: 0; }
+  .sv-mood img { display: block; width: 100%; }
+  .sv-mood a { text-decoration: none; color: inherit; }
+
+  /* ── Section 1: Hero Banner ────────────────────────────── */
+  .sv-mood-hero {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    min-height: 480px;
+    overflow: hidden;
+  }
+  .sv-mood-hero__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .sv-mood-hero__overlay {
+    position: absolute;
+    inset: 0;
+  }
+  .sv-mood-hero__content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+  }
+  .sv-mood-hero__number {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(253, 250, 244, 0.5);
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .sv-mood-hero__name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px;
+    color: #FDFAF4;
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+  .sv-mood-hero__descriptor {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: rgba(253, 250, 244, 0.85);
+    max-width: 560px;
+    line-height: 1.5;
+  }
+
+  /* ── Section 2: Editorial Spacer ───────────────────────── */
+  .sv-mood-spacer {
+    background: #FDFAF4;
+    padding: 64px 24px;
+    text-align: center;
+  }
+  .sv-mood-spacer__inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .sv-mood-spacer__statement {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 34px;
+    color: #002816;
+    line-height: 1.15;
+  }
+
+  /* ── Section 3: Mood Introduction ──────────────────────── */
+  .sv-mood-intro {
+    background: #FDFAF4;
+    padding: 80px 24px;
+  }
+  .sv-mood-intro__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 40px;
+  }
+  .sv-mood-intro__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .sv-mood-intro__eyebrow {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+  }
+  .sv-mood-intro__headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    color: #002816;
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  .sv-mood-intro__body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    color: #4A7B5E;
+    line-height: 1.8;
+    max-width: 480px;
+  }
+  .sv-mood-intro__image-wrap {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .sv-mood-intro__image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Section 4A: Hero Product ───────────────────────────── */
+  .sv-mood-hero-product {
+    background: #FDFAF4;
+    padding: 80px 0 40px;
+  }
+  .sv-mood-hero-product__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .sv-mood-hero-product__image-wrap {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .sv-mood-hero-product__image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .sv-mood-hero-product__content {
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .sv-mood-product__eyebrow {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+  .sv-mood-product__name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    color: #002816;
+    line-height: 1.1;
+  }
+  .sv-mood-product__tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: #4A7B5E;
+    margin-top: 8px;
+  }
+  .sv-mood-product__bullets {
+    list-style: none;
+    margin-top: 20px;
+  }
+  .sv-mood-product__bullets li {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    color: #4A7B5E;
+    line-height: 1.7;
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 4px;
+  }
+  .sv-mood-product__bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--mood-color, #002816);
+  }
+  .sv-mood-product__size-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #002816;
+    margin-top: 24px;
+    margin-bottom: 10px;
+  }
+  .sv-mood-product__sizes {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .sv-mood-size-pill {
+    height: 44px;
+    padding: 0 24px;
+    border-radius: 999px;
+    border: 1.5px solid #002816;
+    background: #fff;
+    color: #002816;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+  .sv-mood-size-pill span.pill-price {
+    font-size: 11px;
+    opacity: 0.7;
+  }
+  .sv-mood-size-pill.active {
+    background-color: var(--mood-color, #002816);
+    border-color: var(--mood-color, #002816);
+    color: #FDFAF4;
+  }
+  .sv-mood-product__price-display {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #002816;
+    margin-top: 12px;
+  }
+  .sv-mood-product__atc {
+    display: block;
+    width: 100%;
+    height: 52px;
+    background: #FFD786;
+    color: #002816;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: opacity 0.2s;
+  }
+  .sv-mood-product__atc:hover { opacity: 0.88; }
+  .sv-mood-product__pdp-link {
+    display: block;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    color: #4A7B5E;
+    text-align: center;
+    margin-top: 12px;
+  }
+  .sv-mood-product__pdp-link:hover { text-decoration: underline; }
+
+  /* ── Section 4B: Also In This Mood ─────────────────────── */
+  .sv-mood-also {
+    background: #FDFAF4;
+    padding: 0 24px 80px;
+  }
+  .sv-mood-also__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .sv-mood-also__header {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 24px;
+  }
+  .sv-mood-also__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .sv-mood-also-card {
+    display: block;
+    cursor: pointer;
+  }
+  .sv-mood-also-card__img-wrap {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .sv-mood-also-card__img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .sv-mood-also-card:hover .sv-mood-also-card__img-wrap img {
+    transform: scale(1.03);
+  }
+  .sv-mood-also-card__name {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #002816;
+    margin-top: 12px;
+  }
+  .sv-mood-also-card__tagline {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    color: #4A7B5E;
+    margin-top: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .sv-mood-also-card__price {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    color: #002816;
+    margin-top: 6px;
+  }
+  .sv-mood-also-card__btn {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px 0;
+    border: 1.5px solid #002816;
+    border-radius: 4px;
+    text-align: center;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    color: #002816;
+    background: transparent;
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+  }
+  .sv-mood-also-card:hover .sv-mood-also-card__btn {
+    background: #002816;
+    color: #FDFAF4;
+  }
+
+  /* ── Section 5: Mood Cues ───────────────────────────────── */
+  .sv-mood-cues {
+    background: #002816;
+    padding: 56px 24px;
+  }
+  .sv-mood-cues__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .sv-mood-cues__header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .sv-mood-cues__eyebrow {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #FFD786;
+    margin-bottom: 12px;
+  }
+  .sv-mood-cues__headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    color: #FDFAF4;
+    line-height: 1.2;
+  }
+  .sv-mood-cues__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .sv-mood-cue-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 32px;
+  }
+  .sv-mood-cue-card__number {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    color: rgba(253, 250, 244, 0.4);
+  }
+  .sv-mood-cue-card__name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    color: #FDFAF4;
+    margin-top: 8px;
+  }
+  .sv-mood-cue-card__duration {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    font-style: italic;
+    color: rgba(253, 250, 244, 0.6);
+    margin-top: 6px;
+  }
+  .sv-mood-cue-card__steps {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    color: rgba(253, 250, 244, 0.75);
+    line-height: 1.7;
+    margin-top: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .sv-mood-cue-card__pairs-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #FFD786;
+    margin-top: 16px;
+  }
+  .sv-mood-cue-card__pairs-product {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    color: #FDFAF4;
+    margin-top: 4px;
+  }
+  .sv-mood-cue-card__link {
+    display: inline-block;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    color: rgba(253, 250, 244, 0.8);
+    margin-top: 20px;
+  }
+  .sv-mood-cue-card__link:hover { text-decoration: underline; }
+
+  /* ── Section 6: Spotify ─────────────────────────────────── */
+  .sv-mood-spotify {
+    padding: 40px 24px;
+  }
+  .sv-mood-spotify__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .sv-mood-spotify__left {}
+  .sv-mood-spotify__eyebrow {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(0, 40, 22, 0.7);
+    margin-bottom: 10px;
+  }
+  .sv-mood-spotify__copy {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 28px;
+    color: #002816;
+    line-height: 1.25;
+  }
+  .sv-mood-spotify__right {
+    display: flex;
+    align-items: center;
+  }
+  .sv-mood-spotify__embed {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .sv-mood-spotify__placeholder {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    color: rgba(0, 40, 22, 0.5);
+    font-style: italic;
+  }
+
+  /* ── Section 7: Key Ingredients ────────────────────────── */
+  .sv-mood-ingredients {
+    background: #FDFAF4;
+    padding: 80px 24px;
+  }
+  .sv-mood-ingredients__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .sv-mood-ingredients__header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .sv-mood-ingredients__eyebrow {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+  }
+  .sv-mood-ingredients__headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    color: #002816;
+    line-height: 1.2;
+  }
+  .sv-mood-ingredients__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .sv-mood-ing-card {
+    border: 1px solid rgba(74, 123, 94, 0.2);
+    border-radius: 12px;
+    padding: 28px 24px;
+  }
+  .sv-mood-ing-card__img-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--mood-color, #002816);
+    flex-shrink: 0;
+  }
+  .sv-mood-ing-card__img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .sv-mood-ing-card__fallback {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--mood-color, #002816);
+    border: 2px solid var(--mood-color, #002816);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: #FDFAF4;
+    flex-shrink: 0;
+  }
+  .sv-mood-ing-card__name {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #002816;
+    margin-top: 16px;
+  }
+  .sv-mood-ing-card__mechanism {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    color: #4A7B5E;
+    line-height: 1.6;
+    margin-top: 8px;
+  }
+  .sv-mood-ing-card__found-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #b6522d;
+    margin-top: 12px;
+  }
+  .sv-mood-ing-card__found-in {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    color: #002816;
+    margin-top: 4px;
+  }
+
+  /* ── Desktop Breakpoint ─────────────────────────────────── */
+  @media (min-width: 768px) {
+    /* Hero */
+    .sv-mood-hero { height: 90vh; }
+    .sv-mood-hero__name { font-size: 96px; }
+    .sv-mood-hero__descriptor { font-size: 22px; }
+
+    /* Spacer */
+    .sv-mood-spacer { padding: 96px 40px; }
+    .sv-mood-spacer__statement { font-size: 52px; }
+
+    /* Intro */
+    .sv-mood-intro { padding: 80px 80px; }
+    .sv-mood-intro__inner {
+      flex-direction: row;
+      align-items: center;
+      gap: 60px;
+    }
+    .sv-mood-intro__text { flex: 55; }
+    .sv-mood-intro__image-wrap { flex: 45; }
+    .sv-mood-intro__headline { font-size: 42px; }
+
+    /* Hero Product */
+    .sv-mood-hero-product__inner { flex-direction: row; }
+    .sv-mood-hero-product__image-wrap {
+      flex: 1;
+      aspect-ratio: 1 / 1;
+    }
+    .sv-mood-hero-product__content {
+      flex: 1;
+      padding: 64px;
+    }
+
+    /* Also In Mood */
+    .sv-mood-also { padding: 0 80px 80px; }
+    .sv-mood-also__grid { grid-template-columns: repeat(3, 1fr); }
+
+    /* Mood Cues */
+    .sv-mood-cues { padding: 80px 80px; }
+    .sv-mood-cues__headline { font-size: 42px; }
+    .sv-mood-cues__grid { grid-template-columns: repeat(3, 1fr); }
+
+    /* Spotify */
+    .sv-mood-spotify__inner {
+      flex-direction: row;
+      align-items: center;
+      gap: 60px;
+    }
+    .sv-mood-spotify__left { flex: 1; }
+    .sv-mood-spotify__right { flex: 1; }
+
+    /* Ingredients */
+    .sv-mood-ingredients { padding: 80px 80px; }
+    .sv-mood-ingredients__headline { font-size: 38px; }
+    .sv-mood-ingredients__grid { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>
+
+{% assign mood_color = section.settings.hero_color | default: '#002816' %}
+
+<div class="sv-mood" style="--mood-color: {{ mood_color }};">
+
+  {%- comment -%}── SECTION 1: HERO BANNER ─────────────────────────────────{%- endcomment -%}
+  <div class="sv-mood-hero">
+    {% if section.settings.hero_image != blank %}
+      <img
+        class="sv-mood-hero__img"
+        src="{{ section.settings.hero_image | image_url: width: 2400 }}"
+        alt="{{ section.settings.hero_name | escape }}"
+        loading="eager"
+        width="2400"
+        height="1350"
+      >
+    {% else %}
+      <div class="sv-mood-hero__img" style="background: {{ mood_color }};"></div>
+    {% endif %}
+    <div class="sv-mood-hero__overlay" style="background-color: {{ mood_color }}; opacity: 0.4;"></div>
+    <div class="sv-mood-hero__content">
+      {% if section.settings.hero_number != blank %}
+        <p class="sv-mood-hero__number">{{ section.settings.hero_number }}</p>
+      {% endif %}
+      {% if section.settings.hero_name != blank %}
+        <h1 class="sv-mood-hero__name">{{ section.settings.hero_name }}</h1>
+      {% endif %}
+      {% if section.settings.hero_descriptor != blank %}
+        <p class="sv-mood-hero__descriptor">{{ section.settings.hero_descriptor }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  {%- comment -%}── SECTION 2: EDITORIAL SPACER ────────────────────────────{%- endcomment -%}
+  {% if section.settings.spacer_statement != blank %}
+    <div class="sv-mood-spacer">
+      <div class="sv-mood-spacer__inner">
+        <p class="sv-mood-spacer__statement">{{ section.settings.spacer_statement }}</p>
+      </div>
+    </div>
+  {% endif %}
+
+  {%- comment -%}── SECTION 3: MOOD INTRODUCTION ───────────────────────────{%- endcomment -%}
+  <div class="sv-mood-intro">
+    <div class="sv-mood-intro__inner">
+      <div class="sv-mood-intro__text">
+        {% if section.settings.intro_eyebrow != blank %}
+          <p class="sv-mood-intro__eyebrow" style="color: {{ mood_color }};">{{ section.settings.intro_eyebrow }}</p>
+        {% endif %}
+        {% if section.settings.intro_headline != blank %}
+          <h2 class="sv-mood-intro__headline">{{ section.settings.intro_headline }}</h2>
+        {% endif %}
+        {% if section.settings.intro_body != blank %}
+          <p class="sv-mood-intro__body">{{ section.settings.intro_body }}</p>
+        {% endif %}
+      </div>
+      {% if section.settings.intro_image != blank %}
+        <div class="sv-mood-intro__image-wrap">
+          <img
+            src="{{ section.settings.intro_image | image_url: width: 900 }}"
+            alt="{{ section.settings.intro_headline | escape }}"
+            loading="lazy"
+            width="900"
+            height="1200"
+          >
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {%- comment -%}── SECTION 4A: HERO PRODUCT ───────────────────────────────{%- endcomment -%}
+  <div class="sv-mood-hero-product">
+    <div class="sv-mood-hero-product__inner">
+      <div class="sv-mood-hero-product__image-wrap">
+        {% if section.settings.hero_product_image != blank %}
+          <img
+            src="{{ section.settings.hero_product_image | image_url: width: 1200 }}"
+            alt="{{ section.settings.hero_product_name | escape }}"
+            loading="lazy"
+            width="1200"
+            height="1200"
+          >
+        {% else %}
+          <img
+            src="https://images.pexels.com/photos/3785147/pexels-photo-3785147.jpeg?auto=compress&cs=tinysrgb&w=800"
+            alt="Product image"
+            loading="lazy"
+            width="800"
+            height="800"
+          >
+        {% endif %}
+      </div>
+
+      <div class="sv-mood-hero-product__content">
+        <p class="sv-mood-product__eyebrow" style="color: {{ mood_color }};">Primary Product</p>
+
+        {% if section.settings.hero_product_name != blank %}
+          <h2 class="sv-mood-product__name">{{ section.settings.hero_product_name }}</h2>
+        {% endif %}
+        {% if section.settings.hero_product_tagline != blank %}
+          <p class="sv-mood-product__tagline">{{ section.settings.hero_product_tagline }}</p>
+        {% endif %}
+
+        <ul class="sv-mood-product__bullets">
+          {% if section.settings.hero_product_bullet1 != blank %}
+            <li>{{ section.settings.hero_product_bullet1 }}</li>
+          {% endif %}
+          {% if section.settings.hero_product_bullet2 != blank %}
+            <li>{{ section.settings.hero_product_bullet2 }}</li>
+          {% endif %}
+          {% if section.settings.hero_product_bullet3 != blank %}
+            <li>{{ section.settings.hero_product_bullet3 }}</li>
+          {% endif %}
+        </ul>
+
+        <p class="sv-mood-product__size-label">Select Size</p>
+        <div class="sv-mood-product__sizes">
+          <button
+            class="sv-mood-size-pill"
+            data-size="1"
+            data-label="{{ section.settings.size1_label | escape }}"
+            data-price="{{ section.settings.size1_price | escape }}"
+            data-variant="{{ section.settings.size1_variant_id | escape }}"
+            aria-pressed="false"
+          >
+            <span>{{ section.settings.size1_label | default: '30ml' }}</span>
+            <span class="pill-price">{{ section.settings.size1_price | default: '$30' }}</span>
+          </button>
+          <button
+            class="sv-mood-size-pill active"
+            data-size="2"
+            data-label="{{ section.settings.size2_label | escape }}"
+            data-price="{{ section.settings.size2_price | escape }}"
+            data-variant="{{ section.settings.size2_variant_id | escape }}"
+            aria-pressed="true"
+          >
+            <span>{{ section.settings.size2_label | default: '100ml' }}</span>
+            <span class="pill-price">{{ section.settings.size2_price | default: '$65' }}</span>
+          </button>
+        </div>
+
+        <p class="sv-mood-product__price-display" id="sv-price-display-{{ section.id }}">
+          {{ section.settings.size2_price | default: '$65' }}
+        </p>
+
+        <button
+          class="sv-mood-product__atc"
+          id="sv-atc-btn-{{ section.id }}"
+          data-handle="{{ section.settings.hero_product_handle | default: 'amrit' }}"
+          data-base-text="ADD TO BAG"
+        >
+          ADD TO BAG &mdash; {{ section.settings.size2_price | default: '$65' }}
+        </button>
+
+        <a
+          class="sv-mood-product__pdp-link"
+          href="/products/{{ section.settings.hero_product_handle | default: 'amrit' }}"
+        >
+          See full product details &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%}── SECTION 4B: ALSO IN THIS MOOD ──────────────────────────{%- endcomment -%}
+  {% if section.settings.show_secondary_products %}
+    <div class="sv-mood-also">
+      <div class="sv-mood-also__inner">
+        <p class="sv-mood-also__header" style="color: {{ mood_color }};">
+          Also In {{ section.settings.hero_name | default: 'This Mood' }}
+        </p>
+        <div class="sv-mood-also__grid">
+
+          {% if section.settings.prod2_name != blank %}
+            <a class="sv-mood-also-card" href="{{ section.settings.prod2_url | default: '#' }}">
+              <div class="sv-mood-also-card__img-wrap">
+                {% if section.settings.prod2_image != blank %}
+                  <img
+                    src="{{ section.settings.prod2_image | image_url: width: 600 }}"
+                    alt="{{ section.settings.prod2_name | escape }}"
+                    loading="lazy"
+                    width="600"
+                    height="800"
+                  >
+                {% else %}
+                  <div style="width:100%;height:100%;background:#e8e4de;"></div>
+                {% endif %}
+              </div>
+              <p class="sv-mood-also-card__name">{{ section.settings.prod2_name }}</p>
+              {% if section.settings.prod2_tagline != blank %}
+                <p class="sv-mood-also-card__tagline">{{ section.settings.prod2_tagline }}</p>
+              {% endif %}
+              {% if section.settings.prod2_price != blank %}
+                <p class="sv-mood-also-card__price">{{ section.settings.prod2_price }}</p>
+              {% endif %}
+              <span class="sv-mood-also-card__btn">View product &rarr;</span>
+            </a>
+          {% endif %}
+
+          {% if section.settings.prod3_name != blank %}
+            <a class="sv-mood-also-card" href="{{ section.settings.prod3_url | default: '#' }}">
+              <div class="sv-mood-also-card__img-wrap">
+                {% if section.settings.prod3_image != blank %}
+                  <img
+                    src="{{ section.settings.prod3_image | image_url: width: 600 }}"
+                    alt="{{ section.settings.prod3_name | escape }}"
+                    loading="lazy"
+                    width="600"
+                    height="800"
+                  >
+                {% else %}
+                  <div style="width:100%;height:100%;background:#e8e4de;"></div>
+                {% endif %}
+              </div>
+              <p class="sv-mood-also-card__name">{{ section.settings.prod3_name }}</p>
+              {% if section.settings.prod3_tagline != blank %}
+                <p class="sv-mood-also-card__tagline">{{ section.settings.prod3_tagline }}</p>
+              {% endif %}
+              {% if section.settings.prod3_price != blank %}
+                <p class="sv-mood-also-card__price">{{ section.settings.prod3_price }}</p>
+              {% endif %}
+              <span class="sv-mood-also-card__btn">View product &rarr;</span>
+            </a>
+          {% endif %}
+
+          {% if section.settings.prod4_name != blank %}
+            <a class="sv-mood-also-card" href="{{ section.settings.prod4_url | default: '#' }}">
+              <div class="sv-mood-also-card__img-wrap">
+                {% if section.settings.prod4_image != blank %}
+                  <img
+                    src="{{ section.settings.prod4_image | image_url: width: 600 }}"
+                    alt="{{ section.settings.prod4_name | escape }}"
+                    loading="lazy"
+                    width="600"
+                    height="800"
+                  >
+                {% else %}
+                  <div style="width:100%;height:100%;background:#e8e4de;"></div>
+                {% endif %}
+              </div>
+              <p class="sv-mood-also-card__name">{{ section.settings.prod4_name }}</p>
+              {% if section.settings.prod4_tagline != blank %}
+                <p class="sv-mood-also-card__tagline">{{ section.settings.prod4_tagline }}</p>
+              {% endif %}
+              {% if section.settings.prod4_price != blank %}
+                <p class="sv-mood-also-card__price">{{ section.settings.prod4_price }}</p>
+              {% endif %}
+              <span class="sv-mood-also-card__btn">View product &rarr;</span>
+            </a>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {%- comment -%}── SECTION 5: MOOD CUES ───────────────────────────────────{%- endcomment -%}
+  <div class="sv-mood-cues">
+    <div class="sv-mood-cues__inner">
+      <div class="sv-mood-cues__header">
+        <p class="sv-mood-cues__eyebrow">Mood Cues</p>
+        <h2 class="sv-mood-cues__headline">
+          Three ways to feel {{ section.settings.hero_name | default: 'this' }} right now.
+        </h2>
+      </div>
+
+      <div class="sv-mood-cues__grid">
+
+        {%- comment -%} Cue 1 {%- endcomment -%}
+        {% if section.settings.cue1_name != blank %}
+          <div class="sv-mood-cue-card">
+            <p class="sv-mood-cue-card__number">{{ section.settings.cue1_number | default: '01' }}</p>
+            <p class="sv-mood-cue-card__name">{{ section.settings.cue1_name }}</p>
+            {% if section.settings.cue1_duration != blank %}
+              <p class="sv-mood-cue-card__duration">{{ section.settings.cue1_duration }}</p>
+            {% endif %}
+            {% if section.settings.cue1_steps != blank %}
+              <p class="sv-mood-cue-card__steps">{{ section.settings.cue1_steps }}</p>
+            {% endif %}
+            {% if section.settings.cue1_product != blank %}
+              <p class="sv-mood-cue-card__pairs-label">Pairs With</p>
+              <p class="sv-mood-cue-card__pairs-product">{{ section.settings.cue1_product }}</p>
+            {% endif %}
+            {% if section.settings.cue1_link != blank %}
+              <a class="sv-mood-cue-card__link" href="{{ section.settings.cue1_link }}">Read the full Mood Cue &rarr;</a>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {%- comment -%} Cue 2 {%- endcomment -%}
+        {% if section.settings.cue2_name != blank %}
+          <div class="sv-mood-cue-card">
+            <p class="sv-mood-cue-card__number">{{ section.settings.cue2_number | default: '02' }}</p>
+            <p class="sv-mood-cue-card__name">{{ section.settings.cue2_name }}</p>
+            {% if section.settings.cue2_duration != blank %}
+              <p class="sv-mood-cue-card__duration">{{ section.settings.cue2_duration }}</p>
+            {% endif %}
+            {% if section.settings.cue2_steps != blank %}
+              <p class="sv-mood-cue-card__steps">{{ section.settings.cue2_steps }}</p>
+            {% endif %}
+            {% if section.settings.cue2_product != blank %}
+              <p class="sv-mood-cue-card__pairs-label">Pairs With</p>
+              <p class="sv-mood-cue-card__pairs-product">{{ section.settings.cue2_product }}</p>
+            {% endif %}
+            {% if section.settings.cue2_link != blank %}
+              <a class="sv-mood-cue-card__link" href="{{ section.settings.cue2_link }}">Read the full Mood Cue &rarr;</a>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {%- comment -%} Cue 3 {%- endcomment -%}
+        {% if section.settings.cue3_name != blank %}
+          <div class="sv-mood-cue-card">
+            <p class="sv-mood-cue-card__number">{{ section.settings.cue3_number | default: '03' }}</p>
+            <p class="sv-mood-cue-card__name">{{ section.settings.cue3_name }}</p>
+            {% if section.settings.cue3_duration != blank %}
+              <p class="sv-mood-cue-card__duration">{{ section.settings.cue3_duration }}</p>
+            {% endif %}
+            {% if section.settings.cue3_steps != blank %}
+              <p class="sv-mood-cue-card__steps">{{ section.settings.cue3_steps }}</p>
+            {% endif %}
+            {% if section.settings.cue3_product != blank %}
+              <p class="sv-mood-cue-card__pairs-label">Pairs With</p>
+              <p class="sv-mood-cue-card__pairs-product">{{ section.settings.cue3_product }}</p>
+            {% endif %}
+            {% if section.settings.cue3_link != blank %}
+              <a class="sv-mood-cue-card__link" href="{{ section.settings.cue3_link }}">Read the full Mood Cue &rarr;</a>
+            {% endif %}
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%}── SECTION 6: SPOTIFY INTERSTITIAL ───────────────────────{%- endcomment -%}
+  {% if section.settings.spotify_enabled %}
+    <div class="sv-mood-spotify" style="background-color: {{ mood_color }};">
+      <div class="sv-mood-spotify__inner">
+        <div class="sv-mood-spotify__left">
+          <p class="sv-mood-spotify__eyebrow">A Playlist For This Feeling</p>
+          <p class="sv-mood-spotify__copy">
+            {{ section.settings.spotify_copy | default: 'Put this on. Let the mood arrive.' }}
+          </p>
+        </div>
+        <div class="sv-mood-spotify__right">
+          {% if section.settings.spotify_url != blank %}
+            <div class="sv-mood-spotify__embed" id="sv-spotify-embed-{{ section.id }}"
+              data-url="{{ section.settings.spotify_url | escape }}">
+            </div>
+          {% else %}
+            <p class="sv-mood-spotify__placeholder">Add a Spotify playlist URL in Theme Editor.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {%- comment -%}── SECTION 7: KEY INGREDIENTS ────────────────────────────{%- endcomment -%}
+  <div class="sv-mood-ingredients">
+    <div class="sv-mood-ingredients__inner">
+      <div class="sv-mood-ingredients__header">
+        <p class="sv-mood-ingredients__eyebrow" style="color: {{ mood_color }};">What's Doing The Work</p>
+        {% if section.settings.ingredients_headline != blank %}
+          <h2 class="sv-mood-ingredients__headline">{{ section.settings.ingredients_headline }}</h2>
+        {% endif %}
+      </div>
+
+      <div class="sv-mood-ingredients__grid">
+
+        {% assign ing_nums = '1,2,3,4' | split: ',' %}
+        {% assign ing_defaults_name = 'Ashwagandha,Jatamansi,Rosehip,Moringa' | split: ',' %}
+        {% assign ing_defaults_mech = 'Supports the nervous system through topical absorption.,Grounds and calms overactive stress responses.,Delivers potent antioxidants and renewing fatty acids.,Rich in vitamins A, C, and E for deep nourishment.' | split: ',' %}
+
+        {% for n in ing_nums %}
+          {% assign ing_name_key = 'ing' | append: n | append: '_name' %}
+          {% assign ing_mech_key = 'ing' | append: n | append: '_mechanism' %}
+          {% assign ing_image_key = 'ing' | append: n | append: '_image' %}
+          {% assign ing_found_key = 'ing' | append: n | append: '_found_in' %}
+          {% assign ing_name_val = section.settings[ing_name_key] %}
+          {% assign ing_mech_val = section.settings[ing_mech_key] %}
+          {% assign ing_image_val = section.settings[ing_image_key] %}
+          {% assign ing_found_val = section.settings[ing_found_key] %}
+          {% assign idx = forloop.index0 %}
+          {% assign def_name = ing_defaults_name[idx] %}
+          {% assign def_mech = ing_defaults_mech[idx] %}
+
+          {% if ing_name_val != blank or forloop.index <= 2 %}
+            {% assign display_name = ing_name_val | default: def_name %}
+            {% if display_name != blank %}
+              <div class="sv-mood-ing-card">
+                {% if ing_image_val != blank %}
+                  <div class="sv-mood-ing-card__img-wrap">
+                    <img
+                      src="{{ ing_image_val | image_url: width: 120 }}"
+                      alt="{{ display_name | escape }}"
+                      loading="lazy"
+                      width="56"
+                      height="56"
+                    >
+                  </div>
+                {% else %}
+                  <div class="sv-mood-ing-card__fallback">
+                    {{ display_name | slice: 0, 1 | upcase }}
+                  </div>
+                {% endif %}
+                <p class="sv-mood-ing-card__name">{{ display_name }}</p>
+                {% assign display_mech = ing_mech_val | default: def_mech %}
+                {% if display_mech != blank %}
+                  <p class="sv-mood-ing-card__mechanism">{{ display_mech }}</p>
+                {% endif %}
+                {% if ing_found_val != blank %}
+                  <p class="sv-mood-ing-card__found-label">Found In</p>
+                  <p class="sv-mood-ing-card__found-in">{{ ing_found_val }}</p>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  var sectionId = {{ section.id | json }};
+  var moodColor = {{ section.settings.hero_color | default: '#002816' | json }};
+
+  // ── Size pill toggle + ATC ─────────────────────────────────────
+  var pills = document.querySelectorAll('.sv-mood-size-pill');
+  var priceDisplay = document.getElementById('sv-price-display-' + sectionId);
+  var atcBtn = document.getElementById('sv-atc-btn-' + sectionId);
+  var activeVariantId = null;
+  var activePrice = null;
+
+  // init from the default active pill
+  pills.forEach(function(pill) {
+    if (pill.classList.contains('active')) {
+      activeVariantId = pill.dataset.variant;
+      activePrice = pill.dataset.price;
+      if (atcBtn) {
+        atcBtn.textContent = 'ADD TO BAG — ' + activePrice;
+      }
+    }
+  });
+
+  pills.forEach(function(pill) {
+    pill.addEventListener('click', function() {
+      pills.forEach(function(p) {
+        p.classList.remove('active');
+        p.setAttribute('aria-pressed', 'false');
+      });
+      pill.classList.add('active');
+      pill.setAttribute('aria-pressed', 'true');
+      activeVariantId = pill.dataset.variant;
+      activePrice = pill.dataset.price;
+      if (priceDisplay) priceDisplay.textContent = activePrice;
+      if (atcBtn) atcBtn.textContent = 'ADD TO BAG — ' + activePrice;
+    });
+  });
+
+  if (atcBtn) {
+    atcBtn.addEventListener('click', function() {
+      if (!activeVariantId) {
+        console.warn('Sage & Veda: No variant ID configured for this size.');
+        return;
+      }
+      var btn = atcBtn;
+      btn.textContent = 'ADDING...';
+      btn.disabled = true;
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ id: activeVariantId, quantity: 1 })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        btn.textContent = 'ADDED ✓';
+        setTimeout(function() {
+          btn.textContent = 'ADD TO BAG — ' + activePrice;
+          btn.disabled = false;
+        }, 2000);
+      })
+      .catch(function(err) {
+        console.error('Sage & Veda ATC error:', err);
+        btn.textContent = 'TRY AGAIN';
+        btn.disabled = false;
+        setTimeout(function() {
+          btn.textContent = 'ADD TO BAG — ' + activePrice;
+        }, 2000);
+      });
+    });
+  }
+
+  // ── Spotify embed ──────────────────────────────────────────────
+  var spotifyWrap = document.getElementById('sv-spotify-embed-' + sectionId);
+  if (spotifyWrap) {
+    var rawUrl = spotifyWrap.dataset.url;
+    if (rawUrl && rawUrl.trim() !== '') {
+      var embedUrl = rawUrl.replace('open.spotify.com/', 'open.spotify.com/embed/');
+      var iframe = document.createElement('iframe');
+      iframe.src = embedUrl;
+      iframe.width = '100%';
+      iframe.height = '80';
+      iframe.frameBorder = '0';
+      iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+      iframe.loading = 'lazy';
+      iframe.style.borderRadius = '12px';
+      spotifyWrap.appendChild(iframe);
+    }
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Mood -- Individual Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section 1 -- Hero Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "color",
+      "id": "hero_color",
+      "label": "Mood color (overlay + accents)",
+      "default": "#002816"
+    },
+    {
+      "type": "text",
+      "id": "hero_number",
+      "label": "Mood number",
+      "default": "01"
+    },
+    {
+      "type": "text",
+      "id": "hero_name",
+      "label": "Mood name",
+      "default": "Calm"
+    },
+    {
+      "type": "text",
+      "id": "hero_descriptor",
+      "label": "One-line descriptor",
+      "default": "Nourished skin. A quieter nervous system. The feeling of having handled it."
+    },
+    {
+      "type": "header",
+      "content": "Section 2 -- Editorial Spacer"
+    },
+    {
+      "type": "text",
+      "id": "spacer_statement",
+      "label": "Statement",
+      "default": "Some days, your skin needs the same thing you do."
+    },
+    {
+      "type": "header",
+      "content": "Section 3 -- Mood Introduction"
+    },
+    {
+      "type": "text",
+      "id": "intro_eyebrow",
+      "label": "Eyebrow text",
+      "default": "THE CALM MOOD"
+    },
+    {
+      "type": "text",
+      "id": "intro_headline",
+      "label": "Headline",
+      "default": "What calm actually feels like."
+    },
+    {
+      "type": "textarea",
+      "id": "intro_body",
+      "label": "Body text",
+      "default": "For the mornings when you need something that meets you where you are. Calm is for skin that needs support, and a nervous system that needs a moment."
+    },
+    {
+      "type": "image_picker",
+      "id": "intro_image",
+      "label": "Introduction image"
+    },
+    {
+      "type": "header",
+      "content": "Section 4A -- Hero Product"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_product_image",
+      "label": "Product lifestyle image"
+    },
+    {
+      "type": "text",
+      "id": "hero_product_name",
+      "label": "Product name",
+      "default": "Amrit"
+    },
+    {
+      "type": "text",
+      "id": "hero_product_tagline",
+      "label": "Mood one-liner",
+      "default": "Twenty botanicals for skin that wants to feel something."
+    },
+    {
+      "type": "text",
+      "id": "hero_product_bullet1",
+      "label": "Benefit 1",
+      "default": "Calms redness and surface inflammation overnight"
+    },
+    {
+      "type": "text",
+      "id": "hero_product_bullet2",
+      "label": "Benefit 2",
+      "default": "Ashwagandha and Jatamansi for nervous system support"
+    },
+    {
+      "type": "text",
+      "id": "hero_product_bullet3",
+      "label": "Benefit 3",
+      "default": "Lightweight oil that absorbs without heaviness"
+    },
+    {
+      "type": "text",
+      "id": "hero_product_handle",
+      "label": "Product handle (URL slug)",
+      "default": "amrit"
+    },
+    {
+      "type": "text",
+      "id": "size1_label",
+      "label": "Size 1 label",
+      "default": "30ml"
+    },
+    {
+      "type": "text",
+      "id": "size1_price",
+      "label": "Size 1 price display",
+      "default": "$30"
+    },
+    {
+      "type": "text",
+      "id": "size1_variant_id",
+      "label": "Size 1 variant ID (Shopify)"
+    },
+    {
+      "type": "text",
+      "id": "size2_label",
+      "label": "Size 2 label",
+      "default": "100ml"
+    },
+    {
+      "type": "text",
+      "id": "size2_price",
+      "label": "Size 2 price display",
+      "default": "$65"
+    },
+    {
+      "type": "text",
+      "id": "size2_variant_id",
+      "label": "Size 2 variant ID (Shopify)"
+    },
+    {
+      "type": "header",
+      "content": "Section 4B -- Also In This Mood"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_products",
+      "label": "Show secondary products",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "prod2_image",
+      "label": "Product 2 image"
+    },
+    {
+      "type": "text",
+      "id": "prod2_name",
+      "label": "Product 2 name"
+    },
+    {
+      "type": "text",
+      "id": "prod2_tagline",
+      "label": "Product 2 tagline"
+    },
+    {
+      "type": "text",
+      "id": "prod2_price",
+      "label": "Product 2 price"
+    },
+    {
+      "type": "url",
+      "id": "prod2_url",
+      "label": "Product 2 URL"
+    },
+    {
+      "type": "text",
+      "id": "prod2_handle",
+      "label": "Product 2 handle"
+    },
+    {
+      "type": "image_picker",
+      "id": "prod3_image",
+      "label": "Product 3 image"
+    },
+    {
+      "type": "text",
+      "id": "prod3_name",
+      "label": "Product 3 name"
+    },
+    {
+      "type": "text",
+      "id": "prod3_tagline",
+      "label": "Product 3 tagline"
+    },
+    {
+      "type": "text",
+      "id": "prod3_price",
+      "label": "Product 3 price"
+    },
+    {
+      "type": "url",
+      "id": "prod3_url",
+      "label": "Product 3 URL"
+    },
+    {
+      "type": "text",
+      "id": "prod3_handle",
+      "label": "Product 3 handle"
+    },
+    {
+      "type": "image_picker",
+      "id": "prod4_image",
+      "label": "Product 4 image"
+    },
+    {
+      "type": "text",
+      "id": "prod4_name",
+      "label": "Product 4 name"
+    },
+    {
+      "type": "text",
+      "id": "prod4_tagline",
+      "label": "Product 4 tagline"
+    },
+    {
+      "type": "text",
+      "id": "prod4_price",
+      "label": "Product 4 price"
+    },
+    {
+      "type": "url",
+      "id": "prod4_url",
+      "label": "Product 4 URL"
+    },
+    {
+      "type": "text",
+      "id": "prod4_handle",
+      "label": "Product 4 handle"
+    },
+    {
+      "type": "header",
+      "content": "Section 5 -- Mood Cues"
+    },
+    {
+      "type": "text",
+      "id": "cue1_number",
+      "label": "Cue 1 number",
+      "default": "01"
+    },
+    {
+      "type": "text",
+      "id": "cue1_name",
+      "label": "Cue 1 name",
+      "default": "Evening Face Press"
+    },
+    {
+      "type": "text",
+      "id": "cue1_duration",
+      "label": "Cue 1 duration / type",
+      "default": "< 2 min · Touch"
+    },
+    {
+      "type": "textarea",
+      "id": "cue1_steps",
+      "label": "Cue 1 steps (first 2 lines shown)",
+      "default": "Warm 3 drops of Amrit between palms.\nPress gently onto closed eyes and cheekbones. Hold for 10 seconds."
+    },
+    {
+      "type": "text",
+      "id": "cue1_product",
+      "label": "Cue 1 pairs with (product name)",
+      "default": "Amrit Face Oil"
+    },
+    {
+      "type": "url",
+      "id": "cue1_link",
+      "label": "Cue 1 full article URL"
+    },
+    {
+      "type": "text",
+      "id": "cue2_number",
+      "label": "Cue 2 number",
+      "default": "02"
+    },
+    {
+      "type": "text",
+      "id": "cue2_name",
+      "label": "Cue 2 name",
+      "default": "Morning Breath Reset"
+    },
+    {
+      "type": "text",
+      "id": "cue2_duration",
+      "label": "Cue 2 duration / type",
+      "default": "< 1 min · Breath"
+    },
+    {
+      "type": "textarea",
+      "id": "cue2_steps",
+      "label": "Cue 2 steps (first 2 lines shown)",
+      "default": "Inhale for 4 counts, hold for 4, exhale for 6.\nRepeat 3 times before reaching for your phone."
+    },
+    {
+      "type": "text",
+      "id": "cue2_product",
+      "label": "Cue 2 pairs with (product name)"
+    },
+    {
+      "type": "url",
+      "id": "cue2_link",
+      "label": "Cue 2 full article URL"
+    },
+    {
+      "type": "text",
+      "id": "cue3_number",
+      "label": "Cue 3 number",
+      "default": "03"
+    },
+    {
+      "type": "text",
+      "id": "cue3_name",
+      "label": "Cue 3 name",
+      "default": "Scalp Slow-Down"
+    },
+    {
+      "type": "text",
+      "id": "cue3_duration",
+      "label": "Cue 3 duration / type",
+      "default": "3 min · Touch"
+    },
+    {
+      "type": "textarea",
+      "id": "cue3_steps",
+      "label": "Cue 3 steps (first 2 lines shown)",
+      "default": "Apply 5 drops of Prithvi to the crown and temples.\nWork in slow circular motions for 3 minutes."
+    },
+    {
+      "type": "text",
+      "id": "cue3_product",
+      "label": "Cue 3 pairs with (product name)"
+    },
+    {
+      "type": "url",
+      "id": "cue3_link",
+      "label": "Cue 3 full article URL"
+    },
+    {
+      "type": "header",
+      "content": "Section 6 -- Spotify Interstitial"
+    },
+    {
+      "type": "checkbox",
+      "id": "spotify_enabled",
+      "label": "Show Spotify section",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "spotify_copy",
+      "label": "Spotify section copy",
+      "default": "Put this on. Let the mood arrive."
+    },
+    {
+      "type": "text",
+      "id": "spotify_url",
+      "label": "Spotify playlist URL (open.spotify.com/playlist/...)"
+    },
+    {
+      "type": "header",
+      "content": "Section 7 -- Key Ingredients"
+    },
+    {
+      "type": "text",
+      "id": "ingredients_headline",
+      "label": "Section headline",
+      "default": "The ingredients behind the quiet."
+    },
+    {
+      "type": "image_picker",
+      "id": "ing1_image",
+      "label": "Ingredient 1 image"
+    },
+    {
+      "type": "text",
+      "id": "ing1_name",
+      "label": "Ingredient 1 name",
+      "default": "Ashwagandha"
+    },
+    {
+      "type": "text",
+      "id": "ing1_mechanism",
+      "label": "Ingredient 1 mechanism",
+      "default": "Supports the nervous system through topical absorption."
+    },
+    {
+      "type": "text",
+      "id": "ing1_found_in",
+      "label": "Ingredient 1 found in (product name)"
+    },
+    {
+      "type": "image_picker",
+      "id": "ing2_image",
+      "label": "Ingredient 2 image"
+    },
+    {
+      "type": "text",
+      "id": "ing2_name",
+      "label": "Ingredient 2 name",
+      "default": "Jatamansi"
+    },
+    {
+      "type": "text",
+      "id": "ing2_mechanism",
+      "label": "Ingredient 2 mechanism",
+      "default": "Grounds and calms overactive stress responses."
+    },
+    {
+      "type": "text",
+      "id": "ing2_found_in",
+      "label": "Ingredient 2 found in (product name)"
+    },
+    {
+      "type": "image_picker",
+      "id": "ing3_image",
+      "label": "Ingredient 3 image"
+    },
+    {
+      "type": "text",
+      "id": "ing3_name",
+      "label": "Ingredient 3 name",
+      "default": "Rosehip"
+    },
+    {
+      "type": "text",
+      "id": "ing3_mechanism",
+      "label": "Ingredient 3 mechanism",
+      "default": "Delivers potent antioxidants and renewing fatty acids."
+    },
+    {
+      "type": "text",
+      "id": "ing3_found_in",
+      "label": "Ingredient 3 found in (product name)"
+    },
+    {
+      "type": "image_picker",
+      "id": "ing4_image",
+      "label": "Ingredient 4 image"
+    },
+    {
+      "type": "text",
+      "id": "ing4_name",
+      "label": "Ingredient 4 name",
+      "default": "Moringa"
+    },
+    {
+      "type": "text",
+      "id": "ing4_mechanism",
+      "label": "Ingredient 4 mechanism",
+      "default": "Rich in vitamins A, C, and E for deep nourishment."
+    },
+    {
+      "type": "text",
+      "id": "ing4_found_in",
+      "label": "Ingredient 4 found in (product name)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mood -- Individual Page"
+    }
+  ]
+}
+{% endschema %}
