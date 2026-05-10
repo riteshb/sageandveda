@@ -9,85 +9,6 @@
  */
 {
   "sections": {
-    "1626870276b398a0aa": {
-      "type": "home-grid-banner",
-      "blocks": {
-        "1626870276b398a0aa-0": {
-          "type": "content",
-          "settings": {
-            "block_image": "shopify://shop_images/Updated_all_collections_St_Patrick_s_Day_Shopify_Banner.svg",
-            "show_image": false,
-            "block_title": "",
-            "block_sub_title": "",
-            "block_description": "",
-            "block_button_text": "",
-            "block_button_link": "",
-            "block_text_align": "text-center",
-            "content_position": "center",
-            "reverse_column": false,
-            "block_banner_bg": "",
-            "block_content_box_bg": "",
-            "block_heading_color": "",
-            "block_sub_heading_color": "",
-            "block_description_color": "",
-            "block_button_bg_color": "",
-            "block_button_text_color": "",
-            "block_button_hover_bg_color": "",
-            "block_button_hover_text_color": "",
-            "overlay_style": "use_overlay",
-            "overlay_color": "",
-            "overlay_opacity": "0.5",
-            "rotation_degree": "180"
-          }
-        }
-      },
-      "block_order": [
-        "1626870276b398a0aa-0"
-      ],
-      "custom_css": [
-        ".dt-sc-section-wrapper {padding-left: 8% !important; padding-right: 5% !important; min-height: 600px;}",
-        "h4.dt-sc-main-heading {color: #faf7f3 !important; font-weight: 700 !important; font-size: 24px !important; margin-bottom: 16px !important; max-width: 45% !important;}",
-        ".dt-sc-sub-heading {color: #f9e4b7 !important; font-size: 22px !important; margin-bottom: 12px !important; max-width: 45% !important;}",
-        ".dt-sc-heading-description {color: #faf7f3 !important; font-size: 16px !important; max-width: 45% !important;}"
-      ],
-      "settings": {
-        "full": true,
-        "spacing_both_ends": true,
-        "padding": "160,160",
-        "margin": "0,0",
-        "show_background_image": true,
-        "background_image": "shopify://shop_images/No_Text_Landing_Page_Banner_Artemis_II_Brooch.svg",
-        "background_style": "default",
-        "enable_overlay": false,
-        "background_color": "",
-        "overlay_transparency": "0",
-        "section_heading": "While the world looks up at the moon, we're looking back at what human hands have made for centuries.",
-        "section_sub_heading": "From one act of human ingenuity to another",
-        "section_description": "Get a heritage brooch, complimentary with every $65 purchase. Offer ends April 16. 💛",
-        "section_button_text": "",
-        "section_button_link": "",
-        "section_heading_color": "#faf7f3",
-        "section_sub_heading_color": "#f0eee9",
-        "section_description_color": "#faf7f3",
-        "section_button_bg_color": "#edc31b",
-        "section_button_text_color": "#3c3b41",
-        "section_button_hover_bg_color": "#f0eee9",
-        "section_button_hover_text_color": "#f0eee9",
-        "heading_position": "text-start",
-        "block_banner_style": "list",
-        "column_gap": "10",
-        "grid": "1",
-        "border_radius": "0",
-        "enable_box_shadow": false,
-        "equal_height": false,
-        "content_width": "50/50",
-        "lap_content_width": "40/60",
-        "overlay_style_height": 390,
-        "overlay_style_height_laptop": 500,
-        "overlay_style_height_mobile": 400,
-        "custom_class_name": ""
-      }
-    },
     "main": {
       "type": "main-collection-template",
       "blocks": {
@@ -221,7 +142,6 @@
     }
   },
   "order": [
-    "1626870276b398a0aa",
     "main",
     "home_product_carousel_DHpHxU"
   ]
