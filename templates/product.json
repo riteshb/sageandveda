@@ -47,7 +47,7 @@
           "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {}
         },
-        "subscriptions_app_block_THyfny": {
+        "subscriptions_app_block_QGjyD4": {
           "type": "shopify://apps/subscriptions/blocks/app-block/a3bfe9ec-96f8-4508-a003-df608a36d2ad",
           "settings": {
             "widget_style": "card",
@@ -71,7 +71,7 @@
         "cb874c94-c1ed-44c9-a5d6-a12bc6093239",
         "c0548d06-402e-4234-9a58-03c52a7d6c74",
         "judge_me_reviews_preview_badge_bmczYT",
-        "subscriptions_app_block_THyfny"
+        "subscriptions_app_block_QGjyD4"
       ],
       "settings": {
         "gallery_type": "thumbnails_vertical",
