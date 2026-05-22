@@ -49,7 +49,7 @@
         "collection_g9n8RU": {
           "type": "collection",
           "settings": {
-            "collection": "frontpage",
+            "collection": "bestsellers",
             "block_button_text": "Shop Now",
             "block_text_align": "text-center",
             "content_position": "center",
