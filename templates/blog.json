@@ -30,7 +30,7 @@
           "type": "carousel",
           "settings": {
             "title": "Best Collection",
-            "collection": "frontpage",
+            "collection": "bestsellers",
             "limit": 5
           }
         },
